@@ -57,3 +57,6 @@ gem 'coderay', '~> 1.0'
 #Authentication
 gem "omniauth-facebook"
 gem "omniauth-google-oauth2"
+
+#Warble
+gem "warbler"
