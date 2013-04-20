@@ -1,0 +1,41 @@
+[GENERAL]
+- Add options to the create/edit views of repositories to add users for a particular role (read vs write access).
+- Add User Groups?
+- On the Dashboard, restrict the list of available repositories to the ones the current user has access to (currently all repos are visible).
+- Create an administration-page for User Management (CRUD operations, using ActiveAdmin DSL).
+- Create an administration-page for Resource Management (using ActiveAdmin DSL).
+- Think of a good way to restrict individual repositories in size (storage cap).
+
+[FILEBROWSER]
+- Add a button to show the last commit message (off by default).
+- Add the possibility to view a diff of two arbitrary revisions of a file (on file level, maybe using dropdowns). 
+- Fix the File Browser not to show arbitrary files such as /etc/passwd.
+- Add a dropdown menu to the Filebrowser which available branches to browse.
+
+[JGIT]
+- Extend the JGit Ruby Wrapper (based on Git4J, proposal for new name, RJGit.)
+- Use the JGit library to extract a file tree from a particular branch of a repository (start with "master" branch).
+- Use JGit to create new Git repositories, both on disk as in ActiveRecord (use the create controller action).
+
+[COMMIT HOOKS]
+- Add a method (using JGit?) to add commit hooks to git repositories.
+- Write some basic commit hook scripts to replace Gitblit's Groovy scripts (e.g. mailer).
+- Add an option to the create/edit views of repositories to add commit hooks to repositories.
+- Work out a way so that administrators can add their own commit hooks (external folder?).
+
+[SYNCHRONIZATION]
+- Work out a way to update the 'updated-at' field of a repository in ActiveRecord each time a commit is made through the git-servlet.
+
+[AUTHENTICATION]
+- Configure the Devise gem to include OAUTH2 and OpenID authentication methods.
+- Add an administrator-page to the interface in which different authentication schemes can be enabled (Google, Facebook, AD, LDAP).
+
+[EMAIL]
+- Set up an email mechanism (preferably using an existing gem or Rails built-in mailers).
+- Add an admin-page to the interface to configure SMTP settings for the mailer. Save these settings on disk (preferably in one central config file).
+- Design an invitation mechanism with which to add users (identified by email address) to repositories and let these users know about the invitation by email.
+
+[OTHER]
+- Write a method that returns an Array of all repositories that haven't been updated for X amount of time.
+- See if there are any extensions for the coderay-gem to include (e.g. highlighting for bash scripts).
+- Write a method that merges two user accounts together in a sensible way.
