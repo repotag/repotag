@@ -13,7 +13,6 @@
 - Add a dropdown menu to the Filebrowser which available branches to browse.
 
 [JGIT]
-- Extend the JGit Ruby Wrapper (based on Git4J, proposal for new name, RJGit.)
 - Use the JGit library to extract a file tree from a particular branch of a repository (start with "master" branch).
 - Use JGit to create new Git repositories, both on disk as in ActiveRecord (use the create controller action).
 
