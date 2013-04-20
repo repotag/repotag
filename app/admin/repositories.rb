@@ -17,38 +17,36 @@ ActiveAdmin.register Repository do
   menu :label => "Repository Browser"
   
   member_action :show_file do
-    #@current_path = params[:path]
-    #@rendered_text = CodeRay.scan_file(@current_path).div
+    #params[:path] = params[:path]
+    #@rendered_text = CodeRay.scan_file(params[:path]).div
     #render :partial => "show_file", :locals => {:testvar => @testvar }
   end
   
   controller do
     
     helper :repositories
-        
-    # Needs input sanitation! 
-    # http://localhost:3000/repositories/1?file=true&path=%2Fetc%2Fpasswd shows
-    # /etc/passwd.
     
     def show
-      if params[:file]
-        @current_path = params[:path]
-        @rendered_text = CodeRay.scan_file(@current_path).div
+      @current_path = params[:path]
+      @repo = Repository.find(params[:id])
+      repository = @repo.repository
+      if params[:file] then
+        begin
+          blob = repository.blob(params[:path])
+        rescue
+          raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
+        end
+        @rendered_text = CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
       else
-        @repo = Repository.find(params[:id])
-        path = params[:path] != nil ? params[:path] : Repository.path(@repo)
-        @data = directory_hash(path)
-        @current_path = @data[:data]
-        @directory_list = []
-        @files_list = []
-
-        @data[:children].each do |item|
-          item.is_a?(Hash) ? @directory_list << item[:data] : @files_list << item
+        begin
+          tree = params[:path] ? repository.tree(params[:path]) : nil
+        rescue
+          raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
         end
         @listing = []
-        @listing << @directory_list.map{|dir| ActiveModelWrapper.new(:name => dir, :type => :directory) }
-        @listing << @files_list.map{|file| ActiveModelWrapper.new(:name => file, :type => :file) }
-        @listing.flatten!
+        ls_options = { :recursive => false, :print => false }
+        ls_options[:branch] = params[:branch] if params[:branch]
+        RJGit::Porcelain.ls_tree(repository, tree, ls_options).each {|x| @listing << ActiveModelWrapper.new(:name => x[:path], :type => x[:type].to_sym) }
       end
     end
 
@@ -74,21 +72,24 @@ ActiveAdmin.register Repository do
     
     #h1 repository.name
     if params[:file]
-      div do
-        render :partial => 'show'
-      end
+     div do
+      render :partial => 'show'
+     end
     else
-      panel "#{current_path}" do
+      panel "#{repo.name}/#{params[:path]}" do
         table_for(listing) do |t|
           t.column("") do |file|
             image = image_for_file(file)
             image_tag(image) 
           end
-          t.column("") do |file| 
-            if file.type == :directory
-              link_to file.name, repository_path(repo,:path=>current_path+'/'+file.to_s)
+          t.column("") do |file|
+            puts params[:path].inspect
+            path = params[:path] == nil ? file.to_s : "#{params[:path]}/#{file.to_s}"
+            puts path.inspect
+            if file.type == :tree
+              link_to file.name, repository_path(repo, :path => path)
             else
-              link_to file.name, repository_path(repo,:path=>current_path+'/'+file.to_s, :file => true)
+              link_to file.name, repository_path(repo, :path => path, :file => true)
             end
           end
         end
