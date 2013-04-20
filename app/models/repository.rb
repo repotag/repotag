@@ -1,3 +1,5 @@
+require 'rjgit'
+
 class Repository < ActiveRecord::Base
   
   has_many :roles, :dependent => :destroy
@@ -6,9 +8,18 @@ class Repository < ActiveRecord::Base
   attr_accessible :name
   
   validates :name, :presence => true
+      
+  def path
+    File.join(Repotag::Application.config.datadir, self.owners.first.name, self.name)
+  end
   
-  def self.path(repository)
-    return '/tmp/test'
+  def repository
+    RJGit::Repo.new(self.path)
+  end
+  
+  def to_disk
+    return self.repository if File.exists?(self.path)
+    return RJGit::Repo.new(self.path, :create => true)
   end
   
   def self.pluralize(word)

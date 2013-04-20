@@ -22,6 +22,12 @@
 - Add an option to the create/edit views of repositories to add commit hooks to repositories.
 - Work out a way so that administrators can add their own commit hooks (external folder?).
 
+[VALIDATIONS]
+- Role owner is unique
+- Repository name is unique for owner
+- Repository name has default characters
+- datadir config option has default characters
+
 [SYNCHRONIZATION]
 - Work out a way to update the 'updated-at' field of a repository in ActiveRecord each time a commit is made through the git-servlet.
 
@@ -33,6 +39,9 @@
 - Set up an email mechanism (preferably using an existing gem or Rails built-in mailers).
 - Add an admin-page to the interface to configure SMTP settings for the mailer. Save these settings on disk (preferably in one central config file).
 - Design an invitation mechanism with which to add users (identified by email address) to repositories and let these users know about the invitation by email.
+
+[CONFIG]
+- Set up configuration options in database (JSON strings?)
 
 [OTHER]
 - Write a method that returns an Array of all repositories that haven't been updated for X amount of time.

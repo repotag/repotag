@@ -21,6 +21,10 @@ describe Repository do
     end
   end
   
+  it "should correspond to a RJGit repository" do
+    @repository.repository.should be_a RJGit::Repo
+  end
+  
   describe "receiving information from servlet" do 
     
     it "should receive a list of repositories" do
