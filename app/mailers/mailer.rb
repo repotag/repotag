@@ -4,7 +4,7 @@ class Mailer < ActionMailer::Base
 
   def new_message(message)
     @message = message
-   mail(:subject => "[repotag.org] #{@message.subject}")
+   mail(:subject => "[repotag.org] #{@message}")
   end
 
 end
