@@ -61,6 +61,15 @@ Repotag::Application.routes.draw do
   # just remember to delete public/index.html.
   
   root :to => 'admin/dashboard#index'
+  
+  constraints AuthorizeGrack do
+    mount Grack::App.new({
+      :project_root => "/tmp/",
+      :adapter => Grack::RJGitAdapter,
+      :upload_pack => true,
+      :receive_pack => true,
+    }), at: 'git'
+  end
 
   # See how all your routes lay out with "rake routes"
 
