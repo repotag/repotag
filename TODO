@@ -47,3 +47,4 @@
 - Write a method that returns an Array of all repositories that haven't been updated for X amount of time.
 - See if there are any extensions for the coderay-gem to include (e.g. highlighting for bash scripts).
 - Write a method that merges two user accounts together in a sensible way.
+- Add content to README
