@@ -5,11 +5,15 @@ gem 'rails', '3.2.1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'activerecord-jdbcsqlite3-adapter'
+gem 'activerecord-jdbcsqlite3-adapter', '~> 1.2.2'
 
 gem 'jruby-openssl'
 gem 'json'
 gem 'rjgit', '~> 0.1.0'
+
+gem 'grack', :git => 'git://github.com/schacon/grack.git'
+gem 'rjgit_grack'
+gem 'cancan'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -40,7 +44,7 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug'
 
-gem 'activeadmin'
+gem 'activeadmin', '~> 0.4.3'
 gem 'sass-rails',   '~> 3.2.3'
 gem "meta_search",  '>= 1.1.0.pre'
 
@@ -49,7 +53,7 @@ group :test, :development do
   gem "capybara"
   gem "watchr"
   gem "spork", "~> 0.9"
-  gem 'marginalia'
+  #gem 'marginalia'
 end
 
 gem 'coderay', '~> 1.0'

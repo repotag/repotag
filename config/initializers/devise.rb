@@ -228,3 +228,12 @@ Devise.setup do |config|
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
 end
+
+class AuthorizeGrack
+  def self.matches?(request)
+    current_user = request.env['warden'].user
+    return false if current_user.blank?
+    repo = Repository.find(:first) # Just to test
+    Ability.new(current_user).can? :read, repo
+  end
+end
