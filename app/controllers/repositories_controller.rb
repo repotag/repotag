@@ -14,8 +14,27 @@ class RepositoriesController < ApplicationController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
-    @repository = Repository.find(params[:id])
-
+    @current_path = params[:path].nil? ? '' : params[:path][-1, 1] == '/' ? params[:path] : params[:path] + '/'
+    repository = @repository.repository
+    if params[:file] then
+      begin
+        blob = repository.blob(params[:path])
+      rescue
+        raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
+      end
+      @rendered_text = CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
+    else
+      begin
+        tree = params[:path] ? repository.tree(params[:path]) : nil
+      rescue
+        raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
+      end
+      @directory_list = []
+      @file_list = []
+      ls_options = { :recursive => false, :print => false }
+      ls_options[:branch] = params[:branch] if params[:branch]
+      RJGit::Porcelain.ls_tree(repository, tree, ls_options).each {|x| @file_list << x if x[:type] == 'blob'; @directory_list << x if x[:type] == 'tree'}
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @repository }
