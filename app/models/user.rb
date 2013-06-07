@@ -7,11 +7,29 @@ class User < ActiveRecord::Base
   
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
+  attr_accessor :login
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :encrypted_password, :provider, :uid
+  attr_accessible :login, :username, :name, :email, :password, :password_confirmation, :remember_me, :encrypted_password, :provider, :uid
 
+  validates_uniqueness_of :username, :case_sensitive => false
+  validates_presence_of :username
   validates :email, :presence => true, :uniqueness => true
   validates :password, :presence => true
-  validates :name, :presence => true 
+  validates :name, :presence => true
+  
+  def admin?
+    roles.include?(:admin)
+  end
+  
+  protected
 
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    else
+      where(conditions).first
+    end
+  end
+  
 end

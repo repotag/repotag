@@ -5,12 +5,12 @@ class Repository < ActiveRecord::Base
   has_many :roles, :dependent => :destroy
   has_many :users, :through => :roles
   
-  attr_accessible :name
+  attr_accessible :name, :public
   
   validates :name, :presence => true
       
   def path
-    File.join(Repotag::Application.config.datadir, self.owners.first.name, self.name)
+    File.join(Repotag::Application.config.datadir, self.owners.first.username, self.name)
   end
   
   def repository
@@ -35,6 +35,16 @@ class Repository < ActiveRecord::Base
     def self.users(repository_name, role_title) 
       User.joins(:repositories, :roles).where(:roles => {:title => role_title}, 
                                               :repositories => {:name => repository_name}).to_a
+    end
+    
+    def self.from_path(path)
+      return nil unless /#{File::SEPARATOR}(.*?)#{File::SEPARATOR}(.*?)/ =~ path
+      elements = path.split(File::SEPARATOR)
+      user = elements[1]
+      repo = elements[2]
+      return nil unless RJGit::Repo.new(File.join(Repotag::Application.config.datadir, user, repo)).valid?
+      user = User.find(:first, :conditions => {:username => user})
+      user ? user.repositories(:name => repo).first : nil
     end
     
     def to_json

@@ -1,0 +1,24 @@
+<h1>Listing repositories</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @repositories.each do |repository| %>
+<% if can? :read, repository %>
+  <tr>
+	  <td><%= repository.name %></td>
+    <td><%= link_to 'Show', repository %></td>
+    <td><%= link_to 'Edit', edit_repository_path(repository) %></td>
+    <td><%= link_to 'Destroy', repository, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Repository', new_repository_path %>

@@ -4,7 +4,10 @@
   <%= devise_error_messages! %>
 
   <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <%= f.email_field :email, :autofocus => true %></div>
+  
+  <div><%= f.label :username %><br />
+  <%= f.text_field :login%></div>
 
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
@@ -15,4 +18,4 @@
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 
-<%= render "links" %>
+<%= render "devise/shared/links" %>

@@ -6,7 +6,7 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
-user = User.create!(:name => "Test User", :email => "test@repotag.org", :password => "koekje123")
+user = User.create!(:username => "testuser", :name => "Test User", :email => "test@repotag.org", :password => "koekje123")
 repo = Repository.create!(:name => "Test Repo")
 role = Role.create(:title => :owner)
 role.repository_id = repo.id

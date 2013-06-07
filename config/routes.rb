@@ -1,12 +1,54 @@
+class GrackAuthProxy  
+  def initialize(app)
+    @app = app
+  end
+  
+  def call(env)
+    @env = env
+    if authorized? then
+      status, headers, body = @app.call(@env)
+      [status, headers, body]
+    else
+      access_denied
+    end
+  end
+  
+  def access_denied
+    [403, {"Content-Type" => "text/plain", "WWW-Authenticate" => "Basic realm='Repotag'"}, ["Access Denied"]]
+  end
+  
+  def authorized?
+    repo = Repository.from_path(@env['PATH_INFO'])
+    return false if repo.nil?
+    activity = @env['PATH_INFO'] =~ /(.*?)\/git-receive-pack$/ ? :edit : :read
+    return true if repo.public? && activity == :read
+    current_user = @env['warden'].user
+    return false if current_user.blank?
+    return false if !Ability.new(current_user).can?(activity, repo)
+    true
+  end
+end
+
 Repotag::Application.routes.draw do
+
+  resources :repositories
 
   # resources :repositories do
   #         get :show_file
   #       end
 
-  ActiveAdmin.routes(self)
-
-  devise_for :users, ActiveAdmin::Devise.config
+  devise_for :users
+  
+  authenticated :user do
+    mount Grack::App.new({
+      :project_root => Repotag::Application.config.datadir,
+      :adapter => Grack::RJGitAdapter,
+      :upload_pack => true,
+      :receive_pack => true,
+    }), at: 'git'
+  end
+  mount proc {|env| [ 401, {"Content-Type" => "text/plain", "WWW-Authenticate" => "Basic realm='Repotag'"}, ["Authorization Required"]]}, at: 'git'
+  
 #Working on the Google authentication (https://github.com/plataformatec/devise/wiki/OmniAuth%3A-Overview) Working on the callback
 #, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
@@ -60,17 +102,10 @@ Repotag::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   
-  root :to => 'admin/dashboard#index'
+  resource :repositories, :controller => :repositories
   
-  constraints AuthorizeGrack do
-    mount Grack::App.new({
-      :project_root => "/tmp/",
-      :adapter => Grack::RJGitAdapter,
-      :upload_pack => true,
-      :receive_pack => true,
-    }), at: 'git'
-  end
-
+  root :controller => :repositories, :action => :index
+  
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
