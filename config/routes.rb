@@ -40,12 +40,12 @@ Repotag::Application.routes.draw do
   devise_for :users
   
   authenticated :user do
-    mount Grack::App.new({
+    mount GrackAuthProxy.new(Grack::App.new({
       :project_root => Repotag::Application.config.datadir,
       :adapter => Grack::RJGitAdapter,
       :upload_pack => true,
       :receive_pack => true,
-    }), at: 'git'
+    })), at: 'git'
   end
   mount proc {|env| [ 401, {"Content-Type" => "text/plain", "WWW-Authenticate" => "Basic realm='Repotag'"}, ["Authorization Required"]]}, at: 'git'
   
