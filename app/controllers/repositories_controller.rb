@@ -16,6 +16,7 @@ class RepositoriesController < ApplicationController
   def show
     @current_path = params[:path].nil? ? '' : params[:path][-1, 1] == '/' ? params[:path] : params[:path] + '/'
     repository = @repository.repository
+    repository.valid? or raise "Repository #{@repository.name} does not seem to have a valid git repository."
     if params[:file] then
       begin
         blob = repository.blob(params[:path])
