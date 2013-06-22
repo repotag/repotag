@@ -1,3 +1,6 @@
+<p id="notice"><%= notice %></p>
+<p id="alert"><%= alert %></p>
+
 <h1>Listing repositories</h1>
 
 <table>
@@ -7,6 +10,7 @@
     <th></th>
   </tr>
 
+<%= "hallo" unless current_user %>
 <% @repositories.each do |repository| %>
 <% if can? :read, repository %>
   <tr>

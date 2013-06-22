@@ -16,29 +16,41 @@ class RepositoriesController < ApplicationController
   def show
     @current_path = params[:path].nil? ? '' : params[:path][-1, 1] == '/' ? params[:path] : params[:path] + '/'
     repository = @repository.repository
-    repository.valid? or raise "Repository #{@repository.name} does not seem to have a valid git repository."
-    if params[:file] then
-      begin
-        blob = repository.blob(params[:path])
-      rescue
-        raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
+    if repository.valid? 
+      
+      if params[:file] then
+        begin
+          blob = repository.blob(params[:path])
+        rescue
+          raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
+        end
+        @rendered_text = CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
+      else
+        begin
+          tree = params[:path] ? repository.tree(params[:path]) : nil
+        rescue
+          raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
+        end
+        @directory_list = []
+        @file_list = []
+        ls_options = { :recursive => false, :print => false }
+        ls_options[:branch] = params[:branch] if params[:branch]
+        lstree = RJGit::Porcelain.ls_tree(repository, tree, ls_options)
+        if lstree
+          lstree.each do |entry| 
+          @file_list << entry if entry[:type] == 'blob' 
+          @directory_list << entry if entry[:type] == 'tree'
+          end
+        end
       end
-      @rendered_text = CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @repository }
+      end       
     else
-      begin
-        tree = params[:path] ? repository.tree(params[:path]) : nil
-      rescue
-        raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
-      end
-      @directory_list = []
-      @file_list = []
-      ls_options = { :recursive => false, :print => false }
-      ls_options[:branch] = params[:branch] if params[:branch]
-      RJGit::Porcelain.ls_tree(repository, tree, ls_options).each {|x| @file_list << x if x[:type] == 'blob'; @directory_list << x if x[:type] == 'tree'}
-    end
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @repository }
+      flash[:alert] = "Repository #{@repository.name} does not seem to have a valid git repository."
+      # redirect_to repositories_path, :notice => "Article Created"
+      redirect_to :action => :index
     end
   end
 
