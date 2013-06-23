@@ -55,6 +55,9 @@ Repotag::Application.routes.draw do
 
   devise_for :users
   
+  # Allow users to edit their own info
+  resources :users
+  
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({
       :project_root => Repotag::Application.config.datadir,
       :adapter => Grack::RJGitAdapter,
@@ -124,7 +127,4 @@ Repotag::Application.routes.draw do
   
   # See how all your routes lay out with "rake routes"
 
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
 end
