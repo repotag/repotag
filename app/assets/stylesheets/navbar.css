@@ -1,0 +1,41 @@
+/* The CSS Code for the menu starts here */
+#menu {
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin: 50px 0;
+	padding: 0 0 0 10px;
+	list-style-type: none;
+	font-size: 13px;
+	background: #eee;
+	height: 40px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-top: 2px solid #eee;
+	border-left: 2px solid #eee;
+	border-bottom: 2px solid #ccc;
+	border-right: 2px solid #ccc;
+}
+#menu li {
+	float: left;
+	margin: 0;
+	
+}      
+#menu li#nav-right {
+	float: right;
+}
+#menu li a {
+	text-decoration: none;
+	display: block;
+	padding: 0 20px;
+	line-height: 40px;
+	color: #666;
+}
+#menu li a:hover, #menu li.active a {
+	background-color: #f5f5f5;
+	border-bottom: 2px solid #DDD;
+	color: #999;
+}
+#menu_wrapper ul {margin-left: 12px;}
+#menu_wrapper {padding: 0 16px 0 0; background: url(navbar-grey.png) no-repeat right;}
+#menu_wrapper div {float: left; height: 44px; width: 12px; background: url(navbar-grey.png) no-repeat left;}
