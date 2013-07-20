@@ -2,15 +2,17 @@ require 'spec_helper'
 
 describe Repository do
 
-  before :each do
-    @repository = Repository.new
+  before :all do
+    @repository = Repository.find(:first)
   end
 
+
   it "should have a name" do
-    @repository.should_not be_valid
-    @repository.name = "test_repo"
-    @repository.name.should == "test_repo"
-    @repository.should be_valid
+    repo = Repository.new
+    repo.should_not be_valid
+    repo.name = "test_repo"
+    repo.name.should == "test_repo"
+    repo.should be_valid
   end
 
   roles = Repotag::Application.config.role_titles.map{|role_title| ActiveSupport::Inflector.pluralize(role_title.to_s) }

@@ -35,6 +35,8 @@ Spork.prefork do
     # examples within a transaction, remove the following line or assign false
     # instead of true.
     config.use_transactional_fixtures = true
+    
+    config.include Capybara::DSL # Manually mix in Capybara so we can use its methods outside the 'requests'/'features' dirs.
 
     # If true, the base class of anonymous controllers will be inferred
     # automatically. This will be the default behavior in future versions of
@@ -45,7 +47,24 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
+  def valid_user_attributes
+    { :email => 'bert@ernie.com',
+      :username => 'berternie',
+      :name => 'Bert Ernie',
+      :password => 'koekje123'
+      }
+  end
+  def http_auth(name, password)
+    if page.driver.respond_to?(:basic_auth)
+      page.driver.basic_auth(name, password)
+    elsif page.driver.respond_to?(:basic_authorize)
+      page.driver.basic_authorize(name, password)
+    elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
+      page.driver.browser.basic_authorize(name, password)
+    else
+      raise "I don't know how to log in!"
+    end
+  end
 end
 
 # --- Instructions ---

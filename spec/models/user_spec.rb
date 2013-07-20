@@ -14,16 +14,11 @@ describe User do
   pending "Each user's e-mail address should be unique"
   
   before :each do
-    def valid_user_attributes
-      { :email => 'bert@ernie.com',
-        :name => 'berternie',
-        :password => 'koekje123'
-        }
-    end
     @user = User.new
   end
   
  it_behaves_like "a model that validates presence of", :name
+ it_behaves_like "a model that validates presence of", :username
  it_behaves_like "a model that validates presence of", :email
  
  it "stores a password encryptedly" do
