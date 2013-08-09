@@ -43,10 +43,7 @@ Spork.prefork do
     # rspec-rails.
     config.infer_base_class_for_anonymous_controllers = false
   end
-end
-
-Spork.each_run do
-  # This code will be run each time you run your specs.
+  
   def valid_user_attributes
     { :email => 'bert@ernie.com',
       :username => 'berternie',
@@ -65,7 +62,12 @@ Spork.each_run do
       raise "I don't know how to log in!"
     end
   end
+  
 end
+
+#Spork.each_run do
+  # This code will be run each time you run your specs.
+#end
 
 # --- Instructions ---
 # Sort the contents of this file into a Spork.prefork and a Spork.each_run

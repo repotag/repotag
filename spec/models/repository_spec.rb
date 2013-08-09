@@ -6,7 +6,6 @@ describe Repository do
     @repository = Repository.find(:first)
   end
 
-
   it "should have a name" do
     repo = Repository.new
     repo.should_not be_valid
@@ -15,7 +14,7 @@ describe Repository do
     repo.should be_valid
   end
 
-  roles = Repotag::Application.config.role_titles.map{|role_title| ActiveSupport::Inflector.pluralize(role_title.to_s) }
+  roles = Repotag::Application.config.role_titles.map{|role_title| ActiveSupport::Inflector.pluralize(role_title).to_s }
   roles.each do |role|
     it "should return its #{role}" do
       @repository.respond_to?(role).should == true
