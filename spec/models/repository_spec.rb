@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe Repository do
-
-  before :all do
-    @role = FactoryGirl.build(:admin_role)
-    @repository = @role.repository
+  
+  before :each do
+    @repository = FactoryGirl.create(:repo_with_owner)
   end
 
   it "should have a name" do
@@ -43,11 +42,6 @@ describe Repository do
         end
       end
     end
-  end
-  
-  after :all do
-    FactoryGirl.factories.clear
-    FactoryGirl.find_definitions
   end
 
 end

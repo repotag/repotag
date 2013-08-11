@@ -50,6 +50,7 @@ gem "meta_search",  '>= 1.1.0.pre'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
+  gem "factory_girl_rails"
   gem "capybara"
   gem "watchr"
   gem "spork", "~> 0.9"
