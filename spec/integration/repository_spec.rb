@@ -3,17 +3,20 @@ require 'spec_helper'
 describe "repository" do
   
   before :all do
-    @repo = Repository.find(:first)
+    @role = FactoryGirl.create(:admin_role)
+    @repo = @role.repository
+    @user = @role.user
+    http_auth(@user.username,'koekje123')
   end
   
   before :each do
-    http_auth('testuser','koekje123')
     RJGit::Repo.any_instance.stub(:valid?) { true }
   end
   
   describe "list" do
     it 'displays a heading' do
       visit repositories_path
+      puts page.body
       page.should have_content('Listing repositories')
     end
   end
@@ -22,6 +25,7 @@ describe "repository" do
   
     it 'displays its name' do
       visit repository_path(@repo)
+      puts page.body
       page.should have_content("Repository Name: #{@repo.name}")
     end
   
@@ -46,6 +50,8 @@ describe "repository" do
   
   after :all do
     RJGit::Repo.any_instance.rspec_reset #Unstub
+    FactoryGirl.factories.clear
+    FactoryGirl.find_definitions
   end
 
 end

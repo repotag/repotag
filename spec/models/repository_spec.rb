@@ -3,7 +3,8 @@ require 'spec_helper'
 describe Repository do
 
   before :all do
-    @repository = Repository.find(:first)
+    @role = FactoryGirl.build(:admin_role)
+    @repository = @role.repository
   end
 
   it "should have a name" do
@@ -42,6 +43,11 @@ describe Repository do
         end
       end
     end
+  end
+  
+  after :all do
+    FactoryGirl.factories.clear
+    FactoryGirl.find_definitions
   end
 
 end

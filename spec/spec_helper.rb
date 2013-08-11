@@ -13,6 +13,7 @@ Spork.prefork do
   require 'capybara/rspec'
   require 'capybara/rails'
   require 'rspec/autorun'
+  require 'factory_girl_rails'
 
 
   # Requires supporting ruby files with custom matchers and macros, etc,
@@ -65,9 +66,11 @@ Spork.prefork do
   
 end
 
-#Spork.each_run do
+Spork.each_run do
   # This code will be run each time you run your specs.
-#end
+  FactoryGirl.factories.clear
+  FactoryGirl.find_definitions
+end
 
 # --- Instructions ---
 # Sort the contents of this file into a Spork.prefork and a Spork.each_run
