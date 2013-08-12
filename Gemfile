@@ -9,7 +9,7 @@ gem 'activerecord-jdbcsqlite3-adapter'
 
 gem 'jruby-openssl'
 gem 'json'
-gem 'rjgit', :git => 'git://github.com/repotag/rjgit'
+gem 'rjgit'
 
 gem 'grack', :git => 'git://github.com/schacon/grack.git'
 gem 'rjgit_grack'
@@ -54,6 +54,7 @@ group :test, :development do
   gem "capybara"
   gem "watchr"
   gem "spork", "~> 0.9"
+  gem "simplecov"
   #gem 'marginalia'
 end
 
