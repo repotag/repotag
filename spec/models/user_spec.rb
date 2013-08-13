@@ -21,6 +21,23 @@ describe User do
  it_behaves_like "a model that validates presence of", :username
  it_behaves_like "a model that validates presence of", :email
  
+ it "is no admin by default" do
+   @user.should_not be_admin
+ end
+ 
+ it "does not let admin be set by mass assignment" do
+     expect do
+       @user.update_attributes(:admin => true)
+     end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+ end
+ 
+ it "gets and sets admin status" do
+   @user.should respond_to(:admin, :admin?)
+   @user.should_not be_admin
+   @user.admin = true
+   @user.should be_admin
+ end
+ 
  it "stores a password encryptedly" do
    @user.attributes = valid_user_attributes.except(:password)
    @user.encrypted_password.should eql("")

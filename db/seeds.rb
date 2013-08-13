@@ -13,13 +13,11 @@ role.repository_id = repo.id
 role.user_id = user.id
 role.save
 
-user = User.create!(:username => "admin_user", :name => "Admin User", :email => "repotag@repotag.org", :password => "koekje123")
+user = User.create(:username => "admin_user", :name => "Admin User", :email => "repotag@repotag.org", :password => "koekje123")
+user.admin = true
+user.save
 repo = Repository.create!(:name => "Super Secret Repo")
 role = Role.create(:title => :owner)
-role.repository_id = repo.id
-role.user_id = user.id
-role.save
-role = Role.create(:title => :admin)
 role.repository_id = repo.id
 role.user_id = user.id
 role.save

@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   attr_accessor :login
-  # Setup accessible (or protected) attributes for your model
+  # Setup accessible attributes for your model
   attr_accessible :login, :username, :name, :email, :password, :password_confirmation, :remember_me, :encrypted_password, :provider, :uid
 
   validates_uniqueness_of :username, :case_sensitive => false
@@ -17,10 +17,6 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :uniqueness => true
   validates :password, :presence => true
   validates :name, :presence => true
-  
-  def admin?
-    roles.any?{|role| role.title == 'admin'}
-  end
   
   protected
 

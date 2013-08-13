@@ -60,7 +60,7 @@ module Repotag
     # Custom config settings
     # To access in ActiveAdmin, use Rails.configuration
     
-    config.role_titles = [:owner, :watcher, :contributor, :admin]
+    config.role_titles = [:owner, :watcher, :contributor]
     config.datadir = '/tmp/repos'
 
     config.action_mailer.smtp_settings = {

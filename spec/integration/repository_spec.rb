@@ -41,9 +41,5 @@ describe "repository" do
     end
     
   end
-  
-  after :all do
-    RJGit::Repo.any_instance.rspec_reset #Unstub
-  end
 
 end

@@ -36,6 +36,15 @@ class Admin::UsersController < Admin::AdminController
   def edit
     @user = User.find(params[:id])
   end
+  
+  # GET /users/1/set_admin
+  def set_admin
+    @user.admin = params[:admin_status]
+    respond_to do |format|
+      format.html { redirect_to admin_users_path, :notice => "User admin status set to #{params[:admin_status]}."}
+      format.jost { head :ok }
+    end
+  end
 
   # POST /users
   # POST /users.json
