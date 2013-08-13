@@ -11,6 +11,11 @@ Repotag::Application.routes.draw do
   # Allow users to edit their own info
   resources :users
   
+  namespace :admin do
+  	match '/' => 'users#index'
+  	resources :users
+	end
+  
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({
       :project_root => Repotag::Application.config.datadir,
       :adapter => Grack::RJGitAdapter,

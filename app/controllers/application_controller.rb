@@ -8,4 +8,12 @@ class ApplicationController < ActionController::Base
     return :ruby
   end
 
+  def has_role?(current_user, role)
+    #return !!current_user.roles.find_by_title(role.to_s.camelize)
+    return !!current_user.roles.find_by_title(role.to_sym)
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
 end

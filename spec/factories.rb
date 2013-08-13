@@ -12,6 +12,20 @@ FactoryGirl.define do
     end
   end
   
+  # Admin user
+  factory :admin_user do
+    sequence(:username) {|n| "user#{n}"}
+    name "Admin User"
+    sequence(:email) {|n| "#{username}#{n}@test.org"}
+    password 'koekje123'
+    factory :admin_owns_repo do
+      after(:create) do |user|
+        user.roles [FactoryGirl.create(:owner_role, :user => user)]
+        user.roles [FactoryGirl.create(:admin_role, :user => user)]
+      end
+    end
+  end
+  
   factory :repository do
     sequence(:name) {|n| "repo#{n}"}
     factory :repo_with_owner do

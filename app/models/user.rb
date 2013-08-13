@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates :name, :presence => true
   
   def admin?
-    roles.include?(:admin)
+    roles.any?{|role| role.title == 'admin'}
   end
   
   protected
