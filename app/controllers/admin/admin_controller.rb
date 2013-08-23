@@ -3,8 +3,8 @@ class Admin::AdminController < ApplicationController
   before_filter :verify_admin
 
   def verify_admin
-    :authenticate_user!
-    redirect_to root_url unless current_user.admin?
+    authenticate_user!
+    redirect_to root_url, :alert => "You are not authorized to access the admin area." unless current_user.admin?
   end
 
   def current_ability

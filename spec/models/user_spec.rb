@@ -4,7 +4,7 @@ shared_examples_for "a model that validates presence of" do |property|
   it "#{property}" do
     @user.attributes = valid_user_attributes.except(property)
     @user.should_not be_valid
-    @user[property] = valid_user_attributes[property]
+    @user.send("#{property.to_s}=", valid_user_attributes[property])
     @user.should be_valid
   end
 end
@@ -20,6 +20,30 @@ describe User do
  it_behaves_like "a model that validates presence of", :name
  it_behaves_like "a model that validates presence of", :username
  it_behaves_like "a model that validates presence of", :email
+ it_behaves_like "a model that validates presence of", :password
+ it_behaves_like "a model that validates presence of", :password do
+   before(:all) { @user = User.new; @user.stub(:new_record?) {false}; @user.updating_password = true }
+ end
+ 
+ it "should not validate presence of password if it is not updating its password" do
+   @user.stub(:new_record?) {false}
+   @user.updating_password = false
+   @user.attributes = valid_user_attributes.except(:password)
+   @user.should be_valid
+ end
+ 
+ it "should tell whether its password is being updated" do
+   @user.should respond_to(:updating_password)
+ end
+ 
+ it "should tell us when the presence of password should be validated" do
+   @user.should respond_to(:should_validate_password?)
+   @user.should_validate_password?.should be_true
+   @user.stub(:new_record?) {false}
+   @user.should_validate_password?.should be_false
+   @user.updating_password = true
+   @user.should_validate_password?.should be_true
+ end
  
  it "is no admin by default" do
    @user.should_not be_admin

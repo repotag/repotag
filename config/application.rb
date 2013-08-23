@@ -62,6 +62,9 @@ module Repotag
     
     config.role_titles = [:owner, :watcher, :contributor]
     config.datadir = '/tmp/repos'
+    
+    # If true, will not redirect to new_user_session_path when not logged in
+    config.anonymous_access = false
 
     config.action_mailer.smtp_settings = {
    :address              => "smtp.example.org",
