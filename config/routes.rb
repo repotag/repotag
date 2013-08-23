@@ -15,6 +15,7 @@ Repotag::Application.routes.draw do
   	match '/' => 'users#index'
   	resources :users
     get '/users/:id/set_admin', :controller => Admin::UsersController, :action => :set_admin
+    resources :repositories
 	end
   
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({

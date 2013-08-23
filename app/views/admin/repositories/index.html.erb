@@ -1,0 +1,27 @@
+<h1>Listing repositories</h1>
+
+<div>
+	<table class='repo-table'>
+	  <tr>
+	    <th>Name</th>
+	    <th>Owner</th>
+	    <th>Actions</th>  
+  	  </tr>
+
+	<% @repositories.each do |repository| %>
+	<% if can? :read, repository %>
+	  <tr>
+		<td><%= link_to repository.name, repository %></td>      
+		<td><%= repository.owners.first.name%></td>
+		<td><div>
+	    <%= link_to 'Edit', edit_repository_path(repository) %>
+	    <%= link_to 'Destroy', repository, confirm: 'Are you sure?', method: :delete %>
+		</div></td>
+	  </tr>
+	<% end %>
+	<% end %>
+	</table>
+</div>
+<br />
+
+<%= link_to 'New Repository', new_repository_path %>
