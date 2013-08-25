@@ -37,9 +37,6 @@ FactoryGirl.define do
   factory :role do
     user
     repository
-    factory :admin_role do
-      title "admin"
-    end
     factory :owner_role do
       title "owner"
     end

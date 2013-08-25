@@ -3,8 +3,8 @@ require 'spec_helper'
 describe "repository" do
   
   before :each do
-    @user = FactoryGirl.create(:user_owns_repo)
-    @repo = @user.repositories.first
+    @repo = FactoryGirl.create(:repo_with_owner)
+    @user = @repo.owner
     http_auth(@user.username,'koekje123')
     RJGit::Repo.any_instance.stub(:valid?) { true }
   end

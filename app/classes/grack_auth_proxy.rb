@@ -34,7 +34,7 @@ class GrackAuthProxy
   end
   
   def find_repository
-    Repository.from_path(@env['PATH_INFO'])
+    Repository.from_request_path(@env['PATH_INFO'])
   end
   
   def authorized?(repository, user)
