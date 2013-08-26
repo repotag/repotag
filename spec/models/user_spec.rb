@@ -11,8 +11,6 @@ end
 
 describe User do
   
-  pending "Each user's e-mail address should be unique"
-  
   before :each do
     @user = User.new
   end
@@ -23,6 +21,15 @@ describe User do
  it_behaves_like "a model that validates presence of", :password
  it_behaves_like "a model that validates presence of", :password do
    before(:all) { @user = User.new; @user.stub(:new_record?) {false}; @user.updating_password = true }
+ end
+ 
+ it "should enforce uniqueness of email addresses" do
+   @user.email = 'rspec@repotag.org'
+   @user_with_same_email = @user.dup
+   @user_with_same_email.email = @user.email.upcase
+   @user_with_same_email.save
+
+   @user_with_same_email.should_not be_valid
  end
  
  it "should not validate presence of password if it is not updating its password" do
