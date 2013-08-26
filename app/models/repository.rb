@@ -13,7 +13,11 @@ class Repository < ActiveRecord::Base
   after_destroy :destroy_owner_role
       
   def filesystem_path
-    File.join(Repotag::Application.config.datadir, "#{self.id}.git")
+    File.join(Repotag::Application.config.datadir, filesystem_name)
+  end
+  
+  def filesystem_name
+    "#{self.id}.git"
   end
   
   def repository

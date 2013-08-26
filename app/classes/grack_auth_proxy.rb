@@ -5,7 +5,9 @@ class GrackAuthProxy
   
   def call(env)
     @env = env
-    repository = find_repository
+    base_path = @env['PATH_INFO'].match(/^\/[\w]+\/[\w]+/).to_s
+    return not_found if base_path == ""
+    repository = find_repository(base_path)
     return not_found if repository.nil?
     user = authenticated?
     if user.blank? then
@@ -13,6 +15,7 @@ class GrackAuthProxy
     elsif !authorized?(repository, user) then
       return access_denied
     end
+    @env['PATH_INFO'] = "/#{repository.filesystem_name}#{@env['PATH_INFO'][base_path.length..@env['PATH_INFO'].length]}"
     status, headers, body = @app.call(@env)
     [status, headers, body]
   end
@@ -33,8 +36,8 @@ class GrackAuthProxy
      @env['warden'].user
   end
   
-  def find_repository
-    Repository.from_request_path(@env['PATH_INFO'])
+  def find_repository(path)
+    Repository.from_request_path(path)
   end
   
   def authorized?(repository, user)
