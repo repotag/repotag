@@ -9,7 +9,7 @@ gem 'activerecord-jdbcsqlite3-adapter'
 
 gem 'jruby-openssl'
 gem 'json'
-gem 'rjgit'
+gem 'rjgit', :git => 'git://github.com/repotag/rjgit.git'
 
 gem 'grack', :git => 'git://github.com/schacon/grack.git'
 gem 'rjgit_grack'
