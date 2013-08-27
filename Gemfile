@@ -55,6 +55,7 @@ group :test, :development do
   gem "watchr"
   gem "spork", "~> 0.9"
   gem "simplecov"
+  gem "better_errors", :git => "https://github.com/charliesome/better_errors"
   #gem 'marginalia'
 end
 
