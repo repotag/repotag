@@ -1,0 +1,4 @@
+<% @smtp_settings.each do |key, value| %>
+	<label class='label' for="smtp_settings[<%= key %>]"> <%= key %></label>
+	<label class='label' for="smtp_settings[<%= key %>]"> <%= value %></label></br>
+<% end %>
