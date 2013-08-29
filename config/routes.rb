@@ -18,8 +18,8 @@ Repotag::Application.routes.draw do
     resources :repositories
     resources :settings
     # match 'email/smtp', to: 
-    get '/email/smtp/index', :controller => 'settings', :action => :show_smtp_settings
-    put '/email/smtp/update', :controller => 'settings', :action => :update_smtp_settings
+    get '/email/smtp', :controller => 'settings', :action => :show_smtp_settings
+    put '/email/smtp', :controller => 'settings', :action => :update_smtp_settings
 	end
   
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({

@@ -4,7 +4,7 @@
 	    <th align='left'>Key</th>
 	    <th align='left'>Value</th>
   	  </tr>
-	<%= form_for([:admin, @setting], :url => '/admin/email/smtp/update') do |form| %>
+	<%= form_for([:admin, @setting], :url => '/admin/email/smtp') do |form| %>
 		<%= form.fields_for :smtp_settings do |field| %>
 			<tr>
 				<td><%= field.label 'Server:' %></td>

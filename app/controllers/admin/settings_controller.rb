@@ -1,12 +1,10 @@
 class Admin::SettingsController < Admin::AdminController
   load_and_authorize_resource
-  # authorize_resource :class => false
   
   def show_smtp_settings
     @setting = Setting.get
     @smtp_settings = @setting.smtp_settings
     Rails.logger.debug @smtp_settings
-    # @smtp_settings = Repotag::Application.config.action_mailer.smtp_settings
     
     respond_to do |format|
       format.html { render 'admin/email/smtp/show'}
@@ -26,7 +24,7 @@ class Admin::SettingsController < Admin::AdminController
     Rails.logger.debug Repotag::Application.config.action_mailer.smtp_settings.inspect
     Rails.logger.debug Setting.get.smtp_settings.inspect
     flash[:notice] = "SMTP settings have been saved successfully."
-    redirect_to '/admin/email/smtp/index'
+    redirect_to '/admin/email/smtp'
   end
   
 end
