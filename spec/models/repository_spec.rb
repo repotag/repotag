@@ -3,13 +3,14 @@ require 'spec_helper'
 describe Repository do
   
   before :each do
-    @repository = FactoryGirl.create(:repo_with_owner)
+    @repository = FactoryGirl.create(:repository)
   end
 
   it "has a name" do
     repo = Repository.new
     repo.should_not be_valid
     repo.name = "test_repo"
+    repo.owner = @repository.owner
     repo.name.should == "test_repo"
     repo.should be_valid
   end

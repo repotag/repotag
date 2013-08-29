@@ -11,6 +11,8 @@ end
 
 describe User do
   
+  context "model" do
+  
   pending "Each user's e-mail address should be unique"
   
   before :each do
@@ -45,23 +47,6 @@ describe User do
    @user.should_validate_password?.should be_true
  end
  
- it "is no admin by default" do
-   @user.should_not be_admin
- end
- 
- it "does not let admin be set by mass assignment" do
-     expect do
-       @user.update_attributes(:admin => true)
-     end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
- end
- 
- it "gets and sets admin status" do
-   @user.should respond_to(:admin, :admin?)
-   @user.should_not be_admin
-   @user.admin = true
-   @user.should be_admin
- end
- 
  it "stores a password encryptedly" do
    @user.attributes = valid_user_attributes.except(:password)
    @user.encrypted_password.should eql("")
@@ -72,5 +57,19 @@ describe User do
  end
  
  pending "it requires a password confirmation"
+ 
+  end
+
+  context "instance" do
+    before :each do
+      @user = FactoryGirl.create(:user)
+    end
+    it "gets and sets the global admin role" do
+      @user.should respond_to(:set_admin, :admin?)
+      @user.should_not be_admin
+      @user.set_admin(true)
+      @user.should be_admin
+    end
+  end
 
 end

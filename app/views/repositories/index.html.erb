@@ -12,7 +12,7 @@
 	<% if can? :read, repository %>
 	  <tr>
 		<td><%= link_to repository.name, repository %></td>      
-		<td><%= repository.owners.first.name%></td>
+		<td><%= repository.owner.name%></td>
 		<td><div>
 	    <%= link_to 'Edit', edit_repository_path(repository) %>
 	    <%= link_to 'Destroy', repository, confirm: 'Are you sure?', method: :delete %>

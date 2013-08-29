@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
  
   has_many :roles, :dependent => :destroy 
-  has_many :repositories, :through => :roles
+  has_many :repositories, :through => :roles, :source => :resource, :source_type => 'Repository'
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
@@ -20,6 +20,51 @@ class User < ActiveRecord::Base
   
   def should_validate_password?
     new_record? || updating_password
+  end
+  
+  def add_role(title, resource = nil)
+    title = title.to_s if title.is_a? Symbol
+    r = Role.new
+    r.title = title
+    r.resource = resource
+    roles << r
+  end
+  
+  def delete_role(title, resource = nil)
+    title = title.to_s if title.is_a? Symbol
+    query = {:title => title, :resource_id => nil}
+    query[:resource_id] = resource.id unless resource.nil?
+    query[:resource_type] = resource.class.to_s unless resource.nil?
+    roles.find(:first, :conditions => query).destroy
+  end
+  
+  def has_role?(title, resource = nil)
+    query = {:title => title, :resource_id => nil}
+    query[:resource_id] = resource.id unless resource.nil?
+    query[:resource_type] = resource.class.to_s unless resource.nil?
+    roles.find(:first, :conditions => query) == nil ? false : true
+  end
+  
+  def admin?
+    has_role?(:admin)
+  end
+  
+  def set_admin(value)
+    if !value == admin? then
+      if value
+        add_role(:admin)
+      else
+        delete_role(:admin)
+      end
+    end
+  end
+  
+  def all_repositories
+    repositories + owned_repositories
+  end
+  
+  def owned_repositories
+    Repository.where(:owner_id => self)
   end
   
   protected

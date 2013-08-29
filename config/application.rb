@@ -60,7 +60,8 @@ module Repotag
     # Custom config settings
     # To access in ActiveAdmin, use Rails.configuration
     
-    config.role_titles = [:owner, :watcher, :contributor]
+    config.role_titles = [:watcher, :contributor]
+    config.global_role_titles = [:admin]
     config.datadir = '/tmp/repos'
     
     # If true, will not redirect to new_user_session_path when not logged in

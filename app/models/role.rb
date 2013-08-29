@@ -3,36 +3,21 @@ class Role < ActiveRecord::Base
   attr_accessible :title
   
   belongs_to :user
-  # Following http://edapx.com/2012/04/18/authorization-and-user-management-in-rails/
-  # it would be better to use
-  # has_and_belongs_to_many :users
-  belongs_to :repository
+  belongs_to :resource, :polymorphic => true
   
-  validates_associated :repository
+  validates :user_id, :presence => true, :uniqueness => {:scope => [:resource_type, :resource_id]}
+  validates_presence_of :resource_type, :unless => Proc.new {self.resource_id.nil?}
+  validates_presence_of :resource_id, :unless => Proc.new {self.resource_type.nil?}
   
-  validates_inclusion_of :title, :in => Repotag::Application.config.role_titles.map(&:to_s)
+  validates_inclusion_of :title, :in => Repotag::Application.config.role_titles.map(&:to_s), :unless => Proc.new {self.resource_id.nil?}
+  validates_inclusion_of :title, :in => Repotag::Application.config.global_role_titles.map(&:to_s), :if => Proc.new {self.resource_id.nil?}
   
-  validates :user_id, :presence => true
+  validate :validates_no_roles_for_repo_owner
   
-  validates :repository_id, :presence => true
-  validates :repository_id, :uniqueness => {:scope => :title}, :if => Proc.new{ self.title == 'owner' }
-  validates :repository_id, :uniqueness => {:scope => :user_id}
-  
-  validate :validates_unique_repo_name_for_owner, :if => Proc.new{ self.title == 'owner' }
-  
-  before_destroy :repository_has_owner
-  
-  private
-  
-  def repository_has_owner
-    if self.title == "owner" && !repository.nil? then
-      errors.add(:base, "Repository must have at least one owner.")
-      return false
+  def validates_no_roles_for_repo_owner
+    if self.resource_type == 'Repository' then
+      errors.add(:base, "Cannot have a role on a repository that is owned by the user.") if self.resource.owner.id == self.user.id
     end
-  end
-  
-  def validates_unique_repo_name_for_owner
-    errors.add(:base, "Owner already has a repository by this name.") unless user.repositories.find {|r| r.owner == user && r.id != repository.id && r.name == repository.name} == nil
   end
   
 end
