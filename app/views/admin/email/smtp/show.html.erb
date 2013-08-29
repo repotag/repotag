@@ -4,11 +4,37 @@
 	    <th align='left'>Key</th>
 	    <th align='left'>Value</th>
   	  </tr>
-	<% @smtp_settings.each do |key, value| %>
-		<tr>
-			<td><label class='label' for="smtp_settings[<%= key %>]"> <%= key %></label></td>
-			<td align='left'><label class='label' for="smtp_settings[<%= key %>]"> <%= value %></label></td>
-		</tr>
+	<%= form_for([:admin, @setting], :url => '/admin/email/smtp/update') do |form| %>
+		<%= form.fields_for :smtp_settings do |field| %>
+			<tr>
+				<td><%= field.label 'Server:' %></td>
+				<td><%= field.text_field :address, :value => @smtp_settings[:address] %></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Port:' %></td>
+				<td><%= field.text_field :port, :value => @smtp_settings[:port] %></td>
+			<tr>
+			<td> <%= field.label 'Domain:' %></td>
+			<td> <%= field.text_field :domain, :value => @smtp_settings[:domain] %></td>
+			<tr>
+				<td><%= field.label 'Username:' %></td>
+				<td><%= field.text_field :user_name, :value => @smtp_settings[:user_name] %></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Password:' %></td>
+				<td><%= field.text_field :password, :value => @smtp_settings[:password] %></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Authentication:' %></td>
+				<td><%= field.select :authentication, [:plain, :login, :cram_md5], :selected => @smtp_settings[:authentication] %></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'StartTLS:' %></td>
+				<td><%= field.check_box :enable_starttls_auto, :value => @smtp_settings[:enable_starttls_auto] %></td>
+			</tr>
+		</table>
+		<% end %>
+		<%= form.submit "Save" %>
 	<% end %>
-	</table>
+	
 </div>
