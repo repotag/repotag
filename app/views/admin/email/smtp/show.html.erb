@@ -22,7 +22,7 @@
 			</tr>
 			<tr>
 				<td><%= field.label 'Password:' %></td>
-				<td><%= field.text_field :password, :value => @smtp_settings[:password] %></td>
+				<td><%= field.password_field :password, :value => @smtp_settings[:password] %></td>
 			</tr>
 			<tr>
 				<td><%= field.label 'Authentication:' %></td>
@@ -36,5 +36,7 @@
 		<% end %>
 		<%= form.submit "Save" %>
 	<% end %>
+	
+	<%= button_to "Send Test Mail", :action => 'send_test_mail'%>
 	
 </div>
