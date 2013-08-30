@@ -1,5 +1,5 @@
 class Admin::AdminController < ApplicationController
-  layout "slate"
+  layout 'admin'
   before_filter :verify_admin
 
   def verify_admin
