@@ -20,6 +20,7 @@ Repotag::Application.routes.draw do
     # match 'email/smtp', to: 
     get '/email/smtp', :controller => 'settings', :action => :show_smtp_settings
     put '/email/smtp', :controller => 'settings', :action => :update_smtp_settings
+    post '/email/smtp', :controller => 'settings', :action => :send_test_mail
 	end
   
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({
