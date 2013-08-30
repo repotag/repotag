@@ -14,9 +14,16 @@ class RepositoriesController < ApplicationController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
+    if @repository.invalid? then
+      flash[:alert] = "Repository #{@repository.name} is invalid."
+      redirect_to :action => :index
+      return false
+    end
+    
     @current_path = params[:path].nil? ? '' : params[:path][-1, 1] == '/' ? params[:path] : params[:path] + '/'
     repository = @repository.repository
-    if repository.valid? 
+    
+    if repository.valid?
       
       if params[:file] then
         begin

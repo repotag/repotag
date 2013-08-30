@@ -19,9 +19,9 @@
     </td>
         <td><%= user.created_at %></td>
     <td>
-      <%= link_to "Show", admin_user_path(user) %>
-      <%= link_to "Edit", edit_admin_user_path(user) %>
-      <%= link_to "Destroy", admin_user_path(user), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+      <%= link_to "Show", admin_user_path(user), :class => "btn btn-primary btn-sm" %>
+      <%= link_to "Edit", edit_admin_user_path(user), :class => "btn btn-primary btn-sm" %>
+     <%= link_to "Destroy", admin_user_path(user), :class => "btn btn-primary btn-sm", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
     </td>
     </tr>
     <% end -%>
