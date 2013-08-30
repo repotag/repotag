@@ -1,5 +1,6 @@
 require "spec_helper"
 
 describe HookMailer do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  it "should send mail with commit details if so configured"
 end

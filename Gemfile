@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.1'
+gem 'rails', '3.2.14'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -9,7 +9,7 @@ gem 'activerecord-jdbcsqlite3-adapter'
 
 gem 'jruby-openssl'
 gem 'json'
-gem 'rjgit'
+gem 'rjgit', :git => 'git://github.com/repotag/rjgit.git'
 
 gem 'grack', :git => 'git://github.com/schacon/grack.git'
 gem 'rjgit_grack'
@@ -55,6 +55,7 @@ group :test, :development do
   gem "watchr"
   gem "spork", "~> 0.9"
   gem "simplecov"
+  gem "better_errors", :git => "https://github.com/charliesome/better_errors"
   #gem 'marginalia'
 end
 

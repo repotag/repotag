@@ -14,8 +14,12 @@ Repotag::Application.routes.draw do
   namespace :admin do
   	match '/' => 'users#index'
   	resources :users
-    get '/users/:id/set_admin', :controller => Admin::UsersController, :action => :set_admin
+    get '/users/:id/set_admin', :controller => 'admin/users', :action => :set_admin
     resources :repositories
+    resources :settings
+    # match 'email/smtp', to: 
+    get '/email/smtp', :controller => 'settings', :action => :show_smtp_settings
+    put '/email/smtp', :controller => 'settings', :action => :update_smtp_settings
 	end
   
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({

@@ -5,6 +5,7 @@
 		<% if user_signed_in? %>                                                        
 			<%= nav_link 'Repositories', repositories_path %>
 			<%= nav_link current_user.name, "#{users_path}/#{current_user.id}" %> 
+			<%= nav_link 'Administration', admin_path if current_user.admin? %>
     		<li id='nav-right'><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
   		<% else %>
     		<li id='nav-right'><%= link_to 'Login', new_user_session_path %></li>

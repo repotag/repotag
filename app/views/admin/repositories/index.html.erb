@@ -5,6 +5,7 @@
 	  <tr>
 	    <th>Name</th>
 	    <th>Owner</th>
+		<th>Last accessed</th>
 	    <th>Actions</th>  
   	  </tr>
 
@@ -13,6 +14,7 @@
 	  <tr>
 		<td><%= link_to repository.name, repository %></td>      
 		<td><%= repository.owners.first.name%></td>
+		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 		<td><div>
 	    <%= link_to 'Edit', edit_repository_path(repository) %>
 	    <%= link_to 'Destroy', repository, confirm: 'Are you sure?', method: :delete %>
