@@ -16,6 +16,8 @@ gem 'rjgit_grack'
 gem 'cancan'
 gem 'devise'
 
+gem 'twitter-bootswatch-rails'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -66,4 +68,4 @@ gem "omniauth-facebook"
 gem "omniauth-google-oauth2"
 
 #Warble
-gem "warbler"
+gem "warbler", :require => false
