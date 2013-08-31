@@ -30,6 +30,12 @@ ActiveRecord::Schema.define(:version => 20130829215041) do
     t.string   "resource_type"
   end
 
+  create_table "settings", :force => true do |t|
+    t.string   "smtp_settings"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "username",               :default => "", :null => false
     t.string   "email",                  :default => "", :null => false
