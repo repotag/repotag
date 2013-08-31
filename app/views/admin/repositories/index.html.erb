@@ -5,6 +5,7 @@
 	  <tr>
 	    <th>Name</th>
 	    <th>Owner</th>
+		<th>Valid?</th>
 		<th>Last accessed</th>
 	    <th>Actions</th>  
   	  </tr>
@@ -12,12 +13,13 @@
 	<% @repositories.each do |repository| %>
 	<% if repository.valid? %>
 	  <tr>
-		<td><%= link_to repository.name, repository %></td>      
+		<td><%= link_to repository.name, admin_repository_path(repository) %></td>      
 		<td><%= repository.owner.name%></td>
+		<td><%= repository.valid? %></td>
 		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 		<td><div>
-	    <%= link_to 'Edit', edit_repository_path(repository), :class => 'btn btn-primary' %>
-	    <%= link_to 'Destroy', repository, :class => 'btn btn-primary', confirm: 'Are you sure?', method: :delete %>
+	    <%= link_to 'Edit', edit_admin_repository_path(repository), :class => 'btn btn-primary btn-sm' %>
+	    <%= link_to 'Destroy', repository, :class => 'btn btn-primary btn-sm', confirm: 'Are you sure?', method: :delete %>
 		</div></td>
 	  </tr>
 	<% end %>
