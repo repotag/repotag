@@ -1,7 +1,11 @@
 <h2>User profile:</h2>
 <p>
   <b>Name:</b>
-  <%= @user.name %>
+  <%= @user.name %><br/>
+  <b>Email:</b>
+  <%= @user.email %><br/>
+  <b>Number of owned repos:</b>
+  <%= @user.owned_repositories.size %>
 </p>
 
 <%= link_to 'Edit', edit_user_path %>
