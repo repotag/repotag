@@ -59,6 +59,12 @@ class User < ActiveRecord::Base
     end
   end
   
+  def role_for(resource, include_owner = false)
+    return :owner if include_owner && resource.owner == self
+    result = roles.find(:first, :conditions => {:resource_id => resource.id, :resource_type => resource.class.to_s})
+    result == nil ? nil : result.title.to_sym
+  end
+  
   def all_repositories
     repositories + owned_repositories
   end

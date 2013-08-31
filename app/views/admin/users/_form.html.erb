@@ -18,17 +18,18 @@
   </div>
 </div>
 
-<% for role in Role.find(:all) %> 
+<% for role in Repotag::Application.config.global_role_titles %>
   <div class ="control-group">
-   <%= f.label role.title , :class => 'control-label' %>
+   <%= f.label "Global Roles" , :class => 'control-label' %>
       <div class="controls">
-        <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %> 
+        <%= check_box_tag 'global_roles[]', role, @user.has_role?(role) %>
+		<%= role.to_s %>
       </div> 
   </div>
 <% end %>
 
 
 <div class="form-actions">
-  <button class="btn primary" type="submit">Save</button> or
-	<%= link_to "Cancel", admin_users_path %>
+  <button class="btn btn-primary" type="submit">Save</button>
+  <%= link_to "Cancel", admin_users_path, :class => "btn btn-primary" %>
 </div>

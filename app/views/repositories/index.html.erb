@@ -4,7 +4,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Owner</th>
+				<th>Roles</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -14,7 +14,7 @@
 			<% if repository.valid? && can?(:read, repository) then%>
 			<tr>
 				<td><%= link_to repository.name, repository %></td>
-				<td><%= repository.owner.name %></td>
+				<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
 				<td><%= link_to "Edit", edit_repository_path(repository), :class => "btn btn-primary btn-sm" %></td>
 			</tr>
 			<% end %>

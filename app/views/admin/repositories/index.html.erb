@@ -10,10 +10,10 @@
   	  </tr>
 
 	<% @repositories.each do |repository| %>
-	<% if can? :read, repository %>
+	<% if repository.valid? %>
 	  <tr>
 		<td><%= link_to repository.name, repository %></td>      
-		<td><%= repository.owners.first.name%></td>
+		<td><%= repository.owner.name%></td>
 		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 		<td><div>
 	    <%= link_to 'Edit', edit_repository_path(repository) %>

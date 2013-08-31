@@ -24,4 +24,14 @@ module ApplicationHelper
     end
   end
   
+  # Pretty indication of the user's roles (including global roles and ownership) on a resource
+  def role_description(resource, user = current_user)
+    return [:public] unless user
+    result = []
+    result << :admin if user.admin?
+    role = user.role_for(resource, true) 
+    result << role if role
+    result
+  end
+  
 end

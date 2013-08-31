@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_user! unless Repotag::Application.config.anonymous_access == true
   
-  layout 'slate'
+  layout 'spacelab'
   
   # Return the type of code to parse based on a file's mime-type
   def code_type_from_mime(mime_type)
