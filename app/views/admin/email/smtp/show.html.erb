@@ -34,9 +34,10 @@
 			</tr>
 		</table>
 		<% end %>
-		<%= form.submit "Save" %>
+		<%= form.submit "Save", :class => "btn btn-primary btn-large" %>
 	<% end %>
-	
-	<%= button_to "Send Test Mail", :action => 'send_test_mail'%>
-	
+</div>
+
+</div>	
+	<%= button_to "Send Test Mail", {:action => 'send_test_mail'}, :class => "btn btn-primary btn-large"%>
 </div>
