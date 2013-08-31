@@ -1,7 +1,7 @@
 <h1>Listing repositories</h1>
 
 <div>
-	<table class='repo-table'>
+	<table class='table table-striped table-border table-hover'>
 	  <tr>
 	    <th>Name</th>
 	    <th>Owner</th>
@@ -16,8 +16,8 @@
 		<td><%= repository.owner.name%></td>
 		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 		<td><div>
-	    <%= link_to 'Edit', edit_repository_path(repository) %>
-	    <%= link_to 'Destroy', repository, confirm: 'Are you sure?', method: :delete %>
+	    <%= link_to 'Edit', edit_repository_path(repository), :class => 'btn btn-primary' %>
+	    <%= link_to 'Destroy', repository, :class => 'btn btn-primary', confirm: 'Are you sure?', method: :delete %>
 		</div></td>
 	  </tr>
 	<% end %>
@@ -26,4 +26,4 @@
 </div>
 <br />
 
-<%= link_to 'New Repository', new_repository_path %>
+<%= link_to 'New Repository', new_repository_path, :class => 'btn btn-primary' %>
