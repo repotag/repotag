@@ -24,13 +24,16 @@
 	
     <div class="container">
 		
+	<div class="page-header"></div>
+	
+	<%= render 'layouts/messages' %>
 	<div class="page-header">
-		<%= render 'layouts/messages' %>
+	<%= yield %>
 	</div>
 	
-      <div class="page-header">
-		  <%= yield %>
-	  </div>
+	<div class="span3"><a href="#"><i class="icon-coffee"></i> icon-coffee</a></div>
+	  
+    </div>
 
     <!-- Javascripts
     ================================================== -->

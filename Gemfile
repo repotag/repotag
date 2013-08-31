@@ -17,6 +17,7 @@ gem 'cancan'
 gem 'devise'
 
 gem 'twitter-bootswatch-rails'
+gem 'twitter-bootswatch-rails-fontawesome'
 
 # Gems used only for assets and not required
 # in production environments by default.
