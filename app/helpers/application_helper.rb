@@ -28,9 +28,11 @@ module ApplicationHelper
   def role_description(resource, user = current_user)
     result = []
     result << :public if resource.public?
-    result << :admin if user.admin?
-    role = user.role_for(resource, true) 
-    result << role if role
+    result << :admin if user && user.admin?
+    if user then
+      role = user.role_for(resource, true)
+      result << role if role
+    end
     result
   end
   
