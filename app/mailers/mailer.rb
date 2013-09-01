@@ -1,6 +1,6 @@
 class Mailer < ActionMailer::Base
   default :from => "no-reply@repotag.org"
-  default :to => "patrick.pepels@gmail.com"
+  default :to => "repotag@repotag.org"
 
   def new_message(message)
     @message = message
