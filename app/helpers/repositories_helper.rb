@@ -1,15 +1,12 @@
 module RepositoriesHelper
   
-  def image_for_file(file)
+  def image_for_file(file, dir = false)
+    return "fileicons/folder.png" if dir
     type = File.extname(file.to_s).sub(/^\./, '')
     if Rails.configuration.filetypes_with_image.include?(type)
       image = "#{type}.png"
     else 
-      image = case file.type
-        when :directory then 'folder.png'
-        when :file then 'file.png'
-        else 'file.png'
-      end
+      image = 'file.png'
     end
     return "fileicons/#{image}"
   end
