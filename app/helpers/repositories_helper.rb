@@ -1,14 +1,14 @@
 module RepositoriesHelper
   
   def image_for_file(file, dir = false)
-    return "fileicons/folder.png" if dir
+    return "/assets/fileicons/folder.png" if dir
     type = File.extname(file.to_s).sub(/^\./, '')
     if Rails.configuration.filetypes_with_image.include?(type)
       image = "#{type}.png"
     else 
       image = 'file.png'
     end
-    return "fileicons/#{image}"
+    return "/assets/fileicons/#{image}"
   end
   
   # returns an array of repositories that have not been updated in X days

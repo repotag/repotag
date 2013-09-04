@@ -1,11 +1,16 @@
-<h2>Repository: <%= @repository.name %></h2>
-<div><p>Current Path: <b><%= @current_path == '' ? '/' : @current_path %></b></p></div>
+<h3><%= "#{current_user.username} / #{@repository.name}" %></h3>
+<%= select_tag "branch", options_for_select(@repository.repository.branches, "refs/head/master") %>
+<div>
+	<ul class="breadcrumb">
+		<li><%= "#{@repository.name} " %></li>
+		<% unless @current_path == '' %>
+		<li> <%= @current_path %> </li>
+		<% end  %>
+	</ul>
+</div>
 
 <% if params[:file] %>
 <%= render 'fileview' %>
 <% else %>
 <%= render 'dirview' %>
 <% end %>
-
-<%= link_to 'Edit', edit_repository_path(@repository) %> |
-<%= link_to 'Back', repositories_path %>

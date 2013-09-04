@@ -1,3 +1,6 @@
+<h1>Repository Name: <%= @repository.name %></h1>
+<div><p>Current Path: <b><%= @current_path == '' ? '/' : @current_path %></b></p></div>
+
 <% if params[:file] %>
 <%= stylesheet_link_tag "coderay" %>
 <h1>File: <b><%= @current_path[-1,1] == '/' ? @current_path [0,@current_path.length-1] : @current_path %></b></h1></p>
@@ -7,9 +10,6 @@
 num_dirs = @directory_list.length > 0 ? @directory_list.length : "none."
 num_files = @file_list.length > 0 ? @file_list.length : "none."
 %>
-
-<h1>Repository Name: <%= @repository.name %></h1>
-<p>Current Path: <b><%= @current_path == '' ? '/' : @current_path %></b></p>
 
 <p>
 <h3>Directories: <%= num_dirs %></h3>

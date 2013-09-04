@@ -1,23 +1,29 @@
-<%
-num_dirs = @directory_list.length > 0 ? @directory_list.length : "none."
-num_files = @file_list.length > 0 ? @file_list.length : "none."
-%>
+<%= stylesheet_link_tag 'filetree' %>
 
-<p>
-<h3>Directories: <%= num_dirs %></h3>
-<ul id="dirs">
-<% @directory_list.each do |dir| %>	
-<li><%= image_tag(image_for_file(dir[:path], true)) %> <a href="<%= repository_path(@repository,:path=>@current_path+dir[:path])  %>"><%= dir[:path] %></a></li>
-<% end %>
-</ul>
-</p>
+<div>
+	<ol class="tree">
+		<li>
+			<label for="rootfolder"><%= @repository.name %></label> 
+			<input type="checkbox" checked disabled id="rootfolder" />
+			<ol>
+			<% @directory_list.each_with_index do |dir, index| %>	
+				<li>
+					<label for="<%= "folder#{index}"%>"><%= dir[:path] %></label> 
+					<input type="checkbox" id="<%= "folder#{index}"%>" /> 
+					<ol>
+						<li class="file"><a href="">File 2</a></li>
+			            <li class="file"><a href="">File 2</a></li>
+					</ol>
+				</li>
+			<% end %>
+			<% @file_list.each do |file| %>
+				<li class="file">
+					<a style="background: url(<%= image_for_file(file[:path]) %>) 0 0 no-repeat" href="<%= repository_path(@repository,:path=>@current_path+file[:path], :file => true) %>"><%= file[:path] %></a>
+				</li>
+			<% end %>
+			</ol>
+		</li>
+	</ol>
+</div>
 
-<p>
-<h3>Files: <%= num_files %></h3>
-<ul id="files">
-<% @file_list.each do |file| %>
-<li><%= image_tag(image_for_file(file[:path])) %><a href="<%= repository_path(@repository,:path=>@current_path+file[:path], :file => true) %>"><%= file[:path] %></a></li>
-<% end %>
-</ul>
-</p>
-
+<%= link_to 'Back to overview', repositories_path %>

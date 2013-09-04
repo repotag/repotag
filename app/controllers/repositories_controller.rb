@@ -3,7 +3,7 @@ class RepositoriesController < ApplicationController
   # GET /repositories
   # GET /repositories.json
   def index
-    @repositories = Repository.all
+    @repositories = Repository.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +25,6 @@ class RepositoriesController < ApplicationController
     
     if !repository.valid?
       flash[:alert] = "Repository #{@repository.name} does not seem to have a valid git repository."
-      # redirect_to repositories_path, :notice => "Article Created"
       redirect_to :action => :index
     end
       
@@ -41,6 +40,7 @@ class RepositoriesController < ApplicationController
       ls_options = { :recursive => false, :print => false }
       ls_options[:branch] = params[:branch] if params[:branch]
       lstree = RJGit::Porcelain.ls_tree(repository, tree, ls_options)
+    
       if lstree
         lstree.each do |entry| 
         @file_list << entry if entry[:type] == 'blob' 

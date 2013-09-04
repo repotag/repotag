@@ -15,7 +15,7 @@
 	  <tr>
 		<td><%= link_to repository.name, admin_repository_path(repository) %></td>      
 		<td><%= repository.owner.name%></td>
-		<td><%= repository.valid? %></td>
+		<td><i class="<%= repository.repository.valid? ? 'icon-ok' : 'icon-remove' %>"</i></td>
 		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 		<td><div>
 	    <%= link_to 'Edit', edit_admin_repository_path(repository), :class => 'btn btn-primary btn-sm' %>

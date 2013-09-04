@@ -1,3 +1,5 @@
 <%= stylesheet_link_tag "coderay" %>
-<h1>File: <b><%= @current_path[-1,1] == '/' ? @current_path [0,@current_path.length-1] : @current_path %></b></h1></p>
+<h1><b><%= @current_path[-1,1] == '/' ? @current_path [0,@current_path.length-1] : @current_path %></b></h1></p>
 <%= @rendered_text.html_safe %>
+
+<%= link_to 'Back', repository_path(@repository) %>
