@@ -20,24 +20,22 @@ describe "repository" do
   
     it 'displays its name' do
       visit repository_path(@repo)
-      page.should have_content("Repository Name: #{@repo.name}")
+      page.should have_content("#{@repo.name}")
     end
   
     it 'displays its files' do
       visit repository_path(@repo)
-      page.should have_content("Files:")
-      page.should have_xpath("//ul[@id='files']/li") unless page.has_content?("Files: none.")
+      page.should have_xpath("//ol[@class='tree']/li") 
     end
   
     it 'displays its directories' do
       visit repository_path(@repo)
-      page.should have_content("Directories:")
-      page.should have_xpath("//ul[@id='dirs']/li") unless page.has_content?("Directories: none.")
+      page.should have_xpath("//ol[@class='tree']/li") 
     end
   
     it "displays its breadcrumb path" do
       visit repository_path(@repo)
-      page.should have_content("Current Path: /")
+      page.should have_content("/")
     end
     
   end
