@@ -21,3 +21,6 @@ role = Role.create(:title => :owner)
 role.repository_id = repo.id
 role.user_id = user.id
 role.save
+
+smtp_settings = Setting.create(:name => :smtp_settings, :settings => {:address => 'localhost', :port => 25})
+smtp_settings.save
