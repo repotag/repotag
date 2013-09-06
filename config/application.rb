@@ -67,19 +67,9 @@ module Repotag
     # If true, will not redirect to new_user_session_path when not logged in
     config.anonymous_access = false
 
-    config.action_mailer.smtp_settings = {
-   :address              => "smtp.example.org",
-   :port                 => 587,
-   :domain               => "repotag.org",
-   :user_name            => "no-reply@repotag.org",
-   :password             => "supersecret!",
-   :authentication       => :plain,
-   :enable_starttls_auto => true
-   }
-
-  config.action_mailer.default_url_options = {
-    :host => "repotag.org"
-  }
+    config.action_mailer.default_url_options = {
+      :host => "repotag.org"
+    }
         
     def self.list_filetypes
       types = Array.new
