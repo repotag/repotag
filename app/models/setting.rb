@@ -15,4 +15,12 @@ class Setting < ActiveRecord::Base
     setting
   end
   
+  def [](key)
+    settings[key]
+  end
+  
+  def []=(key, value)
+    settings[key] = value
+  end
+  
 end
