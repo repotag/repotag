@@ -2,10 +2,6 @@ class HookMailer < ActionMailer::Base
   default :from => "no-reply@repotag.org"
   default :to => "repotag@repotag.org"
 
-  def commit_hook(user)
-    mail(:to => user.email, :subject => "[Repotag] Hook")
-  end
-  
   def activity_report(user, repository)
     @user = user
     @repository = repository
