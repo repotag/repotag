@@ -1,6 +1,8 @@
 Repotag::Application.routes.draw do
 
-  resources :repositories
+  resources :repositories do
+    get 'get_children', on: :member
+  end
 
   # resources :repositories do
   #         get :show_file

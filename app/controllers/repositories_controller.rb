@@ -43,8 +43,8 @@ class RepositoriesController < ApplicationController
     
       if lstree
         lstree.each do |entry| 
-        @file_list << entry if entry[:type] == 'blob' 
-        @directory_list << entry if entry[:type] == 'tree'
+          @file_list << entry if entry[:type] == 'blob' 
+          @directory_list << entry if entry[:type] == 'tree'
         end
       end
     end
@@ -55,13 +55,43 @@ class RepositoriesController < ApplicationController
 
   end
 
+  def get_children
+    repository = Repository.find(params[:id])
+    path = params[:path]
+    Rails.logger.debug path
+    repo = repository.repository
+    begin
+      tree = repo.tree(path)
+      Rails.logger.debug "Tree for #{path}: #{tree.inspect}"
+    rescue
+      raise ActionController::RoutingError.new("Oops! Could not find the object '#{path}'.")
+    end
+    @directory_list, @file_list = [], []
+    ls_options = { :recursive => false, :print => false }
+    ls_options[:branch] = params[:branch] if params[:branch]
+    lstree = RJGit::Porcelain.ls_tree(repo, tree, ls_options)
+    
+    Rails.logger.debug "lstree: #{lstree}"   
+    if lstree
+      lstree.each do |entry| 
+        @file_list << entry if entry[:type] == 'blob' 
+        @directory_list << entry if entry[:type] == 'tree'
+      end
+    end
+    Rails.logger.debug "files: #{@file_list}"
+    Rails.logger.debug "dirs: #{@directory_list}"
+    respond_to do |format|
+      format.json { render json: {:dirs => @directory_list, :files => @file_list} }
+    end
+  end
+
   def prepare_fileview(repository)
     begin
       blob = repository.blob(params[:path])
     rescue
       raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
     end
-    @rendered_text = CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
+    CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
   end
 
   # GET /repositories/new

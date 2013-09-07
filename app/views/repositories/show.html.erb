@@ -1,6 +1,6 @@
 <h3><%= "#{current_user.username} / #{@repository.name}" %></h3>
 <%= select_tag "branch", options_for_select(@repository.repository.branches, "refs/head/master") %>
-<div>
+<div class="breadcrumb-container">
 	<ul class="breadcrumb">
 		<li><%= "#{@repository.name} " %></li>
 		<% unless @current_path == '' %>

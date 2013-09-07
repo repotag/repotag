@@ -1,6 +1,9 @@
 <%= stylesheet_link_tag 'filetree' %>
+<%= javascript_include_tag 'application' %>
+<%= javascript_include_tag 'repositories' %>
 
-<div>
+
+<div class="tree-container" data-repo-id="<%= @repository.id%>" >
 	<ol class="tree">
 		<li>
 			<label for="rootfolder"><%= @repository.name %></label> 
@@ -9,10 +12,9 @@
 			<% @directory_list.each_with_index do |dir, index| %>	
 				<li>
 					<label for="<%= "folder#{index}"%>"><%= dir[:path] %></label> 
-					<input type="checkbox" id="<%= "folder#{index}"%>" /> 
-					<ol>
-						<li class="file"><a href="">File 2</a></li>
-			            <li class="file"><a href="">File 2</a></li>
+					<input type="checkbox" id="<%= "folder#{index}"%>" data-path="<%= dir[:path] %>" data-folderid="<%= "#{index}" %>" class="dirs"/> 
+					<ol id="<%= "subtree#{index}"%>">
+
 					</ol>
 				</li>
 			<% end %>
