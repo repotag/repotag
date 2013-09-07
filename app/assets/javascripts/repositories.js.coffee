@@ -5,6 +5,7 @@
 root = exports ? this
 
 root.getSubDirs = (element) ->
+	console.log(element.data())
 	repo_id = $('.tree-container').data("repo-id")
 	$.ajax "/repositories/#{repo_id}/get_children",
 	type: 'GET'
@@ -18,7 +19,7 @@ root.getSubDirs = (element) ->
 
 
 root.expandTree = (element, data) ->
-
+	repo_id = $('.tree-container').data("repo-id")
 	subTreeHtml = ''
 	for i in [0...data['dirs'].length]
 		subTreeHtml += '<li>'
@@ -29,18 +30,17 @@ root.expandTree = (element, data) ->
 		
 	for i in [0...data['files'].length]
 		subTreeHtml += "<li class='file'>"
-		subTreeHtml += "<a href=''>#{data['files'][i]['path']}</a>"
+		subTreeHtml += "<a href='/repositories/#{repo_id}?file=true&path=#{data['files'][i]['path']}'>#{data['files'][i]['path']}</a>"
 		subTreeHtml += '</li>'
 
-	console.log(subTreeHtml)
-	
-	$("#subtree0").html subTreeHtml
-	# $("#subtree#{element.data('folder-id')}").html subTreeHtml
+	# console.log(subTreeHtml)
+	# Insert the html
+	$("#subtree#{element.data('folderid')}").html subTreeHtml
 
 $(document).ready ->
 	$('input:checkbox').change( (event) -> 
 		dir = $(this)
-		console.log(dir)
+		console.log($(this).data())
 		#dir = event.target
 		root.getSubDirs(dir) if this.checked )
 		
