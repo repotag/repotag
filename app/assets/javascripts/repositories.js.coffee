@@ -30,7 +30,7 @@ root.expandTree = (element, data) ->
 		
 	for i in [0...data['files'].length]
 		subTreeHtml += "<li class='file'>"
-		subTreeHtml += "<a href='/repositories/#{repo_id}?file=true&path=#{data['files'][i]['path']}'>#{data['files'][i]['path']}</a>"
+		subTreeHtml += "<a style='background: url(#{data['files'][i]['image']} ) 0 0 no-repeat' href='/repositories/#{repo_id}?file=true&path=#{data['files'][i]['fullpath']}'>#{data['files'][i]['path']}</a>"
 		subTreeHtml += '</li>'
 
 	# console.log(subTreeHtml)

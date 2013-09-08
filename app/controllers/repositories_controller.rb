@@ -74,7 +74,11 @@ class RepositoriesController < ApplicationController
     Rails.logger.debug "lstree: #{lstree}"   
     if lstree
       lstree.each do |entry| 
-        @file_list << entry if entry[:type] == 'blob' 
+        if entry[:type] == 'blob'
+          entry[:image] = view_context.image_for_file(entry[:path])
+          entry[:fullpath] = File.join(path, entry[:path])
+          @file_list << entry
+        end
         @directory_list << entry if entry[:type] == 'tree'
       end
     end
