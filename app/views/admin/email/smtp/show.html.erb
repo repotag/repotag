@@ -1,11 +1,14 @@
 <%= stylesheet_link_tag 'bootstrap-editable' %>
 
 <div class='settings-table'>
-	<table>
+	<table class="table table-striped table-border table-hover" style="width: auto;">
+	  <thead>
 	  <tr>
 	    <th align='left'>Key</th>
 	    <th align='left'>Value</th>
   	  </tr>
+      </thead>
+	  <tbody>
 	<%= form_for([:admin, @smtp_settings], :url => '/admin/email/smtp') do |form| %>
 		<%= form.fields_for :smtp_settings do |field| %>
 			<tr>
@@ -34,6 +37,7 @@
 				<td><%= field.label 'StartTLS:' %></td>
 				<td><a href="#" id="smtp_starttls"><%= @smtp_settings[:enable_starttls_auto] == 0 ? "false" : "true" %></a></td>
 			</tr>
+		</tbody>
 		</table>
 		<% end %>
 	<% end %>
