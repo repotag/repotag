@@ -26,6 +26,7 @@ class RepositoriesController < ApplicationController
     if !repository.valid?
       flash[:alert] = "Repository #{@repository.name} does not seem to have a valid git repository."
       redirect_to :action => :index
+      return false
     end
       
     if params[:file] 
