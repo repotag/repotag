@@ -58,7 +58,7 @@ class RepositoriesController < ApplicationController
 
   def get_children
     repository = Repository.find(params[:id])
-    path = params[:path] == '' ? nil : params[:path]
+    path = params[:path].empty? ? nil : params[:path]
     repo = repository.repository
     branch = params[:branch] || "refs/heads/master"
     begin
