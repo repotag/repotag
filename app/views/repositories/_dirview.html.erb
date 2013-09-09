@@ -12,7 +12,7 @@
 			<% @directory_list.each_with_index do |dir, index| %>	
 				<li class="dir">
 					<label for="<%= "folder#{index}"%>"><%= dir[:path] %></label>
-					<input type="checkbox" id="<%= "folder#{index}"%>" data-path="<%= dir[:path] %>" data-folderid="<%= "#{index}" %>" class="dirs"/>
+					<input type="checkbox" id="<%= "folder#{index}"%>" data-path="<%= dir[:path] %>" data-branch="<%= params[:branch] %>" data-folderid="<%= "#{index}" %>" class="dirs"/>
 					<ol id="<%= "subtree#{index}"%>">
 
 					</ol>
@@ -20,7 +20,7 @@
 				<% end %>
 				<% @file_list.each do |file| %>
 				<li class="file">
-					<a style="background: url(<%= image_for_file(file[:path]) %>) 0 0 no-repeat" href="<%= repository_path(@repository,:path=>@current_path+file[:path], :file => true) %>"><%= file[:path] %></a>
+					<a style="background: url(<%= image_for_file(file[:path]) %>) 0 0 no-repeat" href="<%= repository_path(@repository,:path=>File.join(@current_path+file[:path]), :file => true, :branch => params[:branch]) %>"><%= file[:path] %></a>
 				</li>
 				<% end %>
 			</ol>
@@ -37,7 +37,7 @@
 		<% end %>
 		<% @file_list.each do |file| %>
 		<tr>
-			<td><i class="<%= image_for_file(file[:path]) %>"></i><a href="<%= repository_path(@repository,:path=>@current_path+file[:path], :file => true) %>"><%= file[:path] %></a></td>
+			<td><i class="<%= image_for_file(file[:path]) %>"></i><a href="<%= repository_path(@repository,:path=>File.join(@current_path+file[:path]), :file => true, :branch => params[:branch]) %>"><%= file[:path] %></a></td>
 		</tr>
 		<% end %>
 	</table>

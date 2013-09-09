@@ -1,16 +1,40 @@
-<h3><%= "#{current_user.username} / #{@repository.name}" %></h3>
-<%= select_tag "branch", options_for_select(@repository.repository.branches, "refs/head/master") %>
-<div class="breadcrumb-container">
-	<ul class="breadcrumb">
-		<li><%= "#{@repository.name} " %></li>
-		<% unless @current_path == '' %>
-		<li> <%= @current_path %> </li>
-		<% end  %>
-	</ul>
+<div class="row">
+	<div class="col-lg-6">
+		<h3><%= link_to @repository.owner.username, @repository.owner %> / <%= @repository.name %></h3>
+		<ul class="breadcrumb">
+			<li><%= link_to @repository.name, @repository %></li>
+			<% unless @current_path == '' then
+			total_path = [];
+			paths = @current_path.split('/')
+			last = paths.pop
+			  paths.each do |path|
+			    total_path << path %>
+			      <li><%= link_to path, :controller => "repositories", :action => "show", :id => @repository.id, :path => total_path.join("/") %></li>
+			  <% end %>
+			<li class="active"><%= last %></li>
+			<% end %>
+		</ul>
+	</div>
+</div>
+<div class="row" style="margin-bottom: 10px;">
+	<div class="col-lg-6">
+	<div class="btn-group">
+	  <button type="button" class="btn btn-primary btn-sm"><%= current_branch = params[:branch] || "refs/heads/master" %></button>
+	  <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown"><span class="caret"></span></button>
+	  <ul class="dropdown-menu">
+		<li class="active"><a href="#"><%= current_branch %></a></li>
+		<% (@repository.repository.branches - [current_branch]).each do |branch| %>
+		<li><%= link_to branch, :controller => "repositories", :action => "show", :id => @repository.id, :path => @current_path, :branch => branch %></li>
+		<% end %>
+	  </ul>
+	</div>
+</div>
 </div>
 
+<div class="row">
 <% if params[:file] %>
 <%= render 'fileview' %>
 <% else %>
 <%= render 'dirview' %>
 <% end %>
+</div>

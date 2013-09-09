@@ -20,7 +20,7 @@ class RepositoriesController < ApplicationController
       return false
     end
     
-    @current_path = params[:path].nil? ? '' : params[:path][-1, 1] == '/' ? params[:path] : params[:path] + '/'
+    @current_path = params[:path].nil? ? '' : params[:path]
     repository = @repository.repository
     
     if !repository.valid?
@@ -28,18 +28,18 @@ class RepositoriesController < ApplicationController
       redirect_to :action => :index
       return false
     end
-      
+    
+    branch = params[:branch] || "refs/heads/master"
     if params[:file] 
-      @rendered_text = prepare_fileview(repository)
+      @rendered_text = prepare_fileview(repository, branch)
     else
       begin
-        tree = params[:path] ? repository.tree(params[:path]) : nil
+        tree = @current_path.empty? ? nil : repository.tree(@current_path, branch)
       rescue
         raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
       end
       @directory_list, @file_list = [], []
-      ls_options = { :recursive => false, :print => false }
-      ls_options[:branch] = params[:branch] if params[:branch]
+      ls_options = { :recursive => false, :print => false, :branch => branch }
       lstree = RJGit::Porcelain.ls_tree(repository, tree, ls_options)
     
       if lstree
@@ -58,18 +58,17 @@ class RepositoriesController < ApplicationController
 
   def get_children
     repository = Repository.find(params[:id])
-    path = params[:path]
-    Rails.logger.debug path
+    path = params[:path] == '' ? nil : params[:path]
     repo = repository.repository
+    branch = params[:branch] || "refs/heads/master"
     begin
-      tree = repo.tree(path)
+      tree = repo.tree(path, branch)
       Rails.logger.debug "Tree for #{path}: #{tree.inspect}"
     rescue
       raise ActionController::RoutingError.new("Oops! Could not find the object '#{path}'.")
     end
     @directory_list, @file_list = [], []
-    ls_options = { :recursive => false, :print => false }
-    ls_options[:branch] = params[:branch] if params[:branch]
+    ls_options = { :recursive => false, :print => false, :branch => branch }
     lstree = RJGit::Porcelain.ls_tree(repo, tree, ls_options)
     
     Rails.logger.debug "lstree: #{lstree}"   
@@ -90,9 +89,9 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  def prepare_fileview(repository)
+  def prepare_fileview(repository, branch)
     begin
-      blob = repository.blob(params[:path])
+      blob = repository.blob(params[:path], branch)
     rescue
       raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
     end

@@ -10,7 +10,7 @@ root.getSubDirs = (element) ->
 	$.ajax "/repositories/#{repo_id}/get_children",
 	type: 'GET'
 	dataType: 'json'
-	data: "path=#{element.data('path')}"
+	data: "path=#{element.data('path')}&branch=#{element.data('branch')}"
 	error: (jqXHR, textStatus, errorThrown) ->
 		$('body').append "AJAX Error: #{textStatus}"
 	success: (data, textStatus, jqXHR) ->
