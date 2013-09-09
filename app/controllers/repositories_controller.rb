@@ -35,8 +35,11 @@ class RepositoriesController < ApplicationController
     else
       begin
         tree = @current_path.empty? ? nil : repository.tree(@current_path, branch)
+        raise if tree.nil? && !@current_path.empty? 
       rescue
-        raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
+        flash[:alert] = "Path #{@current_path} not found in branch #{branch}."
+        redirect_to :action => :show, :branch => branch
+        return false
       end
       @directory_list, @file_list = [], []
       ls_options = { :recursive => false, :print => false, :branch => branch }
