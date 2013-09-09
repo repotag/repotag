@@ -5,7 +5,7 @@ ol.tree
 	padding: 0 0 0 30px;
 	width: 300px;
 }
-	li 
+	li.dir
 	{ 
 		position: relative; 
 		margin-left: -15px;
