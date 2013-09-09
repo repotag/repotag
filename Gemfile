@@ -18,6 +18,7 @@ gem 'devise'
 
 gem 'twitter-bootswatch-rails'
 gem 'twitter-bootswatch-rails-fontawesome', :git => 'git://github.com/dometto/twitter-bootswatch-rails-fontawesome.git'
+gem 'bootstrap-x-editable-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -4,28 +4,18 @@
 
 
 <div class="tree-container" data-repo-id="<%= @repository.id%>" >
-	<ol class="tree">
-		<li>
-			<label for="rootfolder"><%= @repository.name %></label> 
-			<input type="checkbox" checked disabled id="rootfolder" />
-			<ol>
-			<% @directory_list.each_with_index do |dir, index| %>	
-				<li>
-					<label for="<%= "folder#{index}"%>"><%= dir[:path] %></label> 
-					<input type="checkbox" id="<%= "folder#{index}"%>" data-path="<%= dir[:path] %>" data-folderid="<%= "#{index}" %>" class="dirs"/> 
-					<ol id="<%= "subtree#{index}"%>">
-
-					</ol>
-				</li>
-			<% end %>
-			<% @file_list.each do |file| %>
-				<li class="file">
-					<a style="background: url(<%= image_for_file(file[:path]) %>) 0 0 no-repeat" href="<%= repository_path(@repository,:path=>@current_path+file[:path], :file => true) %>"><%= file[:path] %></a>
-				</li>
-			<% end %>
-			</ol>
-		</li>
-	</ol>
+	<table class="table table-striped table-bordered table-hover">
+		<% @directory_list.each_with_index do |dir, index| %>	
+		<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
+			<td><i class="icon-folder-close"></i> <%= dir[:path] %></td>
+		</tr>
+		<% end %>
+		<% @file_list.each do |file| %>
+		<tr>
+			<td><a style="background: url(<%= image_for_file(file[:path]) %>) 0 0 no-repeat" href="<%= repository_path(@repository,:path=>@current_path+file[:path], :file => true) %>"><%= file[:path] %></a></td>
+		</tr>
+		<% end %>
+	</table>
 </div>
 
 <%= link_to 'Back to overview', repositories_path %>

@@ -211,6 +211,8 @@ Devise.setup do |config|
   google_app_id = "987518045064.apps.googleusercontent.com"
   google_app_se = "WFV0NzZaqwL_Kxo1KVne9aKn"
   config.omniauth :google_oauth2, google_app_id, google_app_se, { :access_type=> "offline", :approval_promt=> "" }
+  
+  config.secret_key = '6f4819f5582f3ebc60f88ee14fa678e74d72261dc0cab022a35321919f726fc4e552c6f3cf3ee6f3d33b118f223ce21266fa796d4527df6f8b7573093548f2fe'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

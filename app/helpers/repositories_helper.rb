@@ -12,7 +12,7 @@ module RepositoriesHelper
   end
   
   # returns an array of repositories that have not been updated in X days
-  def dormant_repos(days)   
+  def dormant_repos(days)
     Repository.where("updated_at < ?", (Time.now - days.day))
   end
 
