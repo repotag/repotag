@@ -30,8 +30,14 @@ class RepositoriesController < ApplicationController
     end
     
     branch = params[:branch] || "refs/heads/master"
-    if params[:file] 
-      @rendered_text = prepare_fileview(repository, branch)
+    if params[:file]
+      begin
+        @rendered_text = prepare_fileview(repository, branch)
+      rescue
+        flash[:alert] = "Blob #{@current_path} not found in branch #{branch}."
+        redirect_to :action => :show, :branch => branch       
+        return false
+      end
     else
       begin
         tree = @current_path.empty? ? nil : repository.tree(@current_path, branch)
@@ -93,11 +99,8 @@ class RepositoriesController < ApplicationController
   end
 
   def prepare_fileview(repository, branch)
-    begin
-      blob = repository.blob(params[:path], branch)
-    rescue
-      raise ActionController::RoutingError.new("Oops! Could not find the object '#{params[:path]}'.")
-    end
+    blob = repository.blob(params[:path], branch)
+    raise if blob == nil
     CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
   end
 
