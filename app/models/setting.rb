@@ -4,8 +4,6 @@ class Setting < ActiveRecord::Base
   
   validates_presence_of :name
   
-  SMTP_DEFAULTS = {:address => 'localhost', :port => 1025}
-  
   def self.get(name)
     setting = Setting.where(:name => name).first_or_create!
     if setting.settings.nil?
