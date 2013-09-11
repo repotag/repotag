@@ -1,0 +1,24 @@
+<%= stylesheet_link_tag 'bootstrap-editable' %>
+
+<div class='settings-table'>
+	<table class="table table-striped table-border table-hover" style="width: auto;">
+	  <thead>
+	  <tr>
+	    <th align='left'>Key</th>
+	    <th align='left'>Value</th>
+  	  </tr>
+      </thead>
+	  <tbody>
+	<%= form_for([:admin, @general_settings], :url => '/admin/settings/general') do |form| %>
+		<%= form.fields_for :general_settings do |field| %>
+			<tr>
+				<td><%= field.label 'Repository Root:' %></td>
+				<td><a href="#" id="general_repo_root"><%= @general_settings[:repo_root] %></a></td>
+			</tr>
+		</tbody>
+		</table>
+		<% end %>
+	<% end %>
+</div>
+
+

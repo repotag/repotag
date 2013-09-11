@@ -1,6 +1,37 @@
 class Admin::SettingsController < Admin::AdminController
   load_and_authorize_resource
+
+  # General Settings
   
+  def show_general_settings
+    @general_settings = Setting.get(:general_settings)
+    
+    respond_to do |format|
+      format.html { render 'admin/settings/general/show'}
+      format.json { render :json => @general_settings }
+    end
+    
+  end
+  
+  def update_general_settings
+    Rails.logger.debug params
+    updated_key = params[:name].to_sym
+    Rails.logger.debug updated_key
+    
+    valid_keys = [:repo_root]
+    if valid_keys.include?(updated_key)
+    
+      @general_settings = Setting.get(:general_settings)
+      @general_settings[updated_key] = params[:value]
+      @general_settings.save
+      render '/admin/settings/general/show'
+    end
+  end
+  
+  # Authentication Settings
+
+
+  # SMTP Settings
   def show_smtp_settings
     @smtp_settings = Setting.get(:smtp_settings)
     

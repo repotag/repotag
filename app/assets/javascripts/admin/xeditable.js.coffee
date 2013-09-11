@@ -16,14 +16,14 @@ $(document).ready ->
 		type: 'text'
 		pk: 1
 		url: '/admin/email/smtp'
-		title: 'Enter username' )
+		title: 'Enter port number' )
 		
 	$('#smtp_domain').editable(
 		name: 'port'
 		type: 'text'
 		pk: 1
 		url: '/admin/email/smtp'
-		title: 'Enter username' )
+		title: 'Enter domain' )
 		
 	$('#smtp_user_name').editable(
 		name: 'user_name'
@@ -58,3 +58,10 @@ $(document).ready ->
 		source: [ 
 			{ value: 0, text: 'false' }
 			{ value: 1, text: 'true' } ])
+			
+	$('#general_repo_root').editable(
+		name: 'repo_root'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enter root directory' )
