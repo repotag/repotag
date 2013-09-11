@@ -15,12 +15,19 @@ class Setting < ActiveRecord::Base
     setting
   end
   
+  alias_method :a_r_reader, :[]
   def [](key)
-    settings[key]
+    return settings[key] if settings[key]
+    self.send(:a_r_reader, key)
   end
   
+  alias_method :a_r_writer, :[]=
   def []=(key, value)
-    settings[key] = value
+    unless self.send(:a_r_reader, key).nil?
+      self.send(:a_r_writer, key, value)
+    else
+      settings[key] = value
+    end
   end
   
 end
