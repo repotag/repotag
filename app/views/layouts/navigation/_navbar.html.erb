@@ -11,7 +11,9 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
   		<% if user_signed_in? %>                                                        
-  			<%= nav_link 'Repositories', repositories_path %>
+  			<%= nav_link 'My Repositories', repositories_path %>
+			</ul>
+			<ul class="nav navbar-nav pull-right">
 			<% if current_user.admin? then %>
 			<li class="dropdown">
 			  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
