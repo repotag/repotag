@@ -65,3 +65,15 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/general'
 		title: 'Enter root directory' )
+		
+	$('#general_anonymous_access').editable(
+		name: 'anonymous_access'
+		type: 'select'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Allow Anonymous Access'
+		value: 'true'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)

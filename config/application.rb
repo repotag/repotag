@@ -62,10 +62,6 @@ module Repotag
     
     config.role_titles = [:watcher, :contributor]
     config.global_role_titles = [:admin]
-    config.datadir = '/tmp/repos'
-    
-    # If true, will not redirect to new_user_session_path when not logged in
-    config.anonymous_access = false
 
     config.action_mailer.default_url_options = {
       :host => "repotag.org"

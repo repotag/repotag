@@ -18,7 +18,7 @@ class Admin::SettingsController < Admin::AdminController
     updated_key = params[:name].to_sym
     Rails.logger.debug updated_key
     
-    valid_keys = [:repo_root]
+    valid_keys = [:repo_root, :anonymous_access]
     if valid_keys.include?(updated_key)
     
       @general_settings = Setting.get(:general_settings)

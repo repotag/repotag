@@ -12,7 +12,7 @@ class Repository < ActiveRecord::Base
   validates_presence_of :owner
       
   def filesystem_path
-    File.join(Repotag::Application.config.datadir, filesystem_name)
+    File.join(Setting.get(:general_settings)[:repo_root], filesystem_name)
   end
   
   def filesystem_name

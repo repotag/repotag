@@ -31,7 +31,7 @@ Repotag::Application.routes.draw do
 	end
   
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({
-      :project_root => Repotag::Application.config.datadir,
+      :project_root => Setting.get(:general_settings)[:repo_root],
       :adapter => Grack::RJGitAdapter,
       :upload_pack => true,
       :receive_pack => true,

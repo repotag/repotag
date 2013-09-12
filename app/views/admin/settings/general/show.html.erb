@@ -15,6 +15,10 @@
 				<td><%= field.label 'Repository Root:' %></td>
 				<td><a href="#" id="general_repo_root"><%= @general_settings[:repo_root] %></a></td>
 			</tr>
+			<tr>
+				<td><%= field.label 'Allow Anonymous Access:' %></td>
+				<td><a href="#" id="general_anonymous_access"><%= @general_settings[:anonymous_access] == "0" ? 'false' : 'true' %></a></td>
+			</tr>
 		</tbody>
 		</table>
 		<% end %>

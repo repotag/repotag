@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :authenticate_user! unless Repotag::Application.config.anonymous_access == true
+  before_filter :authenticate_user! unless Setting.get(:general_settings)[:anonymous_access] 
   
   layout 'spacelab'
   
