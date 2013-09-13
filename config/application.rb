@@ -58,7 +58,6 @@ module Repotag
     config.assets.version = '1.0'
     
     # Custom config settings
-    # To access in ActiveAdmin, use Rails.configuration
     
     config.role_titles = [:watcher, :contributor]
     config.global_role_titles = [:admin]
@@ -66,16 +65,6 @@ module Repotag
     config.action_mailer.default_url_options = {
       :host => "repotag.org"
     }
-        
-    def self.list_filetypes
-      types = Array.new
-      Dir.glob(File.join(Rails.root, "/app/assets/images/fileicons/*.png")).each do |f|
-        types << File.basename(f, '.png')
-      end
-      return types
-    end
-    
-    config.filetypes_with_image = list_filetypes
     
   end
 end
