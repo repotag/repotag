@@ -4,7 +4,8 @@
  <thead>
   <tr>
     <th>ID</th>
-        <th>
+	<th>Username</th>
+    <th>
       <%= t("activerecord.attributes.user.email", :default => t("activerecord.labels.email", :default => "Email")) %>
     </th>
     <th>Created at</th>
@@ -16,18 +17,22 @@
   <% @users.each do |user| -%>
    <tr>
     <td><%= user.id %></td>
+	<td><%= user.username %></td>
     <td><%= link_to user.email, admin_user_path(user) %>
     </td>
     <td><%= user.created_at %></td>
 	<td><i class="<%= user.admin? ? 'icon-ok' : 'icon-remove' %>"</i></td>
     <td>
-      <%= link_to "Show", admin_user_path(user), :class => "btn btn-primary btn-sm" %>
-      <%= link_to "Edit", edit_admin_user_path(user), :class => "btn btn-primary btn-sm" %>
-     <%= link_to "Destroy", admin_user_path(user), :class => "btn btn-primary btn-sm", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+      <%= link_to edit_admin_user_path(user), :class => "btn" do %>
+	 	<i class="icon-edit icon-white"></i>
+	  <% end %>
+     <%= link_to admin_user_path(user), :class => "btn", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
+	 	<i class="icon-trash icon-white"></i>
+	 <% end %>
     </td>
     </tr>
     <% end -%>
    </tbody>
 </table>
 
-<%= link_to "New", new_admin_user_path, :class => 'btn btn-primary' %>
+<%= link_to "Add new user", new_admin_user_path, :class => 'btn btn-primary' %>

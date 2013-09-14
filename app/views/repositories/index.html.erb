@@ -14,7 +14,10 @@
 			<tr>
 				<td><%= link_to repository.name, repository %></td>
 				<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
-				<td><%= link_to "Edit", edit_repository_path(repository), :class => "btn btn-primary btn-sm" %></td>
+				<td><%= link_to edit_repository_path(repository), :class => "btn" do %>
+				 	<i class="icon-edit icon-white"></i>
+				<% end %>
+				</td>
 			</tr>
 			<% end %>
 			<% end %>
