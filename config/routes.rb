@@ -8,7 +8,7 @@ Repotag::Application.routes.draw do
   #         get :show_file
   #       end
 
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   
   # Allow users to edit their own info
   resources :users
