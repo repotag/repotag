@@ -29,7 +29,14 @@ class Admin::SettingsController < Admin::AdminController
   end
   
   # Authentication Settings
-
+  def show_authentication_settings
+    @authentication_settings = Setting.get(:authentication_settings)
+    
+    respond_to do |format|
+      format.html { render 'admin/settings/authentication/show'}
+      format.json { render :json => @authentication_settings }
+    end
+  end
 
   # SMTP Settings
   def show_smtp_settings

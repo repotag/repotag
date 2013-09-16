@@ -1,0 +1,26 @@
+<%= stylesheet_link_tag 'bootstrap-editable' %>
+
+<div class='settings-table'>
+	<table class="table table-striped table-border table-hover" style="width: auto;">
+	  <thead>
+	  <tr>
+	    <th align='left'>Key</th>
+	    <th align='left'>Value</th>
+  	  </tr>
+      </thead>
+	  <tbody>
+	<%= form_for([:admin, @authentication_settings], :url => '/admin/settings/authentication') do |form| %>
+		<%= form.fields_for :authentication_settings do |field| %>
+			<tr>
+				<td><%= field.label 'Enable Google Authentication:' %></td>
+				<td><%= field.check_box @authentication_settings[:auth_google] %></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Enable Facebook Authentication:' %></td>
+				<td><%= field.check_box @authentication_settings[:auth_facebook] %></td>
+			</tr>
+		</tbody>
+		</table>
+		<% end %>
+	<% end %>
+</div>

@@ -22,6 +22,9 @@ Repotag::Application.routes.draw do
     get '/settings/general', :controller => 'settings', :action => :show_general_settings
     put '/settings/general', :controller => 'settings', :action => :update_general_settings
     
+    get '/settings/authentication', :controller => 'settings', :action => :show_authentication_settings
+    put '/settings/authentication', :controller => 'settings', :action => :update_authentication_settings
+    
     resources :settings
     # match 'email/smtp', to: 
     get '/email/smtp', :controller => 'settings', :action => :show_smtp_settings
