@@ -108,6 +108,7 @@ class RepositoriesController < ApplicationController
   # GET /repositories/new.json
   def new
     @repository = Repository.new
+    @repository.owner = current_user
 
     respond_to do |format|
       format.html # new.html.erb

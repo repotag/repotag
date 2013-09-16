@@ -1,27 +1,30 @@
-<h1>Listing repositories</h1>
-	<table class='table table-striped table-hover'>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Roles</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
+<% if @repositories.empty? %>
+	<h3>You don't have any repositories yet. Click <%= link_to 'here', repositories_new_path %> to create your first!</h3>
+<% else %>
+	<h1>Listing repositories</h1>
+		<table class='table table-striped table-hover'>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Roles</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
 
-		<tbody>
-			<% @repositories.each do |repository| %>
-			<% if repository.valid? && can?(:read, repository) then%>
-			<tr>
-				<td><%= link_to repository.name, repository %></td>
-				<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
-				<td><%= link_to edit_repository_path(repository), :class => "btn" do %>
-				 	<i class="icon-edit icon-white"></i>
+			<tbody>
+				<% @repositories.each do |repository| %>
+				<% if repository.valid? && can?(:read, repository) then%>
+				<tr>
+					<td><%= link_to repository.name, repository %></td>
+					<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
+					<td><%= link_to edit_repository_path(repository), :class => "btn" do %>
+					 	<i class="icon-edit icon-white"></i>
+					<% end %>
+					</td>
+				</tr>
 				<% end %>
-				</td>
-			</tr>
-			<% end %>
-			<% end %>
-	</table>
-<br />
-
+				<% end %>
+		</table>
+	<br />
+<% end %>
 <%= link_to "New Repository", new_repository_path, :class => "btn btn-primary" %>
