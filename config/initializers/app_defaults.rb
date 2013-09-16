@@ -16,5 +16,19 @@ def set_smtp_defaults
   end
 end
 
+AUTH_PROVIDERS = [:google_oath2, :facebook, :github]
+
+def set_authentication_defaults
+  s = Setting.where(:name => :authentication_settings).first
+  if s.nil?
+    default_settings = {}
+    AUTH_PROVIDERS.each do |provider|
+      default_settings[provider] = {:app_id => nil, :app_secret => nil}
+    end
+    Setting.create(:name => :authentication_settings, :settings => default_settings)
+  end
+end
+
 set_general_defaults
 set_smtp_defaults
+set_authentication_defaults
