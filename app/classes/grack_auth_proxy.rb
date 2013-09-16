@@ -8,6 +8,7 @@ class GrackAuthProxy
     base_path = @env['PATH_INFO'].match(/^\/[\w]+\/[\w]+/).to_s
     return not_found if base_path == ""
     repository = find_repository(base_path)
+    Rails.logger.debug "the repository found for #{base_path}: #{repository}"
     return not_found if repository.nil?
     user = authenticated?
     if user.blank? then

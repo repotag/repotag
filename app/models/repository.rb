@@ -55,7 +55,7 @@ class Repository < ActiveRecord::Base
     user = elements[1]
     repo = elements[2]
     user = User.find(:first, :conditions => {:username => user})
-    user ? user.repositories.find {|r| r.name == repo && r.owner == user} : nil
+    user ? user.owned_repositories.find {|r| r.name == repo} : nil
   end
   
   def to_json
