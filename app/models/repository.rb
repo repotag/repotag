@@ -4,6 +4,7 @@ class Repository < ActiveRecord::Base
   
   has_many :roles, :dependent => :destroy
   has_many :users, :through => :roles, :as => :resource
+  has_one :setting
   belongs_to :owner, :class_name => 'User'
   
   attr_accessible :name, :public
