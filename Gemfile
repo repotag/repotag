@@ -60,7 +60,8 @@ group :test, :development do
   gem "spork", "~> 0.9"
   gem "simplecov"
   gem "better_errors", :git => "https://github.com/charliesome/better_errors"
-  #gem 'marginalia'
+  gem 'brakeman', :require => false
+  gem "rails_best_practices", :require => false
 end
 
 gem 'coderay', '~> 1.0'
@@ -68,6 +69,7 @@ gem 'coderay', '~> 1.0'
 #Authentication
 gem "omniauth-facebook"
 gem "omniauth-google-oauth2"
+gem "omniauth-github"
 
 #Warble
 gem "warbler", :require => false
