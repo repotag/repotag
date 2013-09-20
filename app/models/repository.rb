@@ -9,7 +9,7 @@ class Repository < ActiveRecord::Base
   
   attr_accessible :name, :public
   
-  validates :name, :presence => true, :format => {:with => /^[\w]+$/ , :message => "name contains illegal characters"}
+  validates :name, :presence => true, :format => {:with => /\A[\w]+\z/ , :message => "name contains illegal characters"}
   validates_presence_of :owner
       
   def filesystem_path
