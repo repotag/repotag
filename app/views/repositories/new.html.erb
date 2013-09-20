@@ -1,6 +1,6 @@
 <h1>New repository</h1>
 
-<%- if can?(:manage) @repository %>
+<% if can?(:read, @repository) then %>
 	<%= render 'form' %>
-<%- end %>
+<% end %>
 <%= link_to 'Back', repositories_path %>

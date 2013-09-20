@@ -7,13 +7,13 @@
 	    <th>Owner</th>
 		<th>Valid?</th>
 		<th>Last accessed</th>
-	    <th>Actions</th>  
+	    <th>Actions</th>
   	  </tr>
 
 	<% @repositories.each do |repository| %>
 	<% if repository.valid? %>
 	  <tr>
-		<td><%= link_to repository.name, admin_repository_path(repository) %></td>      
+		<td><%= link_to repository.name, admin_repository_path(repository) %></td>
 		<td><%= repository.owner.name%></td>
 		<td><i class="<%= repository.repository.valid? ? 'icon-ok' : 'icon-remove' %>"</i></td>
 		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>

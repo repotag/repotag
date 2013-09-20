@@ -13,11 +13,11 @@
 		<%= form.fields_for :authentication_settings do |field| %>
 			<tr>
 				<td><%= field.label 'Enable Google Authentication:' %></td>
-				<td><%= field.check_box @authentication_settings[:auth_google] %></td>
+				<td><a href="#" id="auth_google_enabled"><%= @authentication_settings[:google_oauth2][:enabled] %></a></td>
 			</tr>
 			<tr>
 				<td><%= field.label 'Enable Facebook Authentication:' %></td>
-				<td><%= field.check_box @authentication_settings[:auth_facebook] %></td>
+				<td><a href="#" id="auth_facebook_enabled"><%= @authentication_settings[:facebook][:enabled] %></a></td>
 			</tr>
 		</tbody>
 		</table>
