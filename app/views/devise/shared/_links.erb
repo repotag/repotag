@@ -21,6 +21,6 @@
 <%- if devise_mapping.omniauthable? %>
   <br/><emph>Or sign in with one of these services: </emph><br/>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to (image_tag "auth/#{provider.to_s}_64.png", :size => "32x32", :alt => "#{provider.to_s.titleize}") + "#{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %><br /> 
+    <%= link_to (image_tag "auth/#{provider.to_s}_64.png", :size => "32x32", :alt => "#{provider.to_s.titleize}") + "#{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %><br />
   <% end -%>
 <% end -%>

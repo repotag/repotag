@@ -10,5 +10,5 @@ class Mailer < ActionMailer::Base
   def test_email(user)
     mail(:subject => "[repotag.org] Auto-generated test message.", :to => user.email)
   end
-  
+
 end

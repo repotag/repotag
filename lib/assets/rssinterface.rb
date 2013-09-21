@@ -33,15 +33,15 @@ module RSSInterface
     def initialize(url, ssl_verify_mode = OpenSSL::SSL::VERIFY_NONE)
       @url = URI.parse(url)
       @http = Net::HTTP.new(@url.host, @url.port)
-      
+
       if @url.scheme == 'https'
-        @http.use_ssl = true 
+        @http.use_ssl = true
         @http.verify_mode = ssl_verify_mode
       end
-      
+
     end
 
-    def request(name, params = {}, admin = true)        
+    def request(name, params = {}, admin = true)
       @url.query = URI.encode_www_form(params)
       request = Net::HTTP::Get.new("#{@url.path}/#{name}?#{@url.query}")
       request.basic_auth("admin", "admin") if admin

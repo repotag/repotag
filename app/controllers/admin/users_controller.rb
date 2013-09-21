@@ -36,7 +36,7 @@ class Admin::UsersController < Admin::AdminController
   def edit
     @user = User.find(params[:id])
   end
-  
+
   # GET /users/1/set_admin
   def set_admin
     @user.admin = params[:admin_status]
@@ -73,7 +73,7 @@ class Admin::UsersController < Admin::AdminController
         params[:user].delete(:password)
         params[:user].delete(:password_confirmation)
     end
- 
+
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to admin_users_path, :notice => 'User was successfully updated.' }

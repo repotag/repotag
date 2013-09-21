@@ -1,8 +1,8 @@
-class GrackAuthProxy  
+class GrackAuthProxy
   def initialize(app)
     @app = app
   end
-  
+
   def call(env)
     @env = env
     base_path = @env['PATH_INFO'].match(/^\/[\w]+\/[\w]+/).to_s
@@ -20,27 +20,27 @@ class GrackAuthProxy
     status, headers, body = @app.call(@env)
     [status, headers, body]
   end
-  
+
   def not_authenticated
     [401, {"Content-Type" => "text/plain", "WWW-Authenticate" => "Basic realm='Repotag'"}, ["Unauthorized"]]
   end
-  
+
   def access_denied
     [403, {"Content-Type" => "text/plain"}, ["Access Denied"]]
   end
-  
+
   def not_found
     [404, {"Content-Type" => "text/plain"}, ["Not Found"]]
   end
-  
+
   def authenticated?
      @env['warden'].user
   end
-  
+
   def find_repository(path)
     Repository.from_request_path(path)
   end
-  
+
   def authorized?(repository, user)
     activity = @env['PATH_INFO'] =~ /(.*?)\/git-receive-pack$/ ? :edit : :read
     return true if repository.public? && activity == :read

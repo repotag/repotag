@@ -56,15 +56,15 @@ module Repotag
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     # Custom config settings
-    
+
     config.role_titles = [:watcher, :contributor]
     config.global_role_titles = [:admin]
 
     config.action_mailer.default_url_options = {
       :host => "repotag.org"
     }
-    
+
   end
 end

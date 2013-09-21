@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
- 
-  has_many :roles, :dependent => :destroy 
+
+  has_many :roles, :dependent => :destroy
   has_many :repositories, :through => :roles, :source => :resource, :source_type => 'Repository'
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  
+
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
 
   attr_accessor :login, :updating_password
@@ -17,11 +17,11 @@ class User < ActiveRecord::Base
   validates_presence_of :password, :if => :should_validate_password?
   validates :email, :presence => true, :uniqueness => true, :format => {:with => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i , :message => "does not look like an e-mail address"} # Regex from devise, see http://rawsyntax.com/blog/rails-3-email-validation/
   validates :name, :presence => true, :format => {:with => /\A[\w\s]+\z/ , :message => "name contains illegal characters"}
-  
+
   def should_validate_password?
     new_record? || updating_password
   end
-  
+
   def add_role(title, resource = nil)
     title = title.to_s if title.is_a? Symbol
     r = Role.new
@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
     r.resource = resource
     roles << r
   end
-  
+
   def delete_role(title, resource = nil)
     title = title.to_s if title.is_a? Symbol
     query = {:title => title, :resource_id => nil}
@@ -37,18 +37,18 @@ class User < ActiveRecord::Base
     query[:resource_type] = resource.class.to_s unless resource.nil?
     roles.find(:first, :conditions => query).destroy
   end
-  
+
   def has_role?(title, resource = nil)
     query = {:title => title, :resource_id => nil}
     query[:resource_id] = resource.id unless resource.nil?
     query[:resource_type] = resource.class.to_s unless resource.nil?
     roles.find(:first, :conditions => query) == nil ? false : true
   end
-  
+
   def admin?
     has_role?(:admin)
   end
-  
+
   def set_admin(value)
     if !value == admin? then
       if value
@@ -58,21 +58,21 @@ class User < ActiveRecord::Base
       end
     end
   end
-  
+
   def role_for(resource, include_owner = false)
     return :owner if include_owner && resource.owner == self
     result = roles.find(:first, :conditions => {:resource_id => resource.id, :resource_type => resource.class.to_s})
     result == nil ? nil : result.title.to_sym
   end
-  
+
   def all_repositories
     repositories + owned_repositories
   end
-  
+
   def owned_repositories
     Repository.where(:owner_id => self)
   end
-  
+
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
     user = User.where(:email => data["email"]).first
@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
     end
     user
   end
-  
+
   def self.find_for_facebook(access_token, signed_in_resource=nil)
     data = access_token.info
     user = User.where(:email => data["email"]).first
@@ -98,8 +98,8 @@ class User < ActiveRecord::Base
     end
     user
   end
-  
-  
+
+
   protected
 
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -110,5 +110,5 @@ class User < ActiveRecord::Base
       where(conditions).first
     end
   end
-  
+
 end

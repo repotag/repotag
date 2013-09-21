@@ -26,22 +26,22 @@ end
 # See http://gitblit.com/rpc.html for possible requests.
 
 module JsonRPC
-  
+
   class Client
 
     def initialize(url, ssl_verify_mode = OpenSSL::SSL::VERIFY_NONE)
       @url = URI.parse(url)
       @http = Net::HTTP.new(@url.host, @url.port)
-      
+
       if @url.scheme == 'https'
-        @http.use_ssl = true 
+        @http.use_ssl = true
         @http.verify_mode = ssl_verify_mode
       end
-      
+
     end
 
     # The body param is an ActiveRecord model such as Repository or User.
-    def request(params, body = {}, admin = true)        
+    def request(params, body = {}, admin = true)
       @url.query = URI.encode_www_form(params)
       request = Net::HTTP::Post.new("#{@url.path}?#{@url.query}")
       request["Content-Type"] = 'application/json'

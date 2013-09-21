@@ -9,37 +9,37 @@ Repotag::Application.routes.draw do
   #       end
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-  
+
   # Allow users to edit their own info
   resources :users
-  
+
   namespace :admin do
   	match '/' => 'users#index'
   	resources :users
     get '/users/:id/set_admin', :controller => 'admin/users', :action => :set_admin
     resources :repositories
-    
+
     get '/settings/general', :controller => 'settings', :action => :show_general_settings
     put '/settings/general', :controller => 'settings', :action => :update_general_settings
-    
+
     get '/settings/authentication', :controller => 'settings', :action => :show_authentication_settings
     put '/settings/authentication', :controller => 'settings', :action => :update_authentication_settings
-    
+
     resources :settings
-    # match 'email/smtp', to: 
+    # match 'email/smtp', to:
     get '/email/smtp', :controller => 'settings', :action => :show_smtp_settings
     put '/email/smtp', :controller => 'settings', :action => :update_smtp_settings
     post '/email/smtp', :controller => 'settings', :action => :send_test_mail
-    
+
 	end
-  
+
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({
       :project_root => Setting.get(:general_settings)[:repo_root],
       :adapter => Grack::RJGitAdapter,
       :upload_pack => true,
       :receive_pack => true,
     }))
-  
+
   authenticated :user do
     mount grack_auth_proxy, at: 'git'
   end
@@ -97,9 +97,9 @@ Repotag::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  
+
   root :controller => :repositories, :action => :index
-  
+
   # See how all your routes lay out with "rake routes"
 
 end

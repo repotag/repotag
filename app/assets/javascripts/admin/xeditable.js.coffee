@@ -77,3 +77,17 @@ $(document).ready ->
 			{ value: 0, text: 'false' }
 			{ value: 1, text: 'true' } ]
 	)
+	
+	$('#auth_google_enabled').editable(
+		name: 'google_enabled'
+		type: 'checklist'
+		url: '/admin/settings/authentication'
+		source: {true: 'true'}
+		emptytext: 'false' )
+
+	$('#auth_facebook_enabled').editable(
+		name: 'facebook_enabled'
+		type: 'checklist'
+		url: '/admin/settings/authentication'
+		source: {true: 'true'}
+		emptytext: 'false' )

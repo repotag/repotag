@@ -7,13 +7,13 @@ class HookMailer < ActionMailer::Base
     @repository = repository
     mail(:to => @user.email, :subject => "[Repotag] Activity report for #{@repository.name}")
   end
-  
+
   def commit_details(user, repository, commit)
     @user = user
     @repository = repository
     @commit = commit
     mail(:to => @user.email, :subject => "[Repotag] Commit details for #{@repository.name}")
   end
-   
-  
+
+
 end

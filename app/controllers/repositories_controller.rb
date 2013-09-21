@@ -19,29 +19,29 @@ class RepositoriesController < ApplicationController
       redirect_to :action => :index
       return false
     end
-    
+
     @current_path = params[:path].nil? ? '' : params[:path]
     repository = @repository.repository
-    
+
     if !repository.valid?
       flash[:alert] = "Repository #{@repository.name} does not seem to have a valid git repository."
       redirect_to :action => :index
       return false
     end
-    
+
     branch = params[:branch] || "refs/heads/master"
     if params[:file]
       begin
         @rendered_text = prepare_fileview(repository, branch)
       rescue
         flash[:alert] = "Blob #{@current_path} not found in branch #{branch}."
-        redirect_to :action => :show, :branch => branch       
+        redirect_to :action => :show, :branch => branch
         return false
       end
     else
       begin
         tree = @current_path.empty? ? nil : repository.tree(@current_path, branch)
-        raise if tree.nil? && !@current_path.empty? 
+        raise if tree.nil? && !@current_path.empty?
       rescue
         flash[:alert] = "Path #{@current_path} not found in branch #{branch}."
         redirect_to :action => :show, :branch => branch
@@ -50,10 +50,10 @@ class RepositoriesController < ApplicationController
       @directory_list, @file_list = [], []
       ls_options = { :recursive => false, :print => false, :branch => branch }
       lstree = RJGit::Porcelain.ls_tree(repository, tree, ls_options)
-    
+
       if lstree
-        lstree.each do |entry| 
-          @file_list << entry if entry[:type] == 'blob' 
+        lstree.each do |entry|
+          @file_list << entry if entry[:type] == 'blob'
           @directory_list << entry if entry[:type] == 'tree'
         end
       end
@@ -61,7 +61,7 @@ class RepositoriesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @repository }
-    end       
+    end
 
   end
 
@@ -72,17 +72,16 @@ class RepositoriesController < ApplicationController
     branch = params[:branch] || "refs/heads/master"
     begin
       tree = repo.tree(path, branch)
-      Rails.logger.debug "Tree for #{path}: #{tree.inspect}"
     rescue
       raise ActionController::RoutingError.new("Oops! Could not find the object '#{path}'.")
     end
     @directory_list, @file_list = [], []
     ls_options = { :recursive => false, :print => false, :branch => branch }
     lstree = RJGit::Porcelain.ls_tree(repo, tree, ls_options)
-    
-    Rails.logger.debug "lstree: #{lstree}"   
+
+    Rails.logger.debug "lstree: #{lstree}"
     if lstree
-      lstree.each do |entry| 
+      lstree.each do |entry|
         if entry[:type] == 'blob'
           entry[:image] = view_context.image_for_file(entry[:path])
           entry[:fullpath] = File.join(path, entry[:path])
@@ -91,8 +90,7 @@ class RepositoriesController < ApplicationController
         @directory_list << entry if entry[:type] == 'tree'
       end
     end
-    Rails.logger.debug "files: #{@file_list}"
-    Rails.logger.debug "dirs: #{@directory_list}"
+
     respond_to do |format|
       format.json { render json: {:dirs => @directory_list, :files => @file_list} }
     end
@@ -108,7 +106,7 @@ class RepositoriesController < ApplicationController
   # GET /repositories/new.json
   def new
     @repository = Repository.new
-    @repository.owner = current_user
+    # @repository.owner = current_user
 
     respond_to do |format|
       format.html # new.html.erb

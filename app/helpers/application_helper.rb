@@ -1,5 +1,5 @@
 module ApplicationHelper
-  
+
   # Create link for navbar
   def nav_link(link_text, link_path, class_name = [], options = {})
     class_name << 'active' if current_page?(link_path)
@@ -8,7 +8,7 @@ module ApplicationHelper
       link_to link_text, link_path, options
     end
   end
-  
+
   # Return flash class for name of FlashHash
   def flash_class(name)
     "alert " + case name
@@ -23,7 +23,7 @@ module ApplicationHelper
     else "alert-warning"
     end
   end
-  
+
   # Pretty indication of the user's roles (including global roles and ownership) on a resource
   def role_description(resource, user = current_user)
     result = []
@@ -35,5 +35,5 @@ module ApplicationHelper
     end
     result
   end
-  
+
 end

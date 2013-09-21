@@ -8,7 +8,7 @@ def set_general_defaults
 end
 
 SMTP_DEFAULTS = {:address => 'localhost', :port => 1025}
-  
+
 def set_smtp_defaults
   s = Setting.where(:name => :smtp_settings).first
   if s.nil?
@@ -16,7 +16,7 @@ def set_smtp_defaults
   end
 end
 
-AUTH_PROVIDERS = [:google_oath2, :facebook, :github]
+AUTH_PROVIDERS = [:google_oauth2, :facebook, :github]
 
 def set_authentication_defaults
   s = Setting.where(:name => :authentication_settings).first
