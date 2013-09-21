@@ -11,7 +11,7 @@ Repotag::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   # Allow users to edit their own info
-  resources :users
+  resources :users, only: [:index, :show, :edit, :update]
 
   namespace :admin do
   	match '/' => 'users#index'
@@ -25,7 +25,7 @@ Repotag::Application.routes.draw do
     get '/settings/authentication', :controller => 'settings', :action => :show_authentication_settings
     put '/settings/authentication', :controller => 'settings', :action => :update_authentication_settings
 
-    resources :settings
+    resources :settings, only: []
     # match 'email/smtp', to:
     get '/email/smtp', :controller => 'settings', :action => :show_smtp_settings
     put '/email/smtp', :controller => 'settings', :action => :update_smtp_settings

@@ -1,4 +1,4 @@
-<% if @repositories.empty? %>
+<% if repositories.empty? %>
 	<h3>You don't have any repositories yet. Click <%= link_to 'here', repositories_new_path %> to create your first!</h3>
 <% else %>
 	<h1>Listing repositories</h1>
@@ -12,7 +12,7 @@
 			</thead>
 
 			<tbody>
-				<% @repositories.each do |repository| %>
+				<% repositories.each do |repository| %>
 				<% if repository.valid? && can?(:read, repository) then%>
 				<tr>
 					<td><%= link_to repository.name, repository %></td>

@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag "coderay" %>
-<h1><b><%= @current_path %></b></h1></p>
-<%= @rendered_text.html_safe %>
+<h1><b><%= current_path %></b></h1></p>
+<%= rendered_text.html_safe %>
 
-<%= link_to 'Back', repository_path(@repository) %>
+<%= link_to 'Back', repository_path(repository) %>

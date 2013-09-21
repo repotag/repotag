@@ -2,13 +2,13 @@
 <%= javascript_include_tag 'application' %>
 <%= javascript_include_tag 'repositories' %>
 
-<div class="tree-container" data-repo-id="<%= @repository.id%>" >
+<div class="tree-container" data-repo-id="<%= repository.id%>" >
 	<ol class="tree">
 		<li class="dir">
-			<label for="rootfolder"><%= @repository.name %></label>
+			<label for="rootfolder"><%= repository.name %></label>
 			<input type="checkbox" checked disabled id="rootfolder" />
 			<ol>
-			<% @directory_list.each_with_index do |dir, index| %>	
+			<% directory_list.each_with_index do |dir, index| %>	
 				<li class="dir">
 					<label for="<%= "folder#{index}"%>"><%= dir[:path] %></label>
 					<input type="checkbox" id="<%= "folder#{index}"%>" data-path="<%= dir[:path] %>" data-branch="<%= params[:branch] %>" data-folderid="<%= "#{index}" %>" class="dirs"/>
@@ -17,11 +17,11 @@
 					</ol>
 				</li>
 				<% end %>
-				<% @file_list.each do |file|
-				newpath = @current_path.empty? ? file[:path] : File.join(@current_path, file[:path])
+				<% file_list.each do |file|
+				newpath = current_path.empty? ? file[:path] : File.join(current_path, file[:path])
 				%>
 				<li class="file">
-					<a style="background: url(<%= image_for_file(file[:path]) %>) 0 0 no-repeat" href="<%= repository_path(@repository, :path=>newpath, :file => true, :branch => params[:branch]) %>"><%= file[:path] %></a>
+					<a style="background: url(<%= image_for_file(file[:path]) %>) 0 0 no-repeat" href="<%= repository_path(repository, :path=>newpath, :file => true, :branch => params[:branch]) %>"><%= file[:path] %></a>
 				</li>
 				<% end %>
 			</ol>
@@ -29,9 +29,9 @@
 	</ol>
 </div>
 
-<% tags = @repository.repository.tags %>
+<% tags = repository.repository.tags %>
 
-<div class="tree-container" data-repo-id="<%= @repository.id%>" >
+<div class="tree-container" data-repo-id="<%= repository.id%>" >
 	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
@@ -43,23 +43,23 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% @directory_list.each_with_index do |dir, index|
-		newpath = @current_path.empty? ? dir[:path] : File.join(@current_path, dir[:path])
+		<% directory_list.each_with_index do |dir, index|
+		newpath = current_path.empty? ? dir[:path] : File.join(current_path, dir[:path])
 		%>	
 		<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
 			<td class="tree" style="text-align: right;"><i class="icon-folder-close"></i></td>
-			<td><%= link_to dir[:path], repository_path(@repository, :path=>newpath, :branch => params[:branch]) %></td>
+			<td><%= link_to dir[:path], repository_path(repository, :path=>newpath, :branch => params[:branch]) %></td>
 			<td>?</td>
 			<td>Unknown</td>
 			<td><%= tags.has_key?(dir[:id]) ? tags[dir[:id]].short_message : '-' %></td>
 		</tr>
 		<% end %>
-		<% @file_list.each do |file|
-		newpath = @current_path.empty? ? file[:path] : File.join(@current_path, file[:path])
+		<% file_list.each do |file|
+		newpath = current_path.empty? ? file[:path] : File.join(current_path, file[:path])
 		%>
 		<tr>
 			<td class="blob" style="text-align: right;"><i class="icon-file"></i></td>
-			<td><%= link_to file[:path], repository_path(@repository, :path=>newpath, :file => true, :branch => params[:branch]) %></td>
+			<td><%= link_to file[:path], repository_path(repository, :path=>newpath, :file => true, :branch => params[:branch]) %></td>
 			<td>?</td>
 			<td>Unknown</td>
 			<td><%= tags.has_key?(file[:id]) ? tags[file[:id]].short_message : '-' %></td>

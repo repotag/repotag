@@ -59,7 +59,7 @@ class Admin::UsersController < Admin::AdminController
         format.json { render :json => @user, :status => :created, :location => @user }
       else
         flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
-        format.html { render :action => "new"}
+        format.html { render :new }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end
     end
@@ -79,7 +79,7 @@ class Admin::UsersController < Admin::AdminController
         format.html { redirect_to admin_users_path, :notice => 'User was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end
     end
