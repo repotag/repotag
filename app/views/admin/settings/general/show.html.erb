@@ -19,6 +19,10 @@
 				<td><%= field.label 'Allow Anonymous Access:' %></td>
 				<td><a href="#" id="general_anonymous_access"><%= @general_settings[:anonymous_access] == "0" ? 'false' : 'true' %></a></td>
 			</tr>
+			<tr>
+				<td><%= field.label 'Enable public profiles:' %></td>
+				<td><a href="#" id="general_public_profiles"><%= @general_settings[:public_profiles] == "0" ? 'false' : 'true' %></a></td>
+			</tr>
 		</tbody>
 		</table>
 		<% end %>

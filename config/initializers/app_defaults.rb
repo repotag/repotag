@@ -1,4 +1,4 @@
-GENERAL_DEFAULTS = {:repo_root => '/tmp/repos', :anonymous_access => false}
+GENERAL_DEFAULTS = {:repo_root => '/tmp/repos', :anonymous_access => false, :public_profiles => false }
 
 def set_general_defaults
   s = Setting.where(:name => :general_settings).first

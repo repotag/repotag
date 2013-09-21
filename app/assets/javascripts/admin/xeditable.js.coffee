@@ -78,6 +78,18 @@ $(document).ready ->
 			{ value: 1, text: 'true' } ]
 	)
 	
+	$('#general_public_profiles').editable(
+		name: 'public_profiles'
+		type: 'select'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enable Public Profiles'
+		value: 'false'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
+	
 	$('#auth_google_enabled').editable(
 		name: 'google_enabled'
 		type: 'checklist'
