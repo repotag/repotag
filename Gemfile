@@ -65,6 +65,7 @@ group :test, :development do
 end
 
 gem 'coderay', '~> 1.0'
+gem 'gravatar_image_tag'
 
 #Authentication
 gem "omniauth-facebook"

@@ -3,6 +3,7 @@
 <table class="table table-striped">
  <thead>
   <tr>
+	<th></th>
     <th>ID</th>
 	<th>Username</th>
     <th>
@@ -16,6 +17,7 @@
   <tbody>
   <% @users.each do |user| -%>
    <tr>
+	<td><%= gravatar_image_tag(user.email, :alt => user.name, :gravatar => {:size => 20} ) %></td>
     <td><%= user.id %></td>
 	<td><%= user.username %></td>
     <td><%= link_to user.email, admin_user_path(user) %>
