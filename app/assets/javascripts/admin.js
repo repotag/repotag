@@ -4,3 +4,4 @@
 //= require jquery_ujs
 //= require admin/loader
 //= require admin/bootswatch
+//= require twitter/typeahead

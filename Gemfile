@@ -19,6 +19,8 @@ gem 'devise'
 gem 'twitter-bootswatch-rails'
 gem 'twitter-bootswatch-rails-fontawesome'
 gem 'bootstrap-x-editable-rails'
+gem 'twitter-typeahead-rails'
+gem 'gravatar_image_tag'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -65,7 +67,6 @@ group :test, :development do
 end
 
 gem 'coderay', '~> 1.0'
-gem 'gravatar_image_tag'
 
 #Authentication
 gem "omniauth-facebook"
