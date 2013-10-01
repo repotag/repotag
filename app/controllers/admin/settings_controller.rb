@@ -37,6 +37,22 @@ class Admin::SettingsController < Admin::AdminController
       format.json { render :json => @authentication_settings }
     end
   end
+  
+  def update_authentication_settings
+    updated_key = params[:name].to_sym
+
+    valid_keys = [:google_oauth2_app_id, :google_oauth2_app_secret, :google_oauth2_enabled]
+    if valid_keys.include?(updated_key)
+      provider = updated_key.to_s.split('_').first
+      provider = (provider == 'google' ? 'google_oauth2' : provider) 
+      @authentication_settings = Setting.get(:authentication_settings)
+      @authentication_settings[provider.to_sym][updated_key] = params[:value]
+      @authentication_settings.save
+      Rails.logger.debug @authentication_settings.errors.inspect
+      render '/admin/settings/authentication/show'
+    end
+  end
+  
 
   # SMTP Settings
   def show_smtp_settings

@@ -13,7 +13,15 @@
 		<%= form.fields_for :authentication_settings do |field| %>
 			<tr>
 				<td><%= field.label 'Enable Google Authentication:' %></td>
-				<td><a href="#" id="auth_google_enabled"><%= @authentication_settings[:google_oauth2][:enabled] %></a></td>
+				<td><a href="#" id="auth_google_enabled"><%= @authentication_settings[:google_oauth2][:google_oauth2_enabled] %></a></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Google App ID:' %></td>
+				<td><a href="#" id="auth_google_app_id"><%= @authentication_settings[:google_oauth2][:google_oauth2_app_id] %></a></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Google App Secret:' %></td>
+				<td><a href="#" id="auth_google_app_secret"><%= @authentication_settings[:google_oauth2][:google_oauth2_app_secret] %></a></td>
 			</tr>
 			<tr>
 				<td><%= field.label 'Enable Facebook Authentication:' %></td>

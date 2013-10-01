@@ -91,11 +91,25 @@ $(document).ready ->
 	)
 	
 	$('#auth_google_enabled').editable(
-		name: 'google_enabled'
+		name: 'google_oauth2_enabled'
 		type: 'checklist'
 		url: '/admin/settings/authentication'
 		source: {true: 'true'}
 		emptytext: 'false' )
+	
+	$('#auth_google_app_id').editable(
+		name: 'google_oauth2_app_id'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/authentication'
+		title: 'Enter your Google App ID' )
+
+	$('#auth_google_app_secret').editable(
+		name: 'google_oauth2_app_secret'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/authentication'
+		title: 'Enter your Google App secret' )
 
 	$('#auth_facebook_enabled').editable(
 		name: 'facebook_enabled'
