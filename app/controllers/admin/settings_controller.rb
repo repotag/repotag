@@ -41,7 +41,7 @@ class Admin::SettingsController < Admin::AdminController
   def update_authentication_settings
     updated_key = params[:name].to_sym
 
-    valid_keys = [:google_oauth2_app_id, :google_oauth2_app_secret, :google_oauth2_enabled]
+    valid_keys = [:google_oauth2_app_id, :google_oauth2_app_secret, :google_oauth2_enabled, :facebook_app_id, :facebook_app_secret, :facebook_enabled]
     if valid_keys.include?(updated_key)
       provider = updated_key.to_s.split('_').first
       provider = (provider == 'google' ? 'google_oauth2' : provider) 
