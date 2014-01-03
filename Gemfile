@@ -7,7 +7,7 @@ gem 'rails', '3.2.14'
 
 gem 'activerecord-jdbcsqlite3-adapter'
 
-gem 'jruby-openssl'
+gem 'jruby-openssl', :require => false
 gem 'json'
 gem 'rjgit', :git => 'git://github.com/repotag/rjgit.git'
 

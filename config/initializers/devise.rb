@@ -208,10 +208,13 @@ Devise.setup do |config|
   config.omniauth :facebook, "APP_ID", "APP_SECRET"
 
   require "omniauth-google-oauth2"
-  # google_app_id = "987518045064.apps.googleusercontent.com"
-  google_app_id = Setting.get(:authentication_settings)[:google_oauth2][:google_oauth2_app_id]
-  # google_app_se = "WFV0NzZaqwL_Kxo1KVne9aKn"
-  google_app_se = Setting.get(:authentication_settings)[:google_oauth2][:google_oauth2_app_secret]
+  begin
+    google_app_id = Setting.get(:authentication_settings)[:google_oauth2][:google_oauth2_app_id]
+    google_app_se = Setting.get(:authentication_settings)[:google_oauth2][:google_oauth2_app_secret]
+      rescue
+    google_app_id = nil
+    google_app_se = nil
+  end
   config.omniauth :google_oauth2, google_app_id, google_app_se, { :access_type=> "offline", :approval_promt=> "" }
 
   config.secret_key = '6f4819f5582f3ebc60f88ee14fa678e74d72261dc0cab022a35321919f726fc4e552c6f3cf3ee6f3d33b118f223ce21266fa796d4527df6f8b7573093548f2fe'
