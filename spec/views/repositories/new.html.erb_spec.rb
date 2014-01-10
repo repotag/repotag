@@ -6,7 +6,8 @@ describe "repositories/new" do
   end
 
   it "renders new repository form" do
-    render
+   pending
+   render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form[action=?][method=?]", repositories_path, "post" do
