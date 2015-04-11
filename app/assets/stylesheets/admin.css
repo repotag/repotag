@@ -4,5 +4,5 @@
  *= require admin/loader
  *= require admin/bootswatch
  *= require admin/font-awesome
- *= require bootstrap-editable
+ *= require bootstrap3-editable/bootstrap-editable 
 */

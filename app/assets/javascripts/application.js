@@ -12,4 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-editable
+//= require bootstrap3-editable/bootstrap-editable
+
