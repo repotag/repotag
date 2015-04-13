@@ -18,10 +18,10 @@
 		<td><i class="<%= repository.repository.valid? ? 'icon-ok' : 'icon-remove' %>"</i></td>
 		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 		<td><div>
-		<%= link_to edit_admin_repository_path(repository), :class => "btn" do %>
+		<%= link_to edit_admin_repository_path(repository), :class => "btn btn-default" do %>
 		 	<i class="icon-edit icon-white"></i>
 		<% end %>
-		<%= link_to admin_repository_path(repository), :class => "btn", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
+		<%= link_to admin_repository_path(repository), :class => "btn btn-primary", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
 		 	<i class="icon-trash icon-white"></i>
 		 <% end %>
 		</div></td>

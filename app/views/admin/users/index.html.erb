@@ -23,13 +23,13 @@
     <td><%= link_to user.email, admin_user_path(user) %>
     </td>
     <td><%= user.created_at %></td>
-	<td><i class="<%= user.admin? ? 'icon-ok' : 'icon-remove' %>"</i></td>
+	<td><i class="<%= user.admin? ? 'icon-ok' : 'remove' %>"</i></td>
     <td>
-      <%= link_to edit_admin_user_path(user), :class => "btn" do %>
-	 	<i class="icon-edit icon-white"></i>
+      <%= link_to edit_admin_user_path(user), :class => "btn btn-default" do %>
+	 	<i class="edit icon-white"></i>
 	  <% end %>
-     <%= link_to admin_user_path(user), :class => "btn", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
-	 	<i class="icon-trash icon-white"></i>
+     <%= link_to admin_user_path(user), :class => "btn btn-default", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
+	 	<i class="trash icon-white"></i>
 	 <% end %>
     </td>
     </tr>
