@@ -1,5 +1,5 @@
 <% if repositories.empty? %>
-	<h3>You don't have any repositories yet. Click <%= link_to 'here', repositories_new_path %> to create your first!</h3>
+	<h3>You don't have any repositories yet. Click below to create your first!</h3>
 <% else %>
 	<h1>Listing repositories</h1>
 		<table class='table table-striped table-hover'>
@@ -13,13 +13,18 @@
 
 			<tbody>
 				<% repositories.each do |repository| %>
-				<% if repository.valid? && can?(:read, repository) then%>
+				<% if repository.valid? && can?(:read, repository) then %>
 				<tr>
 					<td><%= link_to repository.name, repository %></td>
 					<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
 					<td><%= link_to edit_repository_path(repository), :class => "btn" do %>
-					 	<i class="icon-edit icon-white"></i>
+					 	<i class="fa fa-edit"></i>
 					<% end %>
+					<% if can?(:manage, repository) then %>
+					<%= link_to repository_path(repository), :class => "btn", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
+					 	<i class="fa fa-trash"></i>
+					 <% end
+					 end %>
 					</td>
 				</tr>
 				<% end %>

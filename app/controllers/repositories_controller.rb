@@ -1,5 +1,6 @@
 class RepositoriesController < ApplicationController
   load_and_authorize_resource
+  skip_authorize_resource :only => [:new, :create]
   # GET /repositories
   # GET /repositories.json
   def index
@@ -105,18 +106,10 @@ class RepositoriesController < ApplicationController
   # GET /repositories/new
   # GET /repositories/new.json
   def new
-    @repository = Repository.new
-    # @repository.owner = current_user
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @repository }
-    end
   end
 
   # GET /repositories/1/edit
   def edit
-    @repository = Repository.find(params[:id])
   end
 
   # POST /repositories
@@ -125,7 +118,7 @@ class RepositoriesController < ApplicationController
     @repository = Repository.new(params[:repository])
     @repository.owner = current_user
     respond_to do |format|
-      if @repository.save
+      if @repository.save && @repository.to_disk
         format.html { redirect_to @repository, notice: 'Repository was successfully created.' }
         format.json { render json: @repository, status: :created, location: @repository }
       else
@@ -138,8 +131,6 @@ class RepositoriesController < ApplicationController
   # PUT /repositories/1
   # PUT /repositories/1.json
   def update
-    @repository = Repository.find(params[:id])
-
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
         format.html { redirect_to @repository, notice: 'Repository was successfully updated.' }
@@ -154,7 +145,6 @@ class RepositoriesController < ApplicationController
   # DELETE /repositories/1
   # DELETE /repositories/1.json
   def destroy
-    @repository = Repository.find(params[:id])
     @repository.destroy
 
     respond_to do |format|
