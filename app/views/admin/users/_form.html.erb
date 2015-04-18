@@ -6,6 +6,21 @@
 </div>
 
 <div class="control-group">
+   <%= f.label :name, t("activerecord.attributes.user.name", :default => "Name"), :class => 'control-label' %>
+  <div class="input">
+    <%= f.text_field :name, :class => 'text_field' %>
+  </div>
+</div>
+
+<div class="control-group">
+   <%= f.label :name, t("activerecord.attributes.user.username", :default => "Username"), :class => 'control-label' %>
+  <div class="input">
+    <%= f.text_field :username, :class => 'text_field' %>
+  </div>
+</div>
+
+
+<div class="control-group">
    <%= f.label :password, t("activerecord.attributes.user.password", :default => "password"), :class => 'control-label' %>
   <div class="input">
     <%= f.password_field :password, :class => 'password_field' %>
