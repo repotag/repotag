@@ -1,5 +1,7 @@
 GENERAL_DEFAULTS = {:repo_root => '/tmp/repos', :anonymous_access => false, :public_profiles => false }
 
+Rails.logger.debug "Attempting to set default values"
+
 def set_general_defaults
   s = Setting.where(:name => :general_settings).first
   if s.nil?
@@ -23,6 +25,7 @@ def set_authentication_defaults
   if s.nil?
     default_settings = {}
     AUTH_PROVIDERS.each do |provider|
+      # TODO: make these the proper keys: provider name + key
       default_settings[provider] = {:enabled => false, :app_id => nil, :app_secret => nil}
     end
     Setting.create(:name => :authentication_settings, :settings => default_settings)

@@ -1,7 +1,7 @@
 $.fn.editable.defaults.mode = 'inline';
 $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
-$.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>
-<button type="button" class="btn btn-primary editable-cancel"><i class="icon-remove"></i></button>'
+$.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="fa fa-check icon-white"></i></button>
+<button type="button" class="btn btn-primary editable-cancel"><i class="fa fa-times"></i></button>'
 
 $(document).ready ->
 	$('#smtp_address').editable(
@@ -118,10 +118,15 @@ $(document).ready ->
 
 	$('#auth_facebook_enabled').editable(
 		name: 'facebook_enabled'
-		type: 'checklist'
+		type: 'select'
+		pk: 1
 		url: '/admin/settings/authentication'
-		source: {true: 'true'}
-		emptytext: 'false' )
+		title: 'Enable Facebook Oauth2 authentication'
+		value: 'false'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+		)
 				
 	$('#auth_facebook_app_id').editable(
 		name: 'facebook_app_id'
