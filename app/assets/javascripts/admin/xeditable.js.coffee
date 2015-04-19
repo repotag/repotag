@@ -141,3 +141,29 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/authentication'
 		title: 'Enter your Facebook secret' )
+		
+	$('#auth_github_enabled').editable(
+		name: 'github_enabled'
+		type: 'select'
+		pk: 1
+		url: '/admin/settings/authentication'
+		title: 'Enable Github Oauth2 authentication'
+		value: 'false'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+		)
+
+	$('#auth_github_app_id').editable(
+		name: 'github_app_id'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/authentication'
+		title: 'Enter your Github ID' )
+
+	$('#auth_github_app_secret').editable(
+		name: 'github_app_secret'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/authentication'
+		title: 'Enter your Github secret' )

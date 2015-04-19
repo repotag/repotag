@@ -36,6 +36,17 @@
 				<td><a href="#" data-xeditable="true" id="auth_facebook_app_secret"><%= @authentication_settings[:facebook][:facebook_app_secret] %></a></td>
 			</tr>
 			<tr>
+				<td><%= field.label 'Enable Github Authentication:' %></td>
+				<td><a href="#" data-xeditable="true" id="auth_github_enabled"><%= @authentication_settings[:github][:github_enabled] == "0" ? 'false' : 'true' %></a></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Github ID:' %></td>
+				<td><a href="#" data-xeditable="true" id="auth_github_app_id"><%= @authentication_settings[:github][:github_app_id] %></a></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Github Secret:' %></td>
+				<td><a href="#" data-xeditable="true" id="auth_github_app_secret"><%= @authentication_settings[:github][:github_app_secret] %></a></td>
+			</tr>
 		</tbody>
 		</table>
 		<% end %>

@@ -25,8 +25,7 @@ def set_authentication_defaults
   if s.nil?
     default_settings = {}
     AUTH_PROVIDERS.each do |provider|
-      # TODO: make these the proper keys: provider name + key
-      default_settings[provider] = {:enabled => false, :app_id => nil, :app_secret => nil}
+      default_settings[provider] = {"#{provider}_enabled".to_sym => false, "#{provider}_app_id".to_sym => nil, "#{provider}_app_secret".to_sym => nil}
     end
     Setting.create(:name => :authentication_settings, :settings => default_settings)
   end
