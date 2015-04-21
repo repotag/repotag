@@ -17,6 +17,12 @@ describe Setting do
     
   end
   
+  describe "General settings" do
+    before(:each) do
+      @general_settings = Setting.get(:general_settings)
+    end
+  end
+  
   describe "Generic Setting record" do
     before(:each) do
       @rspec_test_settings = Setting.get(:rspec_test)
@@ -30,7 +36,7 @@ describe Setting do
       @rspec_test_settings.settings = {:rspec => true}
       @rspec_test_settings[:test_framework] = 'rspec'
       @rspec_test_settings.save
-      @rspec_test_settings.settings[:rspec].should be_true
+      @rspec_test_settings.settings[:rspec].should be_truthy
       @rspec_test_settings.settings[:test_framework].should == 'rspec'
     end
 

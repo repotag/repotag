@@ -22,7 +22,7 @@ describe User do
  it_behaves_like "a model that validates presence of", :email
  it_behaves_like "a model that validates presence of", :password
  it_behaves_like "a model that validates presence of", :password do
-   before(:all) { @user = User.new; @user.stub(:new_record?) {false}; @user.updating_password = true }
+   before(:each) { @user = User.new; @user.stub(:new_record?) {false}; @user.updating_password = true }
  end
  
  it "should enforce uniqueness of email addresses" do
@@ -47,11 +47,11 @@ describe User do
  
  it "should tell us when the presence of password should be validated" do
    @user.should respond_to(:should_validate_password?)
-   @user.should_validate_password?.should be_true
+   @user.should_validate_password?.should be_truthy
    @user.stub(:new_record?) {false}
-   @user.should_validate_password?.should be_false
+   @user.should_validate_password?.should be_falsy
    @user.updating_password = true
-   @user.should_validate_password?.should be_true
+   @user.should_validate_password?.should be_truthy
  end
  
  it "stores a password encryptedly" do
@@ -63,7 +63,7 @@ describe User do
    @user.encrypted_password.should_not eql("")
  end
  
- pending "it requires a password confirmation"
+ skip "it requires a password confirmation"
  
   end
 

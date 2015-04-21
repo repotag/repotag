@@ -209,6 +209,10 @@ GEM
       railties (>= 3.2, < 4.2)
     rjgit_grack (0.1.4)
       rjgit
+    rspec-activemodel-mocks (1.0.1)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.1.2)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (2.99.2)
@@ -312,6 +316,8 @@ DEPENDENCIES
   rails_best_practices
   rjgit!
   rjgit_grack
+  rspec-activemodel-mocks
+  rspec-collection_matchers
   rspec-rails (~> 2.6)
   sass-rails (~> 3.2.3)
   simplecov

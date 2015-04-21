@@ -6,7 +6,7 @@ describe "repositories/new" do
   end
 
   it "renders new repository form" do
-   pending
+   skip
    render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
