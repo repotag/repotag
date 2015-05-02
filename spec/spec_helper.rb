@@ -1,6 +1,8 @@
 require 'spork'
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter 'app/views'
+end
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 

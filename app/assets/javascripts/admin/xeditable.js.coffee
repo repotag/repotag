@@ -90,6 +90,30 @@ $(document).ready ->
 			{ value: 1, text: 'true' } ]
 	)
 	
+	$('#general_enable_wikis').editable(
+		name: 'enable_wikis'
+		type: 'select'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enable Wikis Globally'
+		value: 'false'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
+	
+	$('#general_enable_issuetracker').editable(
+		name: 'enable_issuetracker'
+		type: 'select'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enable Issue Tracker Globally'
+		value: 'false'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
+	
 	$('#auth_google_enabled').editable(
 		name: 'google_oauth2_enabled'
 		type: 'select'

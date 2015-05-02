@@ -95,3 +95,27 @@
 .repo-table tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
 }
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav-fixed .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+	position: fixed;
+	right: 0;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}

@@ -23,6 +23,14 @@
 				<td><%= field.label 'Enable public profiles:' %></td>
 				<td><a href="#" data-xeditable="true" id="general_public_profiles"><%= @general_settings[:public_profiles] == "0" ? 'false' : 'true' %></a></td>
 			</tr>
+			<tr>
+				<td><%= field.label 'Enable wikis globally:' %></td>
+				<td><a href="#" data-xeditable="true" id="general_enable_wikis"><%= @general_settings[:enable_wikis] == "0" ? 'false' : 'true' %></a></td>
+			</tr>
+			<tr>
+				<td><%= field.label 'Enable issue tracker globally:' %></td>
+				<td><a href="#" data-xeditable="true" id="general_enable_issuetracker"><%= @general_settings[:enable_issuetracker] == "0" ? 'false' : 'true' %></a></td>
+			</tr>
 		</tbody>
 		</table>
 		<% end %>

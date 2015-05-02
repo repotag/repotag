@@ -6,7 +6,7 @@ FactoryGirl.define do
     sequence(:email) {|n| "#{username}#{n}@repotag.org"}
     password 'koekje123'
   end
-  
+    
   factory :repository do
     sequence(:name) {|n| "repo#{n}"}
     association :owner, :factory => :user

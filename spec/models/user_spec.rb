@@ -71,11 +71,13 @@ describe User do
     before :each do
       @user = FactoryGirl.create(:user)
     end
-    it "gets and sets the global admin role" do
+    it "gets, sets and loses the global admin role" do
       @user.should respond_to(:set_admin, :admin?)
       @user.should_not be_admin
       @user.set_admin(true)
       @user.should be_admin
+      @user.set_admin(false)
+      @user.should_not be_admin
     end
   end
 

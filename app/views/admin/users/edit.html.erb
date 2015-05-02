@@ -1,4 +1,4 @@
 <%= form_for [:admin, @user], :url => admin_user_path(@user), :html => { :class => "form-horizontal", :id => "edit_user" } do |f| -%>
   <input name="_method" type="hidden" value="put" />
-  <%= render "form", :locals => {:user => @user, :f => f} %>
+  <%= render :partial => "form", :locals => {:user => @user, :f => f} %>
 <% end -%>
