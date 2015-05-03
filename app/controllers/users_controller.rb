@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       redirect_to :action => 'show', :id => @user
     else
-      flash[:alert] = "Could not update user."
+      flash_save_errors "user", @user.errors
       render :action => 'edit'
     end
   end

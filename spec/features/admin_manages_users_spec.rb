@@ -18,7 +18,7 @@ feature "Admin manages users" do
   
     scenario "with invalid email" do
       create_user("Tester Bob", "fake_email")
-      expect(page).to have_text "errors prohibited this user from being saved"
+      expect(page).to have_text "errors prevented this user from being saved"
       expect(page).to have_text "Email is invalid"
 
     end

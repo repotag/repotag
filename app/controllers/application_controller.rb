@@ -5,6 +5,13 @@ class ApplicationController < ActionController::Base
 
   layout 'application'
 
+  # Set flashes for saving errors
+  def flash_save_errors(type, errors)
+    msg = ""
+    errors.full_messages.each {|err| msg << "<li>#{err}</li>"}
+    flash.now.alert = "#{ActionController::Base.helpers.pluralize(errors.count, 'error')} prevented this #{type} from being saved:<ul>#{msg}</ul>".html_safe
+  end
+
   # Return the type of code to parse based on a file's mime-type
   def code_type_from_mime(mime_type)
     return :ruby

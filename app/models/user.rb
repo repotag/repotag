@@ -13,10 +13,10 @@ class User < ActiveRecord::Base
   attr_accessible :login, :username, :name, :email, :password, :password_confirmation, :remember_me, :encrypted_password, :provider, :uid
 
   validates_uniqueness_of :username, :case_sensitive => false
-  validates_presence_of :username, :format => {:with => /\A[\w]+\z/ , :message => "username contains illegal characters"}
+  validates_presence_of :username, :format => {:with => /\A[\w]+\z/ , :message => "contains illegal characters"}
   validates_presence_of :password, :if => :should_validate_password?
   validates :email, :presence => true, :uniqueness => true, :format => {:with => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i , :message => "does not look like an e-mail address"} # Regex from devise, see http://rawsyntax.com/blog/rails-3-email-validation/
-  validates :name, :presence => true, :format => {:with => /\A[\w\s]+\z/ , :message => "name contains illegal characters"}
+  validates :name, :presence => true, :format => {:with => /\A[\w\s]+\z/ , :message => "contains illegal characters"}
 
   def should_validate_password?
     new_record? || updating_password

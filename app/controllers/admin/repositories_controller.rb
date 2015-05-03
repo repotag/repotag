@@ -43,6 +43,7 @@ class Admin::RepositoriesController < Admin::AdminController
         format.html { redirect_to @repository, notice: 'Repository was successfully created.' }
         format.json { render json: @repository, status: :created, location: @repository }
       else
+        flash_save_errors "repository", @repository.errors
         format.html { render action: "new" }
         format.json { render json: @repository.errors, status: :unprocessable_entity }
       end
@@ -59,6 +60,7 @@ class Admin::RepositoriesController < Admin::AdminController
         format.html { redirect_to @repository, notice: 'Repository was successfully updated.' }
         format.json { head :no_content }
       else
+        flash_save_errors "repository", @repository.errors
         format.html { render action: "edit" }
         format.json { render json: @repository.errors, status: :unprocessable_entity }
       end
