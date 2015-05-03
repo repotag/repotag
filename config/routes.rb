@@ -14,7 +14,7 @@ Repotag::Application.routes.draw do
   resources :users, only: [:index, :show, :edit, :update]
 
   namespace :admin do
-  	match '/' => 'users#index'
+  	get '/' => 'users#index'
   	resources :users
     get '/users/:id/set_admin', :controller => 'admin/users', :action => :set_admin
     resources :repositories
@@ -26,7 +26,6 @@ Repotag::Application.routes.draw do
     put '/settings/authentication', :controller => 'settings', :action => :update_authentication_settings
 
     resources :settings, only: []
-    # match 'email/smtp', to:
     get '/email/smtp', :controller => 'settings', :action => :show_smtp_settings
     put '/email/smtp', :controller => 'settings', :action => :update_smtp_settings
     post '/email/smtp', :controller => 'settings', :action => :send_test_mail
