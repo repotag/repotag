@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_user! unless Setting.get(:general_settings)[:anonymous_access]
 
-  layout 'spacelab'
+  layout 'application'
 
   # Return the type of code to parse based on a file's mime-type
   def code_type_from_mime(mime_type)

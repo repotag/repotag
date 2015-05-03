@@ -7,7 +7,7 @@ class Ability
        can :manage, :all
       else
        can :read, Repository do |repo|
-         repo.public? or ([repo.owner] + repo.watchers + repo.contributors).include?(user)
+         repo.public? or (repo.watchers + repo.contributors << repo.owner).include?(user)
        end
        can :manage, Repository do |repo|
          repo.owner == user

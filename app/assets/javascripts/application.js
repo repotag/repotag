@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootswatch/loader
+//= require bootswatch/bootswatch
 //= require bootstrap3-editable/bootstrap-editable
 
