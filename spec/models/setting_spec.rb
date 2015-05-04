@@ -10,9 +10,9 @@ describe Setting do
       @smtp_settings.save
     end
     
-    it "should have an address and a port" do
-      @smtp_settings[:address].should_not be_nil
-      @smtp_settings[:port].should_not be_nil
+    it "has an address and a port" do
+      expect(@smtp_settings[:address]).to_not be_nil
+      expect(@smtp_settings[:port]).to_not be_nil
     end
     
   end
@@ -27,17 +27,17 @@ describe Setting do
     before(:each) do
       @rspec_test_settings = Setting.get(:rspec_test)
     end
-    it "should have a settings field that is a hash" do
-      @rspec_test_settings.settings.should be_a Hash
-      @rspec_test_settings.settings.should be_empty
+    it "has a settings field that is a hash" do
+      expect(@rspec_test_settings.settings).to be_a_kind_of(Hash)
+      expect(@rspec_test_settings.settings).to be_empty
     end
   
-    it "should serialize an arbitrary hash" do
+    it "serializes an arbitrary hash" do
       @rspec_test_settings.settings = {:rspec => true}
       @rspec_test_settings[:test_framework] = 'rspec'
       @rspec_test_settings.save
-      @rspec_test_settings.settings[:rspec].should be_truthy
-      @rspec_test_settings.settings[:test_framework].should == 'rspec'
+      expect(@rspec_test_settings.settings[:rspec]).to be_truthy
+      expect(@rspec_test_settings.settings[:test_framework]).to eq 'rspec'
     end
 
     after(:each) do
