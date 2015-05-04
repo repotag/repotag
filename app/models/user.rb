@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
 
   def role_for(resource, include_owner = false)
     return :owner if include_owner && resource.owner == self
-    result = roles.where(:resource_id => resource.id, :resource_type => resource.class.to_s)
+    result = roles.where(:resource_id => resource.id, :resource_type => resource.class.to_s).take
     result == nil ? nil : result.title.to_sym
   end
 
@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
   end
 
   def owned_repositories
-    Repository.where(:owner_id => self)
+    Repository.where(:owner_id => self).to_a
   end
 
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
