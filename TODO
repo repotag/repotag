@@ -31,11 +31,10 @@
 - Add an option to the create/edit views of repositories to add commit hooks to repositories.
 - Work out a way so that administrators can add their own commit hooks (external folder?).
 
-[VALIDATIONS]
-- Role owner is unique
+[VALIDATIONS & SANITIZATION]
 - Repository name is unique for owner
-- Repository name has default characters
 - datadir config option has default characters
+- remove `attr_accessible` from models, remove `attr_accessible` gem, and replace with Strong Parameters. See http://www.sitepoint.com/rails-4-quick-look-strong-parameters/
 
 [SYNCHRONIZATION]
 - Work out a way to update the 'updated-at' field of a repository in ActiveRecord each time a commit is made through the git-servlet.
