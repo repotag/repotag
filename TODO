@@ -56,3 +56,4 @@
 - See if there are any extensions for the coderay-gem to include (e.g. highlighting for bash scripts).
 - Write a method that merges two user accounts together in a sensible way.
 - Add content to README
+- Make AuthProxy rack middleware generic, and add an AuthProxy for wikis (gollum)
