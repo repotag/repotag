@@ -7,20 +7,20 @@ describe HookMailer do
     @repository.repository.create!
   end
   
-  it "should send an activity report" do
-    HookMailer.activity_report(@user, @repository).deliver
-    ActionMailer::Base.deliveries.should have(1).email
+  it "sends an activity report" do
+    HookMailer.activity_report(@user, @repository).deliver_now
+    expect(ActionMailer::Base.deliveries).to have(1).email
   end
   
-  it "should send mail with commit details if so configured" do
+  it "sends mail with commit details if so configured" do
     @testfile = 'test_file.txt'
     File.open(File.join(File.dirname(@repository.repository.path), @testfile), 'w') {|file| file.write("This is a new file to add.") }
     RJGit::Porcelain.add(@repository.repository, @testfile)
     RJGit::Porcelain.commit(@repository.repository, "Initial commit")
     @commit = @repository.repository.head
-    HookMailer.commit_details(@user, @repository, @commit).deliver
-    ActionMailer::Base.deliveries.should have(1).email
-    ActionMailer::Base.deliveries.first.body.decoded.should include(@commit.id)
+    HookMailer.commit_details(@user, @repository, @commit).deliver_now
+    expect(ActionMailer::Base.deliveries).to have(1).email
+    expect(ActionMailer::Base.deliveries.first.body.decoded).to include(@commit.id)
   end
   
   after(:each) do

@@ -4,16 +4,16 @@ describe RepositoriesHelper do
 
   describe "#image_for_file" do
     
-    it "should return a folder icon for directories" do
-      image_for_file('/tmp/path', true).should == "/assets/fileicons/folder.png"
+    it "returns a folder icon for directories" do
+      expect(image_for_file('/tmp/path', true)).to eq "/assets/fileicons/folder.png"
     end
     
-    it "should return a specific icon for known file types" do
-      image_for_file('arpeggio.mp3').should == "/assets/fileicons/mp3.png"
+    it "returns a specific icon for known file types" do
+      expect(image_for_file('arpeggio.mp3')).to eq "/assets/fileicons/mp3.png"
     end
     
-    it "should return a general file icon for unknown file types" do
-      image_for_file('super.dup').should == "/assets/fileicons/file.png"
+    it "returns a general file icon for unknown file types" do
+      expect(image_for_file('super.dup')).to eq "/assets/fileicons/file.png"
     end
     
   end

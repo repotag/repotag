@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.14'
+gem 'rails', '~> 4.2'
+
+# Temporary Rails 4 fix. See e.g. http://www.sitepoint.com/rails-4-quick-look-strong-parameters/
+gem 'protected_attributes'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -22,15 +25,11 @@ gem 'bootstrap-x-editable-rails'
 gem 'twitter-typeahead-rails'
 gem 'gravatar_image_tag'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'coffee-rails'
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyrhino'
 
-  gem 'uglifier', '>= 1.0.3'
-end
+gem 'coffee-rails'
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+gem 'therubyrhino'
+gem 'uglifier', '>= 1.0.3'
 
 gem 'jquery-rails'
 
@@ -49,11 +48,8 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug'
 
-gem 'sass-rails',   '~> 3.2.3'
-gem "meta_search",  '>= 1.1.0.pre'
-
 group :test, :development do
-  gem "rspec-rails", "~> 2.6"
+  gem "rspec-rails", "~> 3.0"
   gem "factory_girl_rails"
   gem "rspec-activemodel-mocks"
   gem "rspec-collection_matchers"

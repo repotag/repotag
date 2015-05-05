@@ -3,7 +3,7 @@ class Mailer < ActionMailer::Base
   default :to => "repotag@repotag.org"
 
   def new_message(message)
-    @message = message
+   @message = message
    mail(:subject => "[repotag.org] #{@message}")
   end
 

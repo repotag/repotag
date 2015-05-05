@@ -6,13 +6,13 @@ describe "repository" do
     @repo = FactoryGirl.create(:repository)
     @user = @repo.owner
     http_auth(@user.username,'koekje123')
-    RJGit::Repo.any_instance.stub(:valid?) { true }
+    allow_any_instance_of(RJGit::Repo).to receive(:valid?).and_return(true)
   end
   
   describe "list" do
     it 'displays a heading' do
       visit repositories_path
-      page.should have_content('Listing repositories')
+      expect(page).to have_content('Listing repositories')
     end
   end
 
@@ -20,22 +20,22 @@ describe "repository" do
   
     it 'displays its name' do
       visit repository_path(@repo)
-      page.should have_content("#{@repo.name}")
+      expect(page).to have_content("#{@repo.name}")
     end
   
     it 'displays its files' do
       visit repository_path(@repo)
-      page.should have_xpath("//ol[@class='tree']/li") 
+      expect(page).to have_xpath("//ol[@class='tree']/li") 
     end
   
     it 'displays its directories' do
       visit repository_path(@repo)
-      page.should have_xpath("//ol[@class='tree']/li") 
+      expect(page).to have_xpath("//ol[@class='tree']/li") 
     end
   
     it "displays its breadcrumb path" do
       visit repository_path(@repo)
-      page.should have_content("/")
+      expect(page).to have_content("/")
     end
     
   end

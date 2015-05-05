@@ -4,8 +4,11 @@ class RepositoriesController < ApplicationController
   # GET /repositories
   # GET /repositories.json
   def index
-    # This query is too expensive and should be improved to only request those repos that the user has access to
-    @repositories = Repository.find(:all)
+    if current_user
+      @repositories = current_user.all_repositories
+    else
+      @repositories = Repository.where(:public => true)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
