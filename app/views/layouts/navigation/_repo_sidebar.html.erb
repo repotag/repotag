@@ -9,7 +9,7 @@
 		<% if general_settings[:enable_wikis] == "1" %>
 			<%= raw "<li><a href='#{}'><i class='fa fa-book fa-2x'></i></a></li>" %>
 		<% end %>
-        <li><a href="#"><i class="fa fa-cog fa-2x"></i></a></li>
+        <li><a href=<%= repository_settings_path(@repository) %> <i class="fa fa-cog fa-2x"></i></a></li>
       </ul>
     </div>
   </div>

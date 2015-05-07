@@ -50,6 +50,11 @@ Spork.prefork do
     
     config.include Capybara::DSL # Manually mix in Capybara so we can use its methods outside the 'requests'/'features' dirs.
 
+    #config.include Devise::TestHelpers
+    config.include Devise::TestHelpers, :type => :view
+    
+    #config.include Rails.application.routes.url_helpers
+    
     # If true, the base class of anonymous controllers will be inferred
     # automatically. This will be the default behavior in future versions of
     # rspec-rails.

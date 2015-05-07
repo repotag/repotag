@@ -10,11 +10,13 @@ class UsersController < ApplicationController
 
   def update
     @user = params[:id] ? User.find(params[:id]) : current_user
-    if @user.update_attributes(params[:user])
-      redirect_to :action => 'show', :id => @user
-    else
-      flash_save_errors "user", @user.errors
-      render :action => 'edit'
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        format.html { redirect_to @user, :notice => 'Profile was successfully updated.' }
+      else
+        flash_save_errors "user", @user.errors
+        format.html { render :action => 'edit' }
+      end
     end
   end
 end

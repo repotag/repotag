@@ -58,6 +58,19 @@ class Repository < ActiveRecord::Base
     user = User.find(:first, :conditions => {:username => user})
     user ? user.owned_repositories.find {|r| r.name == repo} : nil
   end
+  
+  def settings
+    setting = Setting.where(:repository_id => self).first_or_create
+    if setting.name.nil?
+      setting.name = self.name.to_sym
+      setting.save
+    end
+    if setting.settings.nil?
+      setting.settings = {}
+      setting.save
+    end
+    setting    
+  end
 
   def to_json
     ActiveSupport::JSON.encode(self)

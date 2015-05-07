@@ -1,7 +1,6 @@
 <h2>Edit your profile</h2>
 
-<% if can? :read, @user %>
-<%= render 'profile', {:user => @user} %>
-<% end %>
+<%= render :partial => "profile", :locals => {:user => @user} %>
+
 <%= link_to 'Show', user_path %>
 <%= link_to 'Back', repositories_path %>

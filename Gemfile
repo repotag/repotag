@@ -54,6 +54,7 @@ group :test, :development do
   gem "rspec-activemodel-mocks"
   gem "rspec-collection_matchers"
   gem "capybara"
+  gem "selenium-webdriver"
   gem "watchr"
   gem "spork", "~> 0.9"
   gem "simplecov"

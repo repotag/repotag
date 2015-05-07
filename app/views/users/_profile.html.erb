@@ -1,11 +1,18 @@
-<%= form_for(user) do |f| %>
-	<div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field(:name) %><br />
-    <%= f.label :email %><br />
-    <%= f.text_field(:email) %>
-  </div>
+<%= form_for user, :html => { :class => :form } do |f| %>
+	<div class="control-group">
+    	<%= f.label :name, :class => 'control-label' %><br />
+		<div class="input">
+    		<%= f.text_field :name  %><br />
+		</div>
+	</div>
+	<div class="control-group">
+    	<%= f.label :email, :class => 'control-label' %><br />
+		<div class="input">
+    		<%= f.text_field :email %>
+		</div>
+	</div>
   <div class="actions">
-    <%= f.submit %>
+	<br/>
+    <%= f.submit "Update profile", :class => "btn btn-primary btn-large" %>
   </div>
 <% end %>

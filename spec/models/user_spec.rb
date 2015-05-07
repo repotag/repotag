@@ -79,6 +79,21 @@ describe User do
       @user.set_admin(false)
       expect(@user).to_not be_admin
     end
+    
+    it "should list a user's role for a resource" do
+      repo = FactoryGirl.build_stubbed(:repository)
+      owner = repo.owner
+      role = Role.new
+      role.title = :watcher
+      role.resource = repo
+      role.user = @user
+      role.save
+      expect(owner.role_for(repo)).to be_nil
+      expect(owner.role_for(repo, true)).to be == :owner
+      expect(@user.role_for(repo)).to be == :watcher
+    end
+    
+    
   end
 
 end

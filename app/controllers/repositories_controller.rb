@@ -19,6 +19,9 @@ class RepositoriesController < ApplicationController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
+    @repository = Repository.find(params[:id])
+    @general_settings = Setting.get(:general_settings)
+    
     if @repository.invalid? then
       flash[:alert] = "Repository #{@repository.name} is invalid."
       redirect_to :action => :index
@@ -52,16 +55,7 @@ class RepositoriesController < ApplicationController
         redirect_to :action => :show, :branch => branch
         return false
       end
-      @directory_list, @file_list = [], []
-      ls_options = { :recursive => false, :print => false, :branch => branch }
-      lstree = RJGit::Porcelain.ls_tree(repository, tree, ls_options)
-
-      if lstree
-        lstree.each do |entry|
-          @file_list << entry if entry[:type] == 'blob'
-          @directory_list << entry if entry[:type] == 'tree'
-        end
-      end
+      @directory_list, @file_list = view_context.get_listing(repository, branch, tree)
     end
     respond_to do |format|
       format.html # show.html.erb
@@ -158,4 +152,17 @@ class RepositoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def show_repository_settings
+    @repository = Repository.find(params[:repository_id])
+    @settings = @repository.settings
+    respond_to do |format|
+      format.html { render 'repositories/settings'}
+      format.json { render :json => @settings }
+    end
+  end
+  
+  def update_repository_settings
+  end
+  
 end

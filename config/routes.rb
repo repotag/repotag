@@ -2,6 +2,9 @@ Repotag::Application.routes.draw do
 
   resources :repositories do
     get 'get_children', on: :member
+    get 'settings', :controller => 'repositories', :action => :show_repository_settings
+    put 'settings', :controller => 'repositories', :action => :update_repository_settings
+    # get 'wiki', :controller => 'repositories'
   end
 
   # resources :repositories do

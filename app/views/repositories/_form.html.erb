@@ -1,12 +1,17 @@
-<%= form_for(@repository) do |f| %>
-  <div class="field">
-    <%= f.label :public %><br />
-    <%= f.check_box(:public) %>
-  </div>
-	<div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field(:name) %>
-  </div>
+<%= form_for @repository, :html => { :class => :form } do |f| %>
+	<div class="control-group">
+   		<%= f.label :public, :class => 'control-label' %>
+		<div class="input">
+   			<%= f.check_box :public, :class => 'checkbox' %>
+		</div>
+	</div>
+	<div class="control-group">
+    	<%= f.label :name, :class => 'control-label' %>
+		<div class="input">
+    		<%= f.text_field :name, :class => 'text_field' %>
+		</div>
+	</div>
+  <br/>
   <div class="actions">
     <%= f.submit "Save Repository", :class => "btn btn-primary btn-large" %>
   </div>

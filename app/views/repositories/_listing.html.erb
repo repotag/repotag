@@ -21,7 +21,7 @@
 					 	<i class="fa fa-edit"></i>
 					<% end %>
 					<% if can?(:manage, repository) then %>
-					<%= link_to repository_path(repository), :class => "btn", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
+					<%= link_to repository_path(repository), :class => "btn", :id => 'delete', :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
 					 	<i class="fa fa-trash"></i>
 					 <% end
 					 end %>

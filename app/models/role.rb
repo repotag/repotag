@@ -15,7 +15,7 @@ class Role < ActiveRecord::Base
   validate :validates_no_roles_for_repo_owner
 
   def validates_no_roles_for_repo_owner
-    if self.resource_type == 'Repository' then
+    if self.resource_type == 'Repository' && self.user
       errors.add(:base, "Cannot have a role on a repository that is owned by the user.") if self.resource.owner.id == self.user.id
     end
   end

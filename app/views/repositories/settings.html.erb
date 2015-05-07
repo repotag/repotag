@@ -1,0 +1,27 @@
+<%= stylesheet_link_tag 'bootstrap3-editable/bootstrap-editable' %>
+
+<h1>Settings specific to Repository <%= @repository.name %></h1>
+<div>
+	<ul>
+		<li>Rename repository here</li>
+
+		<li>Change public / private here</li>
+
+		<li>Add collaborators here</li>
+
+		<li>Delete repository (owner)</li>
+	</ul>
+<div>
+
+<h2>The settings: <%= @repository.settings.settings %> </h2>
+
+<div>
+	<ul>
+		<li>enable_wiki</li>
+		<li>enable_issuetracker</li>
+		<li>default branch</li>
+	</ul>
+</div>
+
+
+

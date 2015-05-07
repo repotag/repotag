@@ -28,8 +28,14 @@ feature "Admin manages users" do
   feature "by updating a user" do
     scenario "with valid fields" do
       create_user("Tester Bob", "bob@repotag.org")
-      update_user("name", "Tester Bobby")
-      # expect(page).to have_text "User was successfully updated"
+      update_user_email("bob@repotag.org", "bobbyt@repotag.org")
+      expect(page).to have_text "User was successfully updated"
+    end
+    
+    scenario "with invalid fields" do
+      create_user("Tester Bob", "bob@repotag.org")
+      update_user_email("bob@repotag.org", "")
+      expect(page).to have_text "Email can't be blank"
     end
   end
   
@@ -44,7 +50,11 @@ feature "Admin manages users" do
     click_button 'Save'
   end
   
-  def update_user(field, value)
+  def update_user_email(email, new_email)
+    user = User.where(email: email).first
+    visit edit_admin_user_path(user)
+    fill_in "Email", with: new_email
+    click_button 'Save'
   end
   
 end

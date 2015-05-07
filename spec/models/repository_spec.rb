@@ -23,6 +23,10 @@ describe Repository do
     end
   end
   
+  it "should have an owner" do  
+    expect(@repository.owner).to be_a User
+  end
+  
   it "corresponds to a RJGit repository" do
     expect(@repository.repository).to be_a_kind_of(RJGit::Repo)
   end
