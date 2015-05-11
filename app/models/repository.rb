@@ -26,7 +26,7 @@ class Repository < ActiveRecord::Base
 
   def to_disk
     return self.repository if File.exists?(self.filesystem_path)
-    return RJGit::Repo.new(self.filesystem_path, :create => true)
+    return RJGit::Repo.new(self.filesystem_path, :create => true, :is_bare => true)
   end
 
   def self.pluralize(word)
