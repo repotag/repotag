@@ -80,6 +80,13 @@ Spork.prefork do
     end
   end
   
+  def remove_temp_repo(path)
+    if File.exists?(path)
+      FileUtils.rm_rf(path)
+    else
+      puts "\nWARNING: could not delete path (directory #{path} does not exist). Called by #{caller[0]}.\n"
+    end
+  end
 end
 
 Spork.each_run do

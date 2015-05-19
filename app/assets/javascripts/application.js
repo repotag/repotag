@@ -14,5 +14,6 @@
 //= require jquery_ujs
 //= require bootswatch/loader
 //= require bootswatch/bootswatch
+//= require twitter/typeahead
 //= require bootstrap3-editable/bootstrap-editable
 

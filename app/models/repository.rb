@@ -37,6 +37,24 @@ class Repository < ActiveRecord::Base
     Repository.users(self) + [self.owner]
   end
 
+  def collaborators
+    User.where(:id => Role.where(:resource_id => self.id).select(:user_id)).to_a
+  end
+  
+  def contributors
+    self.collaborators.select{|collaborator| collaborator.has_role?(:contributor, self) }
+  end
+
+  def watchers
+    self.collaborators.select{|collaborator| collaborator.has_role?(:watcher, self) }
+  end
+  
+  def populate_with_test_data
+    tree = RJGit::Tree.new_from_hashmap(self.repository, { "README.md" => "# This is a test repo with one directory and two files.", "scriptdir" => { "reverse.rb" => "ruby -e 'File.open('foo').each_line { |l| puts l.chop.reverse }'" }} )
+    commit = RJGit::Commit.new_with_tree(self.repository, tree, "Test commit message", RJGit::Actor.new("test","test@repotag.org"))
+    self.repository.update_ref(commit)
+  end
+
   Repotag::Application.config.role_titles.each do |role_title|
     define_method(self.pluralize(role_title.to_s)) do
       Repository.users(self, role_title)
@@ -66,7 +84,8 @@ class Repository < ActiveRecord::Base
       setting.save
     end
     if setting.settings.nil?
-      setting.settings = {}
+      setting.settings = {:default_branch => 'refs/heads/master', :enable_wiki => Setting.get(:general_settings)[:enable_wikis], 
+                          :enable_issuetracker => Setting.get(:general_settings)[:enable_issuetracker]}
       setting.save
     end
     setting    

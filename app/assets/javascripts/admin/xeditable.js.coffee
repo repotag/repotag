@@ -58,7 +58,8 @@ $(document).ready ->
 		source: [ 
 			{ value: 0, text: 'false' }
 			{ value: 1, text: 'true' } ])
-			
+	
+	# General settings 
 	$('#general_repo_root').editable(
 		name: 'repo_root'
 		type: 'text'
@@ -114,6 +115,7 @@ $(document).ready ->
 			{ value: 1, text: 'true' } ]
 	)
 	
+	# Authentication settings
 	$('#auth_google_enabled').editable(
 		name: 'google_oauth2_enabled'
 		type: 'select'
@@ -191,3 +193,41 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/authentication'
 		title: 'Enter your Github secret' )
+		
+		
+	# Repository-specific settings
+	$('#enable_wiki').editable(
+		name: 'enable_wiki'
+		type: 'select'
+		pk: 1
+		url: document.URL
+		title: 'Enable Wiki'
+		value: 'false'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
+	
+	$('#enable_issuetracker').editable(
+		name: 'enable_issuetracker'
+		type: 'select'
+		pk: 1
+		url: document.URL
+		title: 'Enable Issue tracker'
+		value: 'false'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
+
+	$('#default_branch').editable(
+		name: 'default_branch'
+		type: 'select'
+		pk: 1
+		url: document.URL
+		value: 'a'
+		source: $('#default_branch').data('branches')
+	)
+	
+
+	

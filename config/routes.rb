@@ -5,6 +5,8 @@ Repotag::Application.routes.draw do
     get 'settings', :controller => 'repositories', :action => :show_repository_settings
     put 'settings', :controller => 'repositories', :action => :update_repository_settings
     # get 'wiki', :controller => 'repositories'
+    put 'add_collaborator'
+    put 'remove_collaborator'
   end
 
   # resources :repositories do

@@ -37,6 +37,8 @@ class RepositoriesController < ApplicationController
       return false
     end
 
+    @commit = RJGit::Commit.find_head(repository)
+
     branch = params[:branch] || "refs/heads/master"
     if params[:file]
       begin
@@ -56,6 +58,7 @@ class RepositoriesController < ApplicationController
         return false
       end
       @directory_list, @file_list = view_context.get_listing(repository, branch, tree)
+
     end
     respond_to do |format|
       format.html # show.html.erb
@@ -78,7 +81,6 @@ class RepositoriesController < ApplicationController
     ls_options = { :recursive => false, :print => false, :branch => branch }
     lstree = RJGit::Porcelain.ls_tree(repo, tree, ls_options)
 
-    Rails.logger.debug "lstree: #{lstree}"
     if lstree
       lstree.each do |entry|
         if entry[:type] == 'blob'
@@ -155,14 +157,47 @@ class RepositoriesController < ApplicationController
   
   def show_repository_settings
     @repository = Repository.find(params[:repository_id])
-    @settings = @repository.settings
+    @collaborators = @repository.collaborators
+    @contributors = @repository.contributors
+    @repository_settings = @repository.settings
+    
     respond_to do |format|
       format.html { render 'repositories/settings'}
-      format.json { render :json => @settings }
+      format.json { render :json => @repository_settings }
     end
   end
   
   def update_repository_settings
+    @repository = Repository.find(params[:repository_id])
+    updated_key = params[:name].to_sym
+    valid_keys = [:enable_wiki, :enable_issuetracker, :default_branch]
+    if valid_keys.include?(updated_key)
+      settings = @repository.settings
+      settings[updated_key] = params[:value]
+      settings.save
+    end
+    @collaborators = @repository.collaborators
+    @contributors = @repository.contributors
+    @repository_settings = @repository.settings
+    
+    render "repositories/settings"
   end
+  
+  def add_collaborator
+    role = params[:role]
+    user = User.find(params[:user_id])
+    @repository = Repository.find(params[:repository_id])
+    user.add_role(role, @repository)
+    redirect_to 'show_repository_settings'
+  end
+  
+  def remove_collaborator
+    role = params[:role]
+    user = User.find(params[:user_id])
+    @repository = Repository.find(params[:repository_id])
+    user.delete_role(role, @repository)
+    redirect_to 'show_repository_settings'
+  end
+  
   
 end
