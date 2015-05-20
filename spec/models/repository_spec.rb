@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Repository do
   
-  before :each do
+  before(:each) do
     @repository = FactoryGirl.create(:repository)
   end
 
@@ -26,6 +26,12 @@ describe Repository do
   it "should have an owner" do  
     expect(@repository.owner).to be_a User
   end
+  
+  it "can have many Issues"
+  
+  it "can have many Milestones"
+  
+  it "can have many Labels"
   
   it "corresponds to a RJGit repository" do
     expect(@repository.repository).to be_a_kind_of(RJGit::Repo)
