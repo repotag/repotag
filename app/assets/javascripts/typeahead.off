@@ -1,0 +1,27 @@
+$( document ).ready(function() {
+
+	// constructs the suggestion engine
+	var engine = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  prefetch: 'potential_users.json'
+	})
+
+	// kicks off the loading/processing of `local` and `prefetch`
+	engine.initialize();
+
+	$('.typeahead').typeahead({
+	  hint: true,
+	  highlight: true,
+	  minLength: 1,
+	},
+	{
+	  name: 'potential_contributors',
+	  // `ttAdapter` wraps the suggestion engine in an adapter that
+	  // is compatible with the typeahead jQuery plugin
+	  source: engine.ttAdapter(),
+	  displayKey: 'name'
+	  }
+	);
+
+});

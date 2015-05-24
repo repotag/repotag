@@ -53,6 +53,12 @@ describe User do
    @user.updating_password = true
    expect(@user.should_validate_password?).to be_truthy
  end
+
+ it "sets whether it is public" do
+  expect(@user).to be_public
+  @user.toggle(:public)
+  expect(@user).to_not be_public
+ end
  
  it "stores a password encryptedly" do
    @user.attributes = valid_user_attributes.except(:password)

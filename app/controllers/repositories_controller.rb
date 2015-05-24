@@ -170,6 +170,14 @@ class RepositoriesController < ApplicationController
       format.json { render :json => @repository_settings }
     end
   end
+
+  def potential_users
+    @repository = Repository.find(params[:repository_id])
+    potential_contributors = User.where.not(id: @repository.contributors + @repository.collaborators + [@repository.owner]).where(:public => true).select(:username).to_a.map {|x| {:name => x[:username]}}
+    respond_to do |format|
+      format.json { render :json => potential_contributors }
+    end
+  end
   
   def update_repository_settings
     @repository = Repository.find(params[:repository_id])

@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :login, :updating_password
   # Setup accessible attributes for your model
-  attr_accessible :login, :username, :name, :email, :password, :password_confirmation, :remember_me, :encrypted_password, :provider, :uid
+  attr_accessible :login, :username, :name, :email, :password, :password_confirmation, :remember_me, :encrypted_password, :provider, :uid, :public
 
   validates_uniqueness_of :username, :case_sensitive => false
   validates_presence_of :username, :format => {:with => /\A[\w]+\z/ , :message => "contains illegal characters"}
