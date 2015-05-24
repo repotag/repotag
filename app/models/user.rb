@@ -32,10 +32,11 @@ class User < ActiveRecord::Base
 
   def delete_role(title, resource = nil)
     title = title.to_s if title.is_a? Symbol
-    query = {:title => title, :resource_id => nil}
+    query = {:title => title, :user_id => self, :resource_id => nil}
     query[:resource_id] = resource.id unless resource.nil?
     query[:resource_type] = resource.class.to_s unless resource.nil?
-    roles.where(query).take.destroy
+    role = Role.where(query).take
+    role.destroy if role
   end
 
   def has_role?(title, resource = nil)

@@ -53,11 +53,11 @@
 	<div class="col-xs-6">
 		<div  id="prefetch">
 			<%= label_tag "Add contributor" %><br/>
-			<%= text_field_tag :new_contributor, nil, size: '40', placeholder: 'Type the username here', class: 'typeahead' %>
+			<%= text_field_tag :select_user, nil, size: '40', placeholder: 'Type the username here', class: 'typeahead' %>
 
 <div class="row">
 	<div class='collaborators-table'>
-		<table class="table table-striped table-border table-hover" style="width: auto;">
+		<table id="contributors" class="table table-striped table-border table-hover" style="width: auto;">
 		<% if @contributors.empty? %>
 			<%= "There are no contributors for this repo besides you." %>
 		<% else %>

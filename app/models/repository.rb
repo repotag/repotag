@@ -38,7 +38,7 @@ class Repository < ActiveRecord::Base
   end
 
   def collaborators
-    User.where(:id => Role.where(:resource_id => self.id).select(:user_id)).to_a
+    collaborators = User.where(:id => Role.where(:resource_id => self.id).select(:user_id)).to_a
   end
   
   def contributors

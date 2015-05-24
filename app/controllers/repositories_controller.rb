@@ -197,10 +197,26 @@ class RepositoriesController < ApplicationController
   
   def add_collaborator
     role = params[:role]
-    user = User.find(params[:user_id])
+    @user = User.find_by_username(params[:username])
     @repository = Repository.find(params[:repository_id])
-    user.add_role(role, @repository)
-    redirect_to 'show_repository_settings'
+    
+    respond_to do |format|
+    if @user.has_role?(params[:role], @repository)
+      # User has role already. Ignore (should not really happen)
+      format.json {render json: {} }
+    else
+      # Try adding the role
+      @user.add_role(role, @repository)
+      if @user.has_role?(params[:role], @repository)
+        # Return user to be added to the table
+        format.json {render json: {:user => @user, delete_url: repository_remove_collaborator_path(:repository_id => @repository.id, :user_id => @user.id, :role => :contributor) }}
+      else
+        # Failure to add role
+        format.json {render json: {} }
+      end
+    end
+  end
+    
   end
   
   def remove_collaborator
@@ -208,7 +224,12 @@ class RepositoriesController < ApplicationController
     user = User.find(params[:user_id])
     @repository = Repository.find(params[:repository_id])
     user.delete_role(role, @repository)
-    redirect_to 'show_repository_settings'
+    
+    @collaborators = @repository.collaborators
+    @contributors = @repository.contributors
+    @repository_settings = @repository.settings
+    
+    render "repositories/settings"
   end
   
   
