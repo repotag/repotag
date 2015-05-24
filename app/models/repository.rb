@@ -50,7 +50,7 @@ class Repository < ActiveRecord::Base
   end
   
   def populate_with_test_data
-    tree = RJGit::Tree.new_from_hashmap(self.repository, { "README.md" => "# This is a test repo with one directory and two files.", "scriptdir" => { "reverse.rb" => "ruby -e 'File.open('foo').each_line { |l| puts l.chop.reverse }'" }} )
+    tree = RJGit::Tree.new_from_hashmap(self.repository, { "README.md" => "# This is a test repo with one directory and two files.", "scriptdir" => { "multiline.rb" => "class PowerShell\n\tdef do_stuff\n\t\tdo_stuff!\n\tend\nend", "reverse.rb" => "ruby -e 'File.open('foo').each_line { |l| puts l.chop.reverse }'" }} )
     commit = RJGit::Commit.new_with_tree(self.repository, tree, "Test commit message", RJGit::Actor.new("test","test@repotag.org"))
     self.repository.update_ref(commit)
   end
