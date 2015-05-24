@@ -36,4 +36,7 @@ module ApplicationHelper
     result
   end
 
+  def general_setting(key)
+    Setting.get(:general_settings)[key] || GENERAL_DEFAULTS[key]
+  end
 end

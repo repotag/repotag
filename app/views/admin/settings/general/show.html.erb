@@ -16,6 +16,10 @@
 				<td><a href="#" data-xeditable="true" id="general_repo_root"><%= @general_settings[:repo_root] %></a></td>
 			</tr>
 			<tr>
+				<td><%= field.label 'Default branch:' %></td>
+				<td><a href="#" data-xeditable="true" id="general_default_branch"><%= @general_settings[:default_branch] %></a></td>
+			</tr>
+			<tr>
 				<td><%= field.label 'Allow Anonymous Access:' %></td>
 				<td><a href="#" data-xeditable="true" id="general_anonymous_access"><%= @general_settings[:anonymous_access] == "0" ? 'false' : 'true' %></a></td>
 			</tr>

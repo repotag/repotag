@@ -66,6 +66,13 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/general'
 		title: 'Enter root directory' )
+
+	$('#general_default_branch').editable(
+		name: 'default_branch'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enter default branch' )
 		
 	$('#general_anonymous_access').editable(
 		name: 'anonymous_access'

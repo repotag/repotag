@@ -1,4 +1,4 @@
-GENERAL_DEFAULTS = {:repo_root => '/tmp/repos', :anonymous_access => false, :public_profiles => false }
+GENERAL_DEFAULTS = {:repo_root => '/tmp/repos', :anonymous_access => false, :public_profiles => false, :default_branch => 'refs/heads/master'}
 
 Rails.logger.debug "Attempting to set default values"
 

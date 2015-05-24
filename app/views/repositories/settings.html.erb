@@ -13,7 +13,6 @@
 	</ul>
 <div>
 
-
 <div class='settings-table'>
 	<table class="table table-striped table-border table-hover" style="width: auto;">
 	  <thead>
@@ -34,7 +33,9 @@
 			</tr>
 			<tr>
 				<td><%= form.label "Default branch for #{@repository.name}:" %></td>
-				<td><a href="#" id="default_branch" data-branches=<%= @repository.repository.branches.to_json %> ><%= @repository_settings[:default_branch] %></a></td>
+				<% branches = @repository.repository.branches
+				   branches = [general_setting(:default_branch)] if branches.empty? %>
+				<td><a href="#" id="default_branch" data-branches=<%= branches.to_json %> ><%= @repository_settings[:default_branch] %></a></td>
 			</tr>
 		<% end %>
 	</tbody>
@@ -42,17 +43,9 @@
 </div>
 
 
-<div class="row">
-	<div class="col-xs-4">
-		<h2>Collaborators</h2>
-	</div>
-	<div class="col-xs-6">
-		<div  id="prefetch">
 			<%= label_tag "Add collaborator" %><br/>
 			<%= text_field_tag :new_contributor, nil, size: '40', placeholder: 'Type the username here', class: 'typeahead' %>
-		</div>
-	</div>
-</div>
+
 <div class="row">
 	<div class='collaborators-table'>
 		<table class="table table-striped table-border table-hover" style="width: auto;">
