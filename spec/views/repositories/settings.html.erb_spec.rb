@@ -5,7 +5,7 @@ describe 'repositories/settings.html.erb' do
     @repo = FactoryGirl.create(:repository)
     assign(:repository, @repo)
     assign(:repository_settings, @repo.settings)
-    assign(:contributors, @repo.contributors)
+    assign(:contributors, @repo.contributing_users)
   end
   
   it "should list settings that are specific to a repository" do
@@ -25,7 +25,7 @@ describe 'repositories/settings.html.erb' do
     before(:each) do
       @contributor = FactoryGirl.create(:user)
       @contributor.add_role(:contributor, @repo)
-      assign(:contributors, @repo.contributors)
+      assign(:contributors, @repo.contributing_users)
       render
     end
     

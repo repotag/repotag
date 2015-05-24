@@ -37,16 +37,16 @@ class Repository < ActiveRecord::Base
     Repository.users(self) + [self.owner]
   end
 
-  def collaborators
-    collaborators = User.where(:id => Role.where(:resource_id => self.id).select(:user_id)).to_a
+  def collaborating_users
+    User.where(:id => Role.where(:resource_id => id).select(:user_id)).to_a
   end
   
-  def contributors
-    self.collaborators.select{|collaborator| collaborator.has_role?(:contributor, self) }
+  def contributing_users
+    collaborating_users.select{|collaborator| puts "#{collaborator.inspect}" ; collaborator.has_role?(:contributor, self) }
   end
 
-  def watchers
-    self.collaborators.select{|collaborator| collaborator.has_role?(:watcher, self) }
+  def watching_users
+    collaborating_users.select{|collaborator| collaborator.has_role?(:watcher, self) }
   end
   
   def populate_with_test_data

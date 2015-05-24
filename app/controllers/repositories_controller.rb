@@ -161,8 +161,8 @@ class RepositoriesController < ApplicationController
   
   def show_repository_settings
     @repository = Repository.find(params[:repository_id])
-    @collaborators = @repository.collaborators
-    @contributors = @repository.contributors
+    @collaborators = @repository.collaborating_users
+    @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
     
     respond_to do |format|
@@ -173,7 +173,7 @@ class RepositoriesController < ApplicationController
 
   def potential_users
     @repository = Repository.find(params[:repository_id])
-    potential_contributors = User.where.not(id: @repository.contributors + @repository.collaborators + [@repository.owner]).where(:public => true).select(:username).to_a.map {|x| {:name => x[:username]}}
+    potential_contributors = User.where.not(id: @repository.contributing_users + @repository.collaborating_users + [@repository.owner]).where(:public => true).select(:username).to_a.map {|x| {:name => x[:username]}}
     respond_to do |format|
       format.json { render :json => potential_contributors }
     end
@@ -188,8 +188,8 @@ class RepositoriesController < ApplicationController
       settings[updated_key] = params[:value]
       settings.save
     end
-    @collaborators = @repository.collaborators
-    @contributors = @repository.contributors
+    @collaborators = @repository.collaborating_users
+    @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
     
     render "repositories/settings"
@@ -225,8 +225,8 @@ class RepositoriesController < ApplicationController
     @repository = Repository.find(params[:repository_id])
     user.delete_role(role, @repository)
     
-    @collaborators = @repository.collaborators
-    @contributors = @repository.contributors
+    @collaborators = @repository.collaborating_users
+    @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
     
     render "repositories/settings"

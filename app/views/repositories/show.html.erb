@@ -1,4 +1,4 @@
-<i style="text-align:right">Watched by <%= @repository.collaborators.size %> people [needs proper placement on page]</i>
+<i style="text-align:right">Watched by <%= @repository.collaborating_users.size %> people [needs proper placement on page]</i>
 <div class="row">
 	<h3><%= link_to @repository.owner.username, @repository.owner %> / <%= @repository.name %></h3>
 	<div class="col-xs-3">
