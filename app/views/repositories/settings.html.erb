@@ -1,4 +1,8 @@
 <%= stylesheet_link_tag 'bootstrap3-editable/bootstrap-editable' %>
+<%= stylesheet_link_tag 'typeaheadjs' %>
+<%= javascript_include_tag 'application' %>
+<%= javascript_include_tag 'typeahead' %>
+
 
 <h1>Settings specific to Repository <%= @repository.name %></h1>
 <div>
@@ -44,11 +48,11 @@
 
 <div class="row">
 	<div class="col-xs-4">
-		<h2>Collaborators</h2>
+		<h2>Contributors</h2>
 	</div>
 	<div class="col-xs-6">
 		<div  id="prefetch">
-			<%= label_tag "Add collaborator" %><br/>
+			<%= label_tag "Add contributor" %><br/>
 			<%= text_field_tag :new_contributor, nil, size: '40', placeholder: 'Type the username here', class: 'typeahead' %>
 		</div>
 	</div>

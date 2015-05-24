@@ -316,7 +316,6 @@ DEPENDENCIES
   brakeman
   cancan
   capybara
-  coderay (~> 1.0)
   coffee-rails
   devise
   factory_girl_rails
