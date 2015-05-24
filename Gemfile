@@ -63,7 +63,7 @@ group :test, :development do
   gem "rails_best_practices", :require => false
 end
 
-gem 'coderay', '~> 1.0'
+gem 'rouge'
 
 #Authentication
 gem "omniauth-facebook"

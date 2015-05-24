@@ -100,7 +100,11 @@ class RepositoriesController < ApplicationController
   def prepare_fileview(repository, branch)
     blob = repository.blob(params[:path], branch)
     raise if blob == nil
-    CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
+    formatter = Rouge::Formatters::HTML.new(:css_class => 'highlight', :line_numbers => true)
+    lexer = Rouge::Lexer.guess({:mimetype => blob.mime_type, :filename => blob.name, :source => blob.data})
+    lexer = Rouge::Lexers::PlainText.new unless lexer
+    # CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
+    formatter.format(lexer.lex(blob.data))
   end
 
   # GET /repositories/new

@@ -220,6 +220,7 @@ GEM
       railties (>= 4.2.0, < 5)
     rjgit_grack (0.1.4)
       rjgit
+    rouge (1.9.0)
     rspec-activemodel-mocks (1.0.1)
       activemodel (>= 3.0)
       activesupport (>= 3.0)
@@ -332,6 +333,7 @@ DEPENDENCIES
   rails_best_practices
   rjgit!
   rjgit_grack
+  rouge
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails (~> 3.0)
