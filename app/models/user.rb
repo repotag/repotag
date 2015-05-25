@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
+  extend FriendlyId
 
   has_many :roles, :dependent => :destroy
   has_many :repositories, :through => :roles, :source => :resource, :source_type => 'Repository'
+  friendly_id :username
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable

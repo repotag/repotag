@@ -19,7 +19,7 @@ class RepositoriesController < ApplicationController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
-    @repository = Repository.find(params[:id])
+    @repository = Repository.friendly.find(params[:id])
     @general_settings = Setting.get(:general_settings)
     
     if @repository.invalid? then
@@ -68,7 +68,7 @@ class RepositoriesController < ApplicationController
   end
 
   def get_children
-    repository = Repository.find(params[:id])
+    repository = Repository.friendly.find(params[:id])
     path = params[:path].empty? ? nil : params[:path]
     repo = repository.repository
     branch = params[:branch] || "refs/heads/master"
