@@ -178,6 +178,19 @@ GEM
     opal (0.6.3)
       source_map
       sprockets
+    opal-activesupport (0.1.0)
+      opal (>= 0.5.0, < 1.0.0)
+    opal-jquery (0.2.0)
+      opal (>= 0.5.0, < 1.0.0)
+    opal-rails (0.6.3)
+      jquery-rails
+      opal (~> 0.6.0)
+      opal-activesupport (>= 0.0.5)
+      opal-jquery (>= 0.1.0)
+      opal-rspec (~> 0.3.0.beta1)
+      rails (>= 3.2.13, < 5.0)
+    opal-rspec (0.3.0.beta3)
+      opal (>= 0.6.0, < 1.0.0)
     orm_adapter (0.5.0)
     protected_attributes (1.0.9)
       activemodel (>= 4.0.1, < 5.0)
@@ -332,7 +345,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-github
   omniauth-google-oauth2
-  opal
+  opal-rails
   protected_attributes
   rails (~> 4.2)
   rails_best_practices

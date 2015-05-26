@@ -65,6 +65,19 @@ module Repotag
     config.action_mailer.default_url_options = {
       :host => "repotag.org"
     }
+    
+    # Opal settings
+    # These are the available options with their default value:
+    config.opal.method_missing      = true
+    config.opal.optimized_operators = true
+    config.opal.arity_check         = false
+    config.opal.const_missing       = true
+    config.opal.dynamic_require_severity = :ignore
+
+    # Enable/disable /opal_specs route
+    config.opal.enable_specs        = true
+
+    config.opal.spec_location = 'spec-opal'
 
   end
 end

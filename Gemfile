@@ -28,7 +28,7 @@ gem 'gravatar_image_tag'
 
 gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'opal'
+gem 'opal-rails'
 gem 'therubyrhino'
 gem 'uglifier', '>= 1.0.3'
 

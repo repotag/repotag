@@ -1,3 +1,6 @@
+<%= javascript_include_tag 'application' %>
+<%= javascript_include_tag 'greeter' %>
+
 <% if current_user %>
 <%= render 'listing', {:repositories => @repositories } %>
 <% else %>
