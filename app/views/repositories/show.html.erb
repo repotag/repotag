@@ -1,6 +1,8 @@
 <i style="text-align:right">Watched by <%= @repository.collaborating_users.size %> people [needs proper placement on page]</i>
 <div class="row">
 	<h3><%= link_to @repository.owner.username, @repository.owner %> / <%= @repository.name %></h3>
+</div>
+<div class="row">
 	<div class="col-xs-3">
 		<div class="btn-group">
 		  <button type="button" class="btn btn-primary btn-sm">branch: <%= current_branch = params[:branch] || @repository.settings[:default_branch] %></button>
@@ -39,7 +41,7 @@
 		<% end %>
 	</div>
 	<div class="col-xs-1">
-  		<%= render 'layouts/navigation/repo_sidebar', {:general_settings => @general_settings } %>
+  		<%= render 'layouts/navigation/repo_sidebar', {:repository => @repository, :general_settings => @general_settings, :active_nav_tab => @active_nav_tab } %>
 	</div>
 	<%= link_to 'Back to overview', repositories_path %>
 </div>

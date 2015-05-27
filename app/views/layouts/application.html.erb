@@ -24,13 +24,11 @@
   
     <div class="container">
     
-  <div class="page-header"></div>
-  
-  <%= render 'layouts/messages' %>
-  <div class="page-header">
-  <%= yield %>
-  </div>
-
+  		<div class="page-header">
+  			<%= render 'layouts/messages' %>
+  		</div>
+		<%= yield %>
+	</div>
     <!-- Javascripts
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

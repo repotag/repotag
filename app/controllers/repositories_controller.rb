@@ -21,6 +21,7 @@ class RepositoriesController < ApplicationController
   def show
     @repository = Repository.find(params[:id])
     @general_settings = Setting.get(:general_settings)
+    @active_nav_tab = :code
     
     if @repository.invalid? then
       flash[:alert] = "Repository #{@repository.name} is invalid."
@@ -164,7 +165,8 @@ class RepositoriesController < ApplicationController
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
-    
+    @general_settings = Setting.get(:general_settings)
+    @active_nav_tab = :settings
     respond_to do |format|
       format.html { render 'repositories/settings'}
       format.json { render :json => @repository_settings }
