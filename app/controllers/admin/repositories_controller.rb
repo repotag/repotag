@@ -14,7 +14,7 @@ class Admin::RepositoriesController < Admin::AdminController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
-      redirect_to repository_path(@repository)
+      redirect_to [@repository.owner, @repository]
   end
 
   # GET /repositories/new
@@ -40,7 +40,7 @@ class Admin::RepositoriesController < Admin::AdminController
 
     respond_to do |format|
       if @repository.save
-        format.html { redirect_to @repository, notice: 'Repository was successfully created.' }
+        format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully created.' }
         format.json { render json: @repository, status: :created, location: @repository }
       else
         flash_save_errors "repository", @repository.errors
@@ -57,7 +57,7 @@ class Admin::RepositoriesController < Admin::AdminController
 
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
-        format.html { redirect_to @repository, notice: 'Repository was successfully updated.' }
+        format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully updated.' }
         format.json { head :no_content }
       else
         flash_save_errors "repository", @repository.errors

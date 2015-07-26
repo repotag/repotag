@@ -19,7 +19,7 @@ class RepositoriesController < ApplicationController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
-    @repository = Repository.find(params[:id])
+    @repository = Repository.friendly.find(params[:id])
     @general_settings = Setting.get(:general_settings)
     @active_nav_tab = :code
     
@@ -69,7 +69,7 @@ class RepositoriesController < ApplicationController
   end
 
   def get_children
-    repository = Repository.find(params[:id])
+    repository = Repository.friendly.find(params[:id])
     path = params[:path].empty? ? nil : params[:path]
     repo = repository.repository
     branch = params[:branch] || "refs/heads/master"
@@ -124,7 +124,7 @@ class RepositoriesController < ApplicationController
     @repository.owner = current_user
     respond_to do |format|
       if @repository.save && @repository.to_disk
-        format.html { redirect_to @repository, notice: 'Repository was successfully created.' }
+        format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully created.' }
         format.json { render json: @repository, status: :created, location: @repository }
       else
         flash_save_errors "repository", @repository.errors
@@ -139,7 +139,7 @@ class RepositoriesController < ApplicationController
   def update
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
-        format.html { redirect_to @repository, notice: 'Repository was successfully updated.' }
+        format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully updated.' }
         format.json { head :no_content }
       else
         flash_save_errors "repository", @repository.errors

@@ -3,10 +3,10 @@
 		<ul class="nav navbar-nav">
 			
 			<% nav_items = {} %>
-			<% nav_items[:code] = "<a href='#{repository_path(@repository)}'><i class='fa fa-chevron-left'></i><i class='fa fa-chevron-right'></i></a>" %>
+			<% nav_items[:code] = "<a href='#{user_repository_path(@repository.owner, @repository)}'><i class='fa fa-chevron-left'></i><i class='fa fa-chevron-right'></i></a>" %>
 			<% nav_items[:issues] = "<a href='#'><i class='fa fa-exclamation-circle fa-2x'></i> </a>" if general_settings[:enable_issuetracker] == "1" %>
 			<% nav_items[:wiki] = "<a href='#'><i class='fa fa-book fa-2x'></i></a>" if general_settings[:enable_wikis] == "1" %>
-			<% nav_items[:settings] = "<a href='#{repository_settings_path(@repository)}'><i class='fa fa-cog fa-2x'></i></a>" %>
+			<% nav_items[:settings] = "<a href='#{user_repository_settings_path(@repository.owner, @repository)}'><i class='fa fa-cog fa-2x'></i></a>" %>
 			
 			<% nav_items.each do |nav_name, nav_link| %>
 				<li <%=raw("class='active'") if @active_nav_tab == nav_name %>><%= raw nav_link %></li>

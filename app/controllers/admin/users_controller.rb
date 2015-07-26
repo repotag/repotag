@@ -14,7 +14,7 @@ class Admin::UsersController < Admin::AdminController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,7 +34,7 @@ class Admin::UsersController < Admin::AdminController
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
   end
 
   # GET /users/1/set_admin
@@ -68,7 +68,7 @@ class Admin::UsersController < Admin::AdminController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
     if params[:user][:password].blank?
         params[:user].delete(:password)
         params[:user].delete(:password_confirmation)
@@ -89,7 +89,7 @@ class Admin::UsersController < Admin::AdminController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
     @user.destroy
 
     respond_to do |format|

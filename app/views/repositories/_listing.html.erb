@@ -15,13 +15,13 @@
 				<% repositories.each do |repository| %>
 				<% if repository.valid? && can?(:read, repository) then %>
 				<tr>
-					<td><%= link_to repository.name, repository %></td>
+					<td><%= link_to repository.name, [repository.owner, repository] %></td>
 					<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
-					<td><%= link_to edit_repository_path(repository), :class => "btn" do %>
+					<td><%= link_to [:edit, repository.owner, repository], :class => "btn" do %>
 					 	<i class="fa fa-edit"></i>
 					<% end %>
 					<% if can?(:manage, repository) then %>
-					<%= link_to repository_path(repository), :class => "btn", :id => 'delete', :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
+					<%= link_to [repository.owner, repository], :class => "btn", :id => 'delete', :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
 					 	<i class="fa fa-trash"></i>
 					 <% end
 					 end %>
@@ -32,4 +32,4 @@
 		</table>
 	<br />
 <% end %>
-<%= link_to "New Repository", new_repository_path, :class => "btn btn-primary" %>
+<%= link_to "New Repository", new_user_repository_path(current_user), :class => "btn btn-primary" %>
