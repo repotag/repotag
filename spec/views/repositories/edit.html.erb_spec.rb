@@ -9,7 +9,7 @@ describe "repositories/edit" do
     render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "form[action=?][method=?]", repository_path(@repository), "post" do
+    assert_select "form[action=?][method=?]", user_repository_path(@repository.owner, @repository), "post" do
     end
   end
 end
