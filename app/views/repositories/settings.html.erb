@@ -28,7 +28,7 @@
 		  	  </tr>
 		      </thead>
 			  <tbody>
-				<%= form_for(@repository_settings, :url => repository_settings_path(@repository)) do |form| %>
+				<%= form_for(@repository_settings, :url => user_repository_settings_path(@repository.owner, @repository)) do |form| %>
 					<tr>
 						<td><%= form.label "Enable wiki for #{@repository.name}:" %></td>
 						<td><a href="#" id="enable_wiki"><%= @repository_settings[:enable_wiki] == "0" ? 'false' : 'true' %></a></td>

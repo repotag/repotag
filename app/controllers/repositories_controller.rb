@@ -1,6 +1,11 @@
 class RepositoriesController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:new, :create]
+
+  def find_user_repository(user_name, repository_name)
+    Repository.where(:owner_id => User.friendly.find(user_name)).friendly.find(repository_name)
+  end
+
   # GET /repositories
   # GET /repositories.json
   def index
@@ -19,7 +24,7 @@ class RepositoriesController < ApplicationController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
-    @repository = Repository.friendly.find(params[:id])
+    @repository = find_user_repository(params[:user_id], params[:id])
     @general_settings = Setting.get(:general_settings)
     @active_nav_tab = :code
     
@@ -69,7 +74,7 @@ class RepositoriesController < ApplicationController
   end
 
   def get_children
-    repository = Repository.friendly.find(params[:id])
+    repository = find_user_repository(params[:user_id], params[:id])
     path = params[:path].empty? ? nil : params[:path]
     repo = repository.repository
     branch = params[:branch] || "refs/heads/master"
@@ -161,7 +166,7 @@ class RepositoriesController < ApplicationController
   end
   
   def show_repository_settings
-    @repository = Repository.find(params[:repository_id])
+    @repository = find_user_repository(params[:user_id], params[:repository_id])
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
@@ -174,7 +179,7 @@ class RepositoriesController < ApplicationController
   end
 
   def potential_users
-    @repository = Repository.find(params[:repository_id])
+    @repository = find_user_repository(params[:user_id], params[:repository_id])
     potential_contributors = User.where.not(id: @repository.contributing_users + @repository.collaborating_users + [@repository.owner]).where(:public => true).select(:username).to_a.map {|x| {:name => x[:username]}}
     respond_to do |format|
       format.json { render :json => potential_contributors }
@@ -182,7 +187,7 @@ class RepositoriesController < ApplicationController
   end
   
   def update_repository_settings
-    @repository = Repository.find(params[:repository_id])
+    @repository = find_user_repository(params[:user_id], params[:repository_id])
     updated_key = params[:name].to_sym
     valid_keys = [:enable_wiki, :enable_issuetracker, :default_branch]
     if valid_keys.include?(updated_key)
@@ -200,7 +205,7 @@ class RepositoriesController < ApplicationController
   def add_collaborator
     role = params[:role]
     @user = User.find_by_username(params[:username])
-    @repository = Repository.find(params[:repository_id])
+    @repository = find_user_repository(params[:user_id], params[:repository_id])
     
     respond_to do |format|
     if @user.has_role?(params[:role], @repository)
@@ -224,7 +229,7 @@ class RepositoriesController < ApplicationController
   def remove_collaborator
     role = params[:role]
     user = User.find(params[:user_id])
-    @repository = Repository.find(params[:repository_id])
+    @repository = find_user_repository(params[:user_id], params[:repository_id])
     user.delete_role(role, @repository)
     
     @collaborators = @repository.collaborating_users
