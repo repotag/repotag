@@ -23,11 +23,7 @@ Repotag::Application.routes.draw do
     post '/email/smtp', :controller => 'settings', :action => :send_test_mail
 	end
 
-  begin
-      grack_project_root = general_setting(:repo_root)
-    rescue
-      grack_project_root = nil
-  end
+  grack_project_root = Setting.get(:general_settings)[:repo_root] || GENERAL_DEFAULTS[:repo_root]
 
   grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({
       :project_root => grack_project_root,

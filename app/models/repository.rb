@@ -45,7 +45,7 @@ class Repository < ActiveRecord::Base
   end
   
   def contributing_users
-    collaborating_users.select{|collaborator| puts "#{collaborator.inspect}" ; collaborator.has_role?(:contributor, self) }
+    collaborating_users.select{|collaborator| collaborator.has_role?(:contributor, self) }
   end
 
   def watching_users
@@ -73,11 +73,10 @@ class Repository < ActiveRecord::Base
 
   def self.from_request_path(path)
     return nil unless /^\/[\w]+\/[\w]+$/ =~ path
-    elements = path.split(File::SEPARATOR)
+    elements = path.split('/')
     user = elements[1]
     repo = elements[2]
-    user = User.find(:first, :conditions => {:username => user})
-    user ? user.owned_repositories.find {|r| r.name == repo} : nil
+    Repository.where(:owner_id => User.friendly.find(user)).friendly.find(repo)
   end
   
   def settings
