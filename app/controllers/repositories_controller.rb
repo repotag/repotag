@@ -216,7 +216,7 @@ class RepositoriesController < ApplicationController
       @user.add_role(role, @repository)
       if @user.has_role?(params[:role], @repository)
         # Return user to be added to the table
-        format.json {render json: {:user => @user, delete_url: repository_remove_collaborator_path(:repository_id => @repository.id, :user_id => @user.id, :role => :contributor) }}
+        format.json {render json: {:user => @user, delete_url: user_repository_remove_collaborator_path(@repository.owner, @repository, :collaborator_id => @user.id, :role => :contributor) }}
       else
         # Failure to add role
         format.json {render json: {} }
