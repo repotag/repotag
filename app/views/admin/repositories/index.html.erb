@@ -13,15 +13,15 @@
 	<% @repositories.each do |repository| %>
 	<% if repository.valid? %>
 	  <tr>
-		<td><%= link_to repository.name, admin_repository_path(repository) %></td>
+		<td><%= link_to repository.name, admin_repository_path(repository.id) %></td>
 		<td><%= repository.owner.name%></td>
 		<td><i class="fa <%= repository.repository.valid? ? 'fa-check' : 'fa-times' %>"</i></td>
 		<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 		<td><div>
-		<%= link_to edit_admin_repository_path(repository), :class => "btn btn-default" do %>
+		<%= link_to edit_admin_repository_path(repository.id), :class => "btn btn-default" do %>
 		 	<i class="fa fa-edit"></i>
 		<% end %>
-		<%= link_to admin_repository_path(repository), :class => "btn btn-default", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
+		<%= link_to admin_repository_path(repository.id), :class => "btn btn-default", :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
 		 	<i class="fa fa-trash-o"></i>
 		 <% end %>
 		</div></td>
@@ -32,4 +32,4 @@
 </div>
 <br />
 
-<%= link_to 'New Repository', new_repository_path, :class => 'btn btn-primary' %>
+<%= link_to 'New Repository', new_user_repository_path(current_user), :class => 'btn btn-primary' %>
