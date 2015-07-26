@@ -228,13 +228,14 @@ class RepositoriesController < ApplicationController
   
   def remove_collaborator
     role = params[:role]
-    user = User.find(params[:user_id])
+    collaborator = User.find(params[:collaborator_id])
     @repository = find_user_repository(params[:user_id], params[:repository_id])
-    user.delete_role(role, @repository)
+    collaborator.delete_role(role, @repository)
     
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
+    @general_settings = Setting.get(:general_settings)
     
     render "repositories/settings"
   end
