@@ -1,20 +1,20 @@
 [GENERAL]
 - Add options to the create/edit views of repositories to add users for a particular role (read vs write access).
 - Add User Groups
-- On the Dashboard, restrict the list of available repositories to the ones the current user has access to (currently all repos are visible).
++ On the Dashboard, restrict the list of available repositories to the ones the current user has access to (currently all repos are visible).
 + Create an administration-page for User Management (CRUD operations).
 - Create an administration-page for Resource Management.
 - Think of a good way to restrict individual repositories in size (storage cap).
 
 [REPOSITORIES]
-- Have a Settings view per repository
-- Have a Collaborator view per repository (adding, deleting, inviting)
++ Have a Settings view per repository
++ Have a Collaborator view per repository (adding, deleting, inviting)
 
 [REPOSITORY MANAGEMENT]
 
 [FILEBROWSER]
-- Add vertical navbar menu with options specific to one repo.
-- Save repo specific settings in a Setting object.
++ Add vertical navbar menu with options specific to one repo.
++ Save repo specific settings in a Setting object.
 - Repo needs a description/tagline.
 - Add a button to show the last commit message (off by default).
 - Add the possibility to view a diff of two arbitrary revisions of a file (on file level, maybe using dropdowns). 
@@ -53,7 +53,6 @@
 
 [OTHER]
 - Write a method that returns an Array of all repositories that haven't been updated for X amount of time.
-- See if there are any extensions for the coderay-gem to include (e.g. highlighting for bash scripts).
 - Write a method that merges two user accounts together in a sensible way.
 - Add content to README
 - Make AuthProxy rack middleware generic, and add an AuthProxy for wikis (gollum)
