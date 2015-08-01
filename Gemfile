@@ -12,12 +12,17 @@ gem 'activerecord-jdbcsqlite3-adapter'
 
 gem 'jruby-openssl', :require => false
 gem 'json'
-gem 'rjgit', :git => 'git://github.com/repotag/rjgit.git'
+gem 'rjgit'
 
-gem 'grack', :git => 'git://github.com/schacon/grack.git'
-gem 'rjgit_grack'
 gem 'cancan'
 gem 'devise'
+
+gem 'gollum-rjgit_adapter'
+gem 'gollum-lib', '4.0.3'
+gem 'gollum', '4.0.0'
+
+gem 'grack', :git => 'git://github.com/schacon/grack.git'
+gem 'rjgit_grack', '>= 0.2.0'
 
 gem 'twitter-bootswatch-rails'
 gem 'twitter-bootswatch-rails-fontawesome'

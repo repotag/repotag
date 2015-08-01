@@ -23,19 +23,25 @@ Repotag::Application.routes.draw do
     post '/email/smtp', :controller => 'settings', :action => :send_test_mail
 	end
 
-  grack_project_root = Setting.get(:general_settings)[:repo_root] || GENERAL_DEFAULTS[:repo_root]
+  project_root = Setting.get(:general_settings)[:repo_root] || GENERAL_DEFAULTS[:repo_root]
 
-  grack_auth_proxy = GrackAuthProxy.new(Grack::App.new({
-      :project_root => grack_project_root,
+  r = RepotagAuthProxy.new(true)
+
+  grack_auth_proxy = RepotagAuthProxy.new(Grack::App.new({
+      :project_root => project_root,
       :adapter => Grack::RJGitAdapter,
       :upload_pack => true,
       :receive_pack => true,
-    }))
+  }))
+
+  gollum_auth_proxy = GollumAuthProxy.new(project_root, :markdown, {:universal_toc => false, :live_preview => false})
 
   authenticated :user do
-    mount grack_auth_proxy, at: 'git'
+   mount grack_auth_proxy, at: 'git'
+    mount gollum_auth_proxy, at: 'wiki'
   end
   mount grack_auth_proxy, at: 'git'
+  mount gollum_auth_proxy, at: 'wiki'
 
   root :controller => :repositories, :action => :index
 
