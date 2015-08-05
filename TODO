@@ -16,7 +16,7 @@
 [FILEBROWSER]
 + Add vertical navbar menu with options specific to one repo.
 + Save repo specific settings in a Setting object.
-- Repo needs a description/tagline.
++ Repo needs a description/tagline.
 - Add a button to show the last commit message (off by default).
 - Add the possibility to view a diff of two arbitrary revisions of a file (on file level, maybe using dropdowns). 
 + Fix the File Browser not to show arbitrary files such as /etc/passwd.
