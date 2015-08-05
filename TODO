@@ -11,7 +11,16 @@
 + Have a Settings view per repository
 + Have a Collaborator view per repository (adding, deleting, inviting)
 
+[USERS]
+- Have a settings page per user
+
 [REPOSITORY MANAGEMENT]
+- Add max repo size to repository
+- Add commit hook to keep track of git repo size (avoid having to recalculate dir size every time)
+- Notify user by email if max repo size is exceeded
+- Fail subsequent push actions after max repo size is exceeded (how can users fix this themselves?)
+- Design garbage collection script (relating to `git gc`) to run in the background
+
 
 [FILEBROWSER]
 + Add vertical navbar menu with options specific to one repo.
@@ -54,7 +63,7 @@
 + Set up configuration options in database
 
 [WIKI]
-- Mount gollum as Rack application
++ Mount gollum as Rack application
 - Have one optional wiki per repository
 
 [BUG TRACKER]
@@ -64,4 +73,4 @@
 - Write a method that returns an Array of all repositories that haven't been updated for X amount of time.
 - Write a method that merges two user accounts together in a sensible way.
 - Add content to README
-- Make AuthProxy rack middleware generic, and add an AuthProxy for wikis (gollum)
++ Make AuthProxy rack middleware generic, and add an AuthProxy for wikis (gollum)
