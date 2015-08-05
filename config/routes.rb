@@ -37,8 +37,10 @@ Repotag::Application.routes.draw do
   gollum_auth_proxy = GollumAuthProxy.new(project_root, :markdown, {:universal_toc => false, :live_preview => false})
 
   authenticated :user do
-   mount grack_auth_proxy, at: 'git'
+    mount grack_auth_proxy, at: 'git', as: 'git'
     mount gollum_auth_proxy, at: 'wiki'
+    match '/wiki/:user/:repository', to: gollum_auth_proxy, via: [:get, :post], as: 'wiki'
+    
   end
   mount grack_auth_proxy, at: 'git'
   mount gollum_auth_proxy, at: 'wiki'
