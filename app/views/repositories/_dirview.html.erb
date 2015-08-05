@@ -1,5 +1,9 @@
 <%= stylesheet_link_tag 'filetree' %>
-<%= javascript_include_tag 'repositories' %>
+
+<% content_for :page_javascript do %>
+  <%= javascript_include_tag "repositories" %>
+<% end %>
+
 
 
 <% tags = repository.repository.tags %>
