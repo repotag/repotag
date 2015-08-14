@@ -129,6 +129,7 @@ class RepositoriesController < ApplicationController
     @repository.owner = current_user
     respond_to do |format|
       if @repository.save && @repository.to_disk
+        @repository.initialize_readme
         format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully created.' }
         format.json { render json: @repository, status: :created, location: @repository }
       else

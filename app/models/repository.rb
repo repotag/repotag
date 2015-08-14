@@ -52,6 +52,12 @@ class Repository < ActiveRecord::Base
     collaborating_users.select{|collaborator| collaborator.has_role?(:watcher, self) }
   end
   
+  def initialize_readme
+    tree = RJGit::Tree.new_from_hashmap(self.repository, { "README.md" => "# README for #{self.name}"})
+    commit = RJGit::Commit.new_with_tree(self.repository, tree, "Test commit message", RJGit::Actor.new(self.owner.name, self.owner.email))
+    self.repository.update_ref(commit)
+  end
+  
   def populate_with_test_data
     tree = RJGit::Tree.new_from_hashmap(self.repository, { "README.md" => "# This is a test repo with one directory and two files.", "scriptdir" => { "multiline.rb" => "class PowerShell\n\tdef do_stuff\n\t\tdo_stuff!\n\tend\nend", "reverse.rb" => "ruby -e 'File.open('foo').each_line { |l| puts l.chop.reverse }'" }} )
     commit = RJGit::Commit.new_with_tree(self.repository, tree, "Test commit message", RJGit::Actor.new("test","test@repotag.org"))
