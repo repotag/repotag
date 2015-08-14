@@ -70,7 +70,8 @@ class GollumAuthProxy < RepotagAuthProxy
 
   def call(env)
     @env = env
-    base_path = @env['PATH_INFO'].match(/^\/[\w]+\/[\w]+/).to_s
+    request = Rack::Request.new(@env)
+    base_path = request.fullpath.to_s
     return not_found if base_path == ""
     repository = find_repository(base_path)
     return not_found if repository.nil?
@@ -103,13 +104,9 @@ class GollumAuthProxy < RepotagAuthProxy
   class MapGollum
     # See https://github.com/gollum/gollum/wiki/Using-Gollum-with-Rack#the---base-path-option
     
-    def initialize base_path, options
+    def initialize(base_path, options)
       @mg = Rack::Builder.new do
         map "/" do
-          run Proc.new { [302, { 'Location' => "#{base_path}" }, []] }
-        end
-
-        map "#{base_path}" do
           options.each do |option, value|
             Precious::App.set(option, value)
           end

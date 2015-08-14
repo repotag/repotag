@@ -10,7 +10,7 @@ class Repository < ActiveRecord::Base
 
   friendly_id :name, :use => :scoped, :scope => :owner
 
-  attr_accessible :name, :public
+  attr_accessible :name, :public, :description
 
   validates :name, :presence => true, :format => {:with => /\A[\w]+\z/ , :message => "contains illegal characters"}
   validates_presence_of :owner
@@ -72,10 +72,9 @@ class Repository < ActiveRecord::Base
   end
 
   def self.from_request_path(path)
-    return nil unless /^\/[\w]+\/[\w]+$/ =~ path
-    elements = path.split('/')
-    user = elements[1]
-    repo = elements[2]
+    return nil unless /^\/([\w]+)\/([\w]+)\/wiki\// =~ path
+    user = Regexp.last_match[1]
+    repo = Regexp.last_match[2]
     Repository.where(:owner_id => User.friendly.find(user)).friendly.find(repo)
   end
   
