@@ -130,6 +130,7 @@ class RepositoriesController < ApplicationController
     respond_to do |format|
       if @repository.save && @repository.to_disk
         @repository.initialize_readme
+        send_confirmation_email(@repository)
         format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully created.' }
         format.json { render json: @repository, status: :created, location: @repository }
       else
@@ -241,5 +242,8 @@ class RepositoriesController < ApplicationController
     render "repositories/settings"
   end
   
+  def send_confirmation_email(repository)
+    HookMailer.repository_created(repository.owner, repository).deliver_now
+  end
   
 end
