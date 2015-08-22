@@ -74,3 +74,4 @@
 - Write a method that merges two user accounts together in a sensible way.
 - Add content to README
 + Make AuthProxy rack middleware generic, and add an AuthProxy for wikis (gollum)
+- Override Rails's default confirmation box with a bootstrap modal: http://lesseverything.com/blog/archives/2012/07/18/customizing-confirmation-dialog-in-rails/
