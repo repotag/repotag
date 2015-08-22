@@ -122,6 +122,32 @@ $(document).ready ->
 			{ value: 1, text: 'true' } ]
 	)
 	
+	# User settings
+	
+	$('#notifications_as_watcher').editable(
+		name: 'notifications_as_watcher'
+		type: 'select'
+		pk: 1
+		url: 'update_settings'
+		title: 'Enable Issue Tracker Globally'
+		value: 'true'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
+	
+	$('#notifications_as_collaborator').editable(
+		name: 'notifications_as_collaborator'
+		type: 'select'
+		pk: 1
+		url: 'update_settings'
+		title: 'Enable Issue Tracker Globally'
+		value: 'true'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
+	
 	# Authentication settings
 	$('#auth_google_enabled').editable(
 		name: 'google_oauth2_enabled'

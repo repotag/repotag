@@ -1,14 +1,15 @@
-<%= gravatar_image_tag(@user.email, :alt => @user.name ) %>
-<h2>User profile</h2>
-<p>
-  <b>Name:</b>
-  <%= @user.name %><br/>
-  <b>Email:</b>
-  <%= @user.email %><br/>
-  <b>Number of owned repos:</b>
-  <%= @user.owned_repositories.size %>
+<%= stylesheet_link_tag 'bootstrap3-editable/bootstrap-editable' %>
+
+<p><%= gravatar_image_tag(@user.email, :alt => @user.name ) %>
+<h2><%= @user.name %></h2><br/>
+<i><%= @user.username %></i><br/>
+<%= @user.email %><br/>
+<hline>
+Joined on <%= @user.created_at %><br/>
+<b>Number of owned repos:</b> <%= @user.owned_repositories.size %>
+
 </p>
 
 <%= link_to 'Edit', edit_user_path, :class => 'btn btn-primary' %>
-<%= link_to 'Show', user_path, :class => 'btn btn-primary' %>
 <%= link_to 'Back', repositories_path, :class => 'btn btn-primary' %>
+

@@ -75,6 +75,19 @@ class User < ActiveRecord::Base
   def owned_repositories
     Repository.where(:owner_id => self).to_a
   end
+  
+  def settings
+    setting = Setting.where(:user_id => self).first_or_create
+    if setting.name.nil?
+      setting.name = self.name.to_sym
+      setting.save
+    end
+    if setting.settings.nil?
+      setting.settings = {:notifications_as_watcher => true, :notifications_as_collaborator => true}
+      setting.save
+    end
+    setting    
+  end
 
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info

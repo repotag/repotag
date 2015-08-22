@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150525174618) do
+ActiveRecord::Schema.define(version: 20150822144738) do
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
@@ -27,12 +27,13 @@ ActiveRecord::Schema.define(version: 20150525174618) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "repositories", force: :cascade do |t|
-    t.string   "name",       limit: 255, default: ""
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.boolean  "public",                 default: false
+    t.string   "name",        limit: 255, default: ""
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "public",                  default: false
     t.integer  "owner_id"
-    t.string   "slug",       limit: 255
+    t.string   "slug",        limit: 255
+    t.string   "description", limit: 255
   end
 
   add_index "repositories", ["slug"], name: "index_repositories_on_slug"
@@ -52,6 +53,7 @@ ActiveRecord::Schema.define(version: 20150525174618) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "repository_id"
+    t.integer  "user_id"
   end
 
   create_table "users", force: :cascade do |t|
