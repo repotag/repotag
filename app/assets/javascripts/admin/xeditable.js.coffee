@@ -129,7 +129,7 @@ $(document).ready ->
 		type: 'select'
 		pk: 1
 		url: 'update_settings'
-		title: 'Enable Issue Tracker Globally'
+		title: 'Receive notifications for repositories you are watching'
 		value: 'true'
 		source: [ 
 			{ value: 0, text: 'false' }
@@ -141,7 +141,7 @@ $(document).ready ->
 		type: 'select'
 		pk: 1
 		url: 'update_settings'
-		title: 'Enable Issue Tracker Globally'
+		title: 'Receive notifications for repositories you are collaborating on'
 		value: 'true'
 		source: [ 
 			{ value: 0, text: 'false' }
