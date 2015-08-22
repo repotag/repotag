@@ -8,8 +8,9 @@ describe HookMailer do
   end
   
   it "sends an activity report" do
+    mail_count = ActionMailer::Base.deliveries.count+1
     HookMailer.activity_report(@user, @repository).deliver_now
-    expect(ActionMailer::Base.deliveries).to have(1).email
+    expect(ActionMailer::Base.deliveries).to have(mail_count).email
   end
   
   it "sends mail with commit details if so configured" do
@@ -18,8 +19,9 @@ describe HookMailer do
     RJGit::Porcelain.add(@repository.repository, @testfile)
     RJGit::Porcelain.commit(@repository.repository, "Initial commit")
     @commit = @repository.repository.head
+    mail_count = ActionMailer::Base.deliveries.count+1
     HookMailer.commit_details(@user, @repository, @commit).deliver_now
-    expect(ActionMailer::Base.deliveries).to have(1).email
+    expect(ActionMailer::Base.deliveries).to have(mail_count).email
     expect(ActionMailer::Base.deliveries.first.body.decoded).to include(@commit.id)
   end
   

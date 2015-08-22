@@ -5,7 +5,7 @@ feature "Owner manages own repository" do
     @repo = FactoryGirl.create(:repository)
     @owner = @repo.owner
     http_auth(@owner.username,'koekje123')
-    visit "repositories/#{@repo.id}"
+    visit "#{@owner.username}/#{@repo.name}"
   end
   
   scenario "by changing settings" do

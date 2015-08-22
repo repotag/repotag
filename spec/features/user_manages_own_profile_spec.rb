@@ -4,7 +4,7 @@ feature "User manages own profile" do
   before(:each) do
     @user = FactoryGirl.create(:user)
     http_auth(@user.username,'koekje123')
-    visit "users/#{@user.id}"
+    visit "/#{@user.id}"
     click_link 'Edit'
   end
   

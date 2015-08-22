@@ -74,7 +74,7 @@ class Admin::RepositoriesController < Admin::AdminController
     @repository.destroy
 
     respond_to do |format|
-      format.html { redirect_to repositories_url }
+      format.html { redirect_to admin_repositories_url, notice: "Repository #{@repository.name} was successfully deleted." }
       format.json { head :no_content }
     end
   end
