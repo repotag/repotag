@@ -4,11 +4,12 @@ class Mailer < ActionMailer::Base
 
   def new_message(message)
    @message = message
-   mail(:subject => "[repotag.org] #{@message}")
+   mail(:subject => "[Repotag] #{@message}")
   end
 
   def test_email(user)
-    mail(:subject => "[repotag.org] Auto-generated test message.", :to => user.email)
+    @user = user
+    mail(:subject => "[Repotag] Auto-generated test message.", :to => user.email)
   end
 
 end

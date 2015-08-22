@@ -15,5 +15,10 @@ class HookMailer < ActionMailer::Base
     mail(:to => @user.email, :subject => "[Repotag] Commit details for #{@repository.name}")
   end
 
+  def repository_created(user, repository)
+    @user = user
+    @repository = repository
+    mail(:to => @user.email, :subject => "[Repotag] New repository #{@repository.name} created.")
+  end
 
 end
