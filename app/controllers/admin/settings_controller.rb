@@ -86,7 +86,7 @@ class Admin::SettingsController < Admin::AdminController
   end
 
   def send_test_mail
-    Mailer.test_email(current_user).deliver
+    Mailer.test_email(current_user).deliver_now
     flash[:notice] = "A test mail has been sent to the server."
     redirect_to '/admin/email/smtp'
   end
