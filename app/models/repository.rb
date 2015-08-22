@@ -16,7 +16,7 @@ class Repository < ActiveRecord::Base
   validates_presence_of :owner
 
   def filesystem_path
-    File.join(Setting.get(:general_settings)[:repo_root], filesystem_name)
+    File.join(ApplicationController.helpers.general_setting(:repo_root), filesystem_name)
   end
 
   def filesystem_name
@@ -91,8 +91,8 @@ class Repository < ActiveRecord::Base
       setting.save
     end
     if setting.settings.nil?
-      setting.settings = {:default_branch => 'refs/heads/master', :enable_wiki => Setting.get(:general_settings)[:enable_wikis], 
-                          :enable_issuetracker => Setting.get(:general_settings)[:enable_issuetracker]}
+      setting.settings = {:default_branch => 'refs/heads/master', :enable_wiki => ApplicationController.helpers.general_setting(:enable_wikis), 
+                          :enable_issuetracker => ApplicationController.helpers.general_setting(:enable_issuetracker)}
       setting.save
     end
     setting    
