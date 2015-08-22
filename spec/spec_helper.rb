@@ -23,7 +23,24 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
+    config.before(:suite) do
+      DatabaseCleaner.clean_with :truncation
+    end
 
+    config.before(:each) do
+      if self.class.metadata[:js]
+        DatabaseCleaner.strategy = :truncation
+      else
+        DatabaseCleaner.strategy = :transaction
+      end
+      DatabaseCleaner.start
+    end
+
+    config.after(:each) do
+      DatabaseCleaner.clean
+    end
+    config.use_transactional_fixtures = false # http://weilu.github.io/blog/2012/11/10/conditionally-switching-off-transactional-fixtures/
+    
     config.infer_spec_type_from_file_location!
     
     # Use color in STDOUT
@@ -43,11 +60,6 @@ Spork.prefork do
     # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
     config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-    # If you're not using ActiveRecord, or you'd prefer not to run each of your
-    # examples within a transaction, remove the following line or assign false
-    # instead of true.
-    config.use_transactional_fixtures = true
-    
     config.include Capybara::DSL # Manually mix in Capybara so we can use its methods outside the 'requests'/'features' dirs.
 
     #config.include Devise::TestHelpers
@@ -68,6 +80,7 @@ Spork.prefork do
       :password => 'koekje123'
       }
   end
+
   def http_auth(name, password)
     if page.driver.respond_to?(:basic_auth)
       page.driver.basic_auth(name, password)
@@ -76,8 +89,16 @@ Spork.prefork do
     elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
       page.driver.browser.basic_authorize(name, password)
     else
-      raise "I don't know how to log in!"
+
+      browser_login(name, password)
     end
+  end
+
+  def browser_login(username, password)
+    page.visit("http://#{ Capybara.current_session.server.host }:#{ Capybara.current_session.server.port }/")
+    fill_in 'Login', with: username
+    fill_in 'Password', with: password
+    click_button 'Sign in'
   end
   
   def remove_temp_repo(path)

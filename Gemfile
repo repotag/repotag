@@ -61,9 +61,10 @@ group :test, :development do
   gem "rspec-activemodel-mocks"
   gem "rspec-collection_matchers"
   gem "capybara"
+  gem "database_cleaner"
   gem "selenium-webdriver"
-  gem "watchr"
-  gem "spork", "~> 0.9"
+  gem 'spork', github: 'sporkrb/spork' # https://github.com/sporkrb/spork-rails/issues/26
+  gem "spork-rails"
   gem "simplecov"
   gem "better_errors", :git => "https://github.com/charliesome/better_errors"
   gem 'brakeman', :require => false
