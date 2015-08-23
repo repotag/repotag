@@ -28,6 +28,7 @@ gem 'twitter-bootswatch-rails'
 gem 'twitter-bootswatch-rails-fontawesome'
 gem 'bootstrap-x-editable-rails'
 gem 'twitter-typeahead-rails'
+gem 'zeroclipboard-rails'
 gem 'gravatar_image_tag'
 
 

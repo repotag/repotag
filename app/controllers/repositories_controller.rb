@@ -26,6 +26,7 @@ class RepositoriesController < ApplicationController
   def show
     @repository = find_user_repository(params[:user_id], params[:id])
     @general_settings = Setting.get(:general_settings)
+    @clone_url = URI::HTTP.build(:host => @general_settings[:server_domain], :path => "/git/#{@repository.owner.username}/#{@repository.name}")
     @active_nav_tab = :code
     
     if @repository.invalid? then

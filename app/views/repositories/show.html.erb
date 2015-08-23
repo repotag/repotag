@@ -5,6 +5,18 @@
 <div class="row">
 	<h4><%= @repository.description %></h4>
 </div>
+
+<div class="row">
+	<div class="col-xs-4">
+		<div class="input-group">
+			<span class="input-group-btn">
+			<button id="d_clip_button" class="btn btn-default" type="button" data-clipboard-text="<%= @clone_url %>" title="Click to copy."><i class="fa fa-clipboard"></i></button>
+			</span>
+			<input type="text" class="form-control" value="<%= @clone_url %>" disabled="disabled">
+		</div>
+	</div>
+</div>
+
 <hr>
 <div class="row">
 	<div class="col-xs-3">
@@ -49,4 +61,3 @@
 	</div>
 	<%= link_to 'Back to overview', repositories_path %>
 </div>
-
