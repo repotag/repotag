@@ -43,4 +43,5 @@ $(document).ready ->
 		console.log($(this).data())
 		#dir = event.target
 		root.getSubDirs(dir) if this.checked )
-		
+	
+	client = new ZeroClipboard(document.getElementById('d_clip_button') )

@@ -1,4 +1,10 @@
-GENERAL_DEFAULTS = {:repo_root => '/tmp/repos', :anonymous_access => false, :public_profiles => false, :default_branch => 'refs/heads/master'}
+GENERAL_DEFAULTS = {
+  :repo_root => '/tmp/repos', 
+  :server_domain => 'localhost',
+  :anonymous_access => false, 
+  :public_profiles => false, 
+  :default_branch => 'refs/heads/master'
+}
 
 Rails.logger.debug "Attempting to set default values"
 
@@ -9,7 +15,10 @@ def set_general_defaults
   end
 end
 
-SMTP_DEFAULTS = {:address => 'localhost', :port => 1025}
+SMTP_DEFAULTS = {
+  :address => 'localhost', 
+  :port => 1025
+}
 
 def set_smtp_defaults
   s = Setting.where(:name => :smtp_settings).first

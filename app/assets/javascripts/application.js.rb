@@ -14,9 +14,11 @@
 #= require opal_ujs
 #= require jquery
 #= require jquery_ujs
+#= require zeroclipboard
 #= require opal-jquery
 #= require bootswatch/loader
 #= require bootswatch/bootswatch
 #= require twitter/typeahead
 #= require twitter/typeahead/bloodhound
 #= require bootstrap3-editable/bootstrap-editable
+
