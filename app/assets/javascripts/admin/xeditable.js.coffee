@@ -66,6 +66,13 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/general'
 		title: 'Enter root directory' )
+		
+	$('#general_server_domain').editable(
+		name: 'server_domain'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enter server domain' )
 
 	$('#general_default_branch').editable(
 		name: 'default_branch'
