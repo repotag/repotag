@@ -73,6 +73,13 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/general'
 		title: 'Enter server domain' )
+		
+	$('#general_server_port').editable(
+		name: 'server_port'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enter server port' )
 
 	$('#general_default_branch').editable(
 		name: 'default_branch'
