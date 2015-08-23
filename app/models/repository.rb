@@ -32,10 +32,6 @@ class Repository < ActiveRecord::Base
     return RJGit::Repo.new(self.filesystem_path, :create => true, :is_bare => true)
   end
 
-  def self.pluralize(word)
-      ActiveSupport::Inflector.pluralize(word)
-  end
-
   def all_users
     Repository.users(self) + [self.owner]
   end
@@ -53,21 +49,17 @@ class Repository < ActiveRecord::Base
   end
   
   def initialize_readme
-    tree = RJGit::Tree.new_from_hashmap(self.repository, { "README.md" => "# README for #{self.name}"})
-    commit = RJGit::Commit.new_with_tree(self.repository, tree, "Test commit message", RJGit::Actor.new(self.owner.name, self.owner.email))
-    self.repository.update_ref(commit)
+    repo = self.to_disk
+    tree = RJGit::Tree.new_from_hashmap(repo, { "README.md" => "# README for #{self.name}"})
+    commit = RJGit::Commit.new_with_tree(repo, tree, "Test commit message", RJGit::Actor.new(self.owner.name, self.owner.email))
+    repo.update_ref(commit)
   end
   
   def populate_with_test_data
-    tree = RJGit::Tree.new_from_hashmap(self.repository, { "README.md" => "# This is a test repo with one directory and two files.", "scriptdir" => { "multiline.rb" => "class PowerShell\n\tdef do_stuff\n\t\tdo_stuff!\n\tend\nend", "reverse.rb" => "ruby -e 'File.open('foo').each_line { |l| puts l.chop.reverse }'" }} )
-    commit = RJGit::Commit.new_with_tree(self.repository, tree, "Test commit message", RJGit::Actor.new("test","test@repotag.org"))
-    self.repository.update_ref(commit)
-  end
-
-  Repotag::Application.config.role_titles.each do |role_title|
-    define_method(self.pluralize(role_title.to_s)) do
-      Repository.users(self, role_title)
-    end
+    repo = self.to_disk
+    tree = RJGit::Tree.new_from_hashmap(repo, { "README.md" => "# This is a test repo with one directory and two files.", "scriptdir" => { "multiline.rb" => "class PowerShell\n\tdef do_stuff\n\t\tdo_stuff!\n\tend\nend", "reverse.rb" => "ruby -e 'File.open('foo').each_line { |l| puts l.chop.reverse }'" }} )
+    commit = RJGit::Commit.new_with_tree(repo, tree, "Test commit message", RJGit::Actor.new("test","test@repotag.org"))
+    repo.update_ref(commit)
   end
 
   # Returns an array of users for a specific repository with an optionally specified role.
@@ -78,10 +70,14 @@ class Repository < ActiveRecord::Base
   end
 
   def self.from_request_path(path)
-    return nil unless /^\/([\w]+)\/([\w]+)\/wiki\// =~ path
+    return nil unless /^\/([\w]+)\/([\w]+)/ =~ path
     user = Regexp.last_match[1]
     repo = Regexp.last_match[2]
-    Repository.where(:owner_id => User.friendly.find(user)).friendly.find(repo)
+    begin
+      Repository.where(:owner_id => User.friendly.find(user)).friendly.find(repo)
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
   end
   
   def settings

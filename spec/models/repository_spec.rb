@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'json'
 
 describe Repository do
   
@@ -15,9 +16,9 @@ describe Repository do
     expect(repo).to be_valid
   end
 
-  roles = Repotag::Application.config.role_titles.map{|role_title| ActiveSupport::Inflector.pluralize(role_title).to_s }
-  roles.each do |role|
-    it "returns its #{role}" do
+  ['all', 'contributing', 'watching', 'collaborating'].each do |role|
+    it "returns its #{role} users" do
+      role = "#{role}_users".to_sym
       expect(@repository).to respond_to(role)
       expect(@repository.send(role)).to be_a_kind_of(Array)
     end
@@ -36,9 +37,54 @@ describe Repository do
   it "corresponds to a RJGit repository" do
     expect(@repository.repository).to be_a_kind_of(RJGit::Repo)
   end
-  
+
+  it "initializes a repository on disk when nonexistent" do
+    repo = FactoryGirl.create(:repository)
+    FileUtils.rm_rf(repo.filesystem_path)
+    expect(repo.to_disk).to be_a_kind_of(RJGit::Repo)
+  end
+
+  it "initializes a readme" do
+    @repository.initialize_readme
+    expect(@repository.repository.commits).to_not be_empty
+    commit = @repository.repository.commits.first
+    expect(commit.message).to eq "Test commit message"
+    expect(commit.actor.name).to eq @repository.owner.name
+    expect(commit.actor.email).to eq @repository.owner.email
+  end
+
+  it "initializes test data" do
+    @repository.populate_with_test_data
+    expect(@repository.repository.commits).to_not be_empty
+    commit = @repository.repository.commits.first
+    expect(commit.message).to eq "Test commit message"
+    expect(commit.actor.name).to eq "test"
+    expect(commit.actor.email).to eq "test@repotag.org"
+  end
+
+  it "has settings" do
+    setting = @repository.settings
+    expect(setting).to be_a Setting
+    expect(setting.settings).to be_a_kind_of Hash
+    expect(setting.settings).to_not be_empty
+    [:default_branch, :enable_issuetracker, :enable_wiki].each do |key|
+      expect(setting.settings).to have_key key
+    end
+  end
+
   it ".filesystem_path returns a unique path where it stores its repository" do
     expect(@repository).to respond_to(:filesystem_path)
+    expect(@repository.filesystem_path).to match /#{@repository.id}.git$/
+  end
+
+  it "converts itself to json" do
+    expect(JSON.parse(@repository.to_json)).to_not be_nil
+  end
+
+  it "initializes from request path" do
+    expect(Repository.from_request_path("nota/validpath")).to be_nil
+    expect(Repository.from_request_path("/nonexistent/repo")).to be_nil
+    expect(Repository.from_request_path("/#{@repository.owner.username}/#{@repository.name}")).to be_a Repository
   end
   
   describe "receiving information from servlet" do 
