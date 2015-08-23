@@ -70,7 +70,7 @@ class RepositoriesController < ApplicationController
       unless params[:file] || params[:path]
         # get the first readme file
         readme_filename = get_readme_filename(@file_list)
-        if read_filename
+        if readme_filename
           readme_content = get_readme_content(readme_filename, repository)
           @readme_html = GitHub::Markup.render(readme_filename, readme_content)
         end
