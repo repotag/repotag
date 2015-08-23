@@ -375,6 +375,7 @@ DEPENDENCIES
   devise
   factory_girl_rails
   friendly_id (~> 5.1.0)
+  github-markup
   gollum (= 4.0.0)
   gollum-lib (= 4.0.3)
   gollum-rjgit_adapter

@@ -60,4 +60,13 @@
   		<%= render 'layouts/navigation/repo_sidebar', {:repository => @repository, :general_settings => @general_settings, :active_nav_tab => @active_nav_tab } %>
 	</div>
 	<%= link_to 'Back to overview', repositories_path %>
-</div>
+</div><br>
+
+<% if @readme_html %>
+	<div class="row" id="readme">
+		<div class="col-xs-11"></div>
+		<div class="col-xs-11" style="border: 1px solid grey">
+			<%= raw(@readme_html) %>
+		</div>
+	</div>
+<% end %>
