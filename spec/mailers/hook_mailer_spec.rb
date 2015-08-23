@@ -4,7 +4,7 @@ describe HookMailer do
   before(:each) do
     @user = FactoryGirl.create(:user)
     @repository = FactoryGirl.create(:repository)
-    @repository.repository.create!
+    @repository.to_disk
   end
   
   it "sends an activity report" do
@@ -14,10 +14,7 @@ describe HookMailer do
   end
   
   it "sends mail with commit details if so configured" do
-    @testfile = 'test_file.txt'
-    File.open(File.join(File.dirname(@repository.repository.path), @testfile), 'w') {|file| file.write("This is a new file to add.") }
-    RJGit::Porcelain.add(@repository.repository, @testfile)
-    RJGit::Porcelain.commit(@repository.repository, "Initial commit")
+    @repository.populate_with_test_data
     @commit = @repository.repository.head
     mail_count = ActionMailer::Base.deliveries.count+1
     HookMailer.commit_details(@user, @repository, @commit).deliver_now
@@ -26,7 +23,7 @@ describe HookMailer do
   end
   
   after(:each) do
-    path = File.dirname(@repository.repository.path)
+    path = File.dirname(@repository.filesystem_path)
     FileUtils.rm_rf(path) if File.exists?(path)
   end
 end

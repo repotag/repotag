@@ -77,6 +77,7 @@ describe User do
     before :each do
       @user = FactoryGirl.create(:user)
     end
+    
     it "gets, sets and loses the global admin role" do
       expect(@user).to respond_to(:set_admin, :admin?)
       expect(@user).to_not be_admin
@@ -98,8 +99,6 @@ describe User do
       expect(owner.role_for(repo, true)).to be == :owner
       expect(@user.role_for(repo)).to be == :watcher
     end
-    
-    
   end
 
 end
