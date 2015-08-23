@@ -25,10 +25,7 @@ class RepositoriesController < ApplicationController
   # GET /repositories/1.json
   def show
     @repository = find_user_repository(params[:user_id], params[:id])
-    @general_settings = Setting.get(:general_settings)
-    @clone_url = URI::HTTP.build(:host => @general_settings[:server_domain], :port => @general_settings[:server_port].to_i, :path => "/git/#{@repository.owner.username}/#{@repository.name}")
-    @active_nav_tab = :code
-    
+        
     if @repository.invalid? then
       flash[:alert] = "Repository #{@repository.name} is invalid."
       redirect_to :action => :index
@@ -43,6 +40,10 @@ class RepositoriesController < ApplicationController
       redirect_to :action => :index
       return false
     end
+
+    @general_settings = Setting.get(:general_settings)
+    @clone_url = URI::HTTP.build(:host => @general_settings[:server_domain], :port => @general_settings[:server_port].to_i, :path => "/git/#{@repository.owner.username}/#{@repository.name}")
+    @active_nav_tab = :code
 
     @commit = RJGit::Commit.find_head(repository)
 
@@ -65,7 +66,16 @@ class RepositoriesController < ApplicationController
         return false
       end
       @directory_list, @file_list = view_context.get_listing(repository, branch, tree)
-
+      
+      unless params[:file] || params[:path]
+        # get the first readme file
+        readme_filename = get_readme_filename(@file_list)
+        if readme_filename
+          readme_content = get_readme_content(readme_filename, repository)
+          @readme_html = GitHub::Markup.render(readme_filename, readme_content)
+        end
+      end
+      
     end
     respond_to do |format|
       format.html # show.html.erb
@@ -110,8 +120,17 @@ class RepositoriesController < ApplicationController
     formatter = Rouge::Formatters::HTML.new(:css_class => 'highlight', :line_numbers => true)
     lexer = Rouge::Lexer.guess({:mimetype => blob.mime_type, :filename => blob.name, :source => blob.data})
     lexer = Rouge::Lexers::PlainText.new unless lexer
-    # CodeRay.scan(blob.data, code_type_from_mime(blob.mime_type)).div
     formatter.format(lexer.lex(blob.data))
+  end
+
+  def get_readme_filename(file_list)
+    filenames = file_list.map{|file| file[:path] }
+    filenames.keep_if{|name| name =~ /^readme\..*$/i }.first
+  end
+  
+  def get_readme_content(readme_filename, repository)
+    Rails.logger.debug "trying to get content"
+    repository.blob(readme_filename).data
   end
 
   # GET /repositories/new

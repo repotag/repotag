@@ -31,6 +31,8 @@ gem 'twitter-typeahead-rails'
 gem 'zeroclipboard-rails'
 gem 'gravatar_image_tag'
 
+gem 'github-markup'
+gem 'kramdown'
 
 gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
