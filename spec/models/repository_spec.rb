@@ -16,6 +16,18 @@ describe Repository do
     expect(repo).to be_valid
   end
 
+  it "has a name unique for its owner" do
+    repo = Repository.new
+    repo.name = @repository.name
+    repo.owner = @repository.owner
+    expect(repo).to_not be_valid
+    repo.name = "not#{@repository.name}"
+    expect(repo).to be_valid
+    repo.name = @repository.name
+    repo.owner = FactoryGirl.create(:user)
+    expect(repo).to be_valid
+  end
+
   ['all', 'contributing', 'watching', 'collaborating'].each do |role|
     it "returns its #{role} users" do
       role = "#{role}_users".to_sym
@@ -24,7 +36,7 @@ describe Repository do
     end
   end
   
-  it "should have an owner" do  
+  it "has an owner" do  
     expect(@repository.owner).to be_a User
   end
   
