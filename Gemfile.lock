@@ -300,6 +300,8 @@ GEM
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     sexp_processor (4.5.1)
+    shoulda-matchers (2.8.0)
+      activesupport (>= 3.0.0)
     simplecov (0.10.0)
       docile (~> 1.1.0)
       json (~> 1.8)
@@ -399,6 +401,7 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails (~> 3.0)
   selenium-webdriver
+  shoulda-matchers
   simplecov
   spork!
   spork-rails

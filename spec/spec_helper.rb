@@ -84,21 +84,6 @@ Spork.prefork do
       end
     end
   end
-
-  shared_examples_for "a model that validates presence of" do |model, property|
-    it "#{property}" do
-      @instance ||= model.new
-      valid_attributes = valid_attributes_for_model(model)
-
-      # Loop through attributes to prevent mass assignment errors
-      valid_attributes.except(property).each do |attribute, value|
-        @instance.send("#{attribute.to_s}=", value)
-      end
-      expect(@instance).to_not be_valid
-      @instance.send("#{property.to_s}=", valid_attributes[property])
-      expect(@instance).to be_valid
-    end
-  end
   
   def valid_attributes_for_model(klass)
     case klass.to_s
