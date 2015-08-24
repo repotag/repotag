@@ -10,14 +10,8 @@ describe Repository do
     end
 
     it_behaves_like "a model that has settings", :repository, [:default_branch, :enable_issuetracker, :enable_wiki]
-
-    it "has a name" do
-      repo = Repository.new
-      expect(repo).to_not be_valid
-      repo.name = "test_repo"
-      repo.owner = @repository.owner
-      expect(repo.name).to eq "test_repo"
-      expect(repo).to be_valid
+    [:name, :owner].each do |attribute|
+      it_behaves_like "a model that validates presence of", Repository, attribute
     end
 
     it "has a name unique for its owner" do
@@ -38,10 +32,6 @@ describe Repository do
         expect(@repository).to respond_to(role)
         expect(@repository.send(role)).to be_a_kind_of(Array)
       end
-    end
-    
-    it "has an owner" do  
-      expect(@repository.owner).to be_a User
     end
     
     it "can have many Issues"

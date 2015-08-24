@@ -1,15 +1,6 @@
 require 'spec_helper'
 require 'ostruct'
 
-shared_examples_for "a model that validates presence of" do |property|
-  it "#{property}" do
-    @user.attributes = valid_user_attributes.except(property)
-    expect(@user).to_not be_valid
-    @user.send("#{property.to_s}=", valid_user_attributes[property])
-    expect(@user).to be_valid
-  end
-end
-
 describe User do
   
   context "model" do
@@ -19,13 +10,12 @@ describe User do
   end
 
  it_behaves_like "a model that has settings", :user, [:notifications_as_watcher, :notifications_as_collaborator]
-  
- it_behaves_like "a model that validates presence of", :name
- it_behaves_like "a model that validates presence of", :username
- it_behaves_like "a model that validates presence of", :email
- it_behaves_like "a model that validates presence of", :password
- it_behaves_like "a model that validates presence of", :password do
-   before(:each) { @user = User.new; allow(@user).to receive(:new_record?).and_return(false); @user.updating_password = true }
+ 
+ [:name, :username, :email, :password].each do |attribute|
+   it_behaves_like "a model that validates presence of", User, attribute
+ end
+ it_behaves_like "a model that validates presence of", User, :password do
+   before(:each) { @instance = User.new; allow(@instance).to receive(:new_record?).and_return(false); @instance.updating_password = true }
  end
  
  it "enforces uniqueness of email addresses" do
@@ -38,7 +28,7 @@ describe User do
  it "does not validate presence of password if it is not updating its password" do
    allow(@user).to receive(:new_record?).and_return(false)
    @user.updating_password = false
-   @user.attributes = valid_user_attributes.except(:password)
+   @user.attributes = valid_attributes_for_model(User).except(:password)
    expect(@user).to be_valid
  end
  
@@ -62,10 +52,10 @@ describe User do
  end
  
  it "stores a password encryptedly" do
-   @user.attributes = valid_user_attributes.except(:password)
+   @user.attributes = valid_attributes_for_model(User).except(:password)
    expect(@user.encrypted_password).to be_empty
    expect(@user).to_not be_valid
-   @user.password = valid_user_attributes[:password]
+   @user.password = valid_attributes_for_model(User)[:password]
    expect(@user).to be_valid
    expect(@user.encrypted_password).to_not be_empty
  end
