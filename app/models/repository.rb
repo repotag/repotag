@@ -33,19 +33,21 @@ class Repository < ActiveRecord::Base
   end
 
   def all_users
-    Repository.users(self) + [self.owner]
+    collaborating_users + [self.owner]
   end
 
-  def collaborating_users
-    User.where(:id => Role.where(:resource_id => id).select(:user_id)).to_a
+  def collaborating_users(title=nil)
+    conditions = {:resource_type => "Repository", :resource_id => id}
+    conditions[:title] = title unless title.nil?
+    User.where(:id => Role.where(conditions).select(:user_id)).to_a
   end
   
   def contributing_users
-    collaborating_users.select{|collaborator| collaborator.has_role?(:contributor, self) }
+    collaborating_users(:contributor)
   end
 
   def watching_users
-    collaborating_users.select{|collaborator| collaborator.has_role?(:watcher, self) }
+    collaborating_users(:watcher)
   end
   
   def initialize_readme
