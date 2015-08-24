@@ -72,6 +72,18 @@ Spork.prefork do
     # rspec-rails.
     config.infer_base_class_for_anonymous_controllers = false
   end
+
+  shared_examples_for "a model that has settings" do |model, settings|
+    it "#{settings.to_s}" do
+      setting = FactoryGirl.create(model).settings
+      expect(setting).to be_a Setting
+      expect(setting.settings).to be_a_kind_of Hash
+      expect(setting.settings).to_not be_empty
+      settings.each do |key|
+        expect(setting.settings).to have_key key
+      end
+    end
+  end
   
   def valid_user_attributes
     { :email => 'bert@ernie.com',
