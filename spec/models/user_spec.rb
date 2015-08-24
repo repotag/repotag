@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ostruct'
 
 shared_examples_for "a model that validates presence of" do |property|
   it "#{property}" do
@@ -16,6 +17,8 @@ describe User do
   before :each do
     @user = User.new
   end
+
+ it_behaves_like "a model that has settings", :user, [:notifications_as_watcher, :notifications_as_collaborator]
   
  it_behaves_like "a model that validates presence of", :name
  it_behaves_like "a model that validates presence of", :username
@@ -26,12 +29,10 @@ describe User do
  end
  
  it "enforces uniqueness of email addresses" do
-   @user.email = 'rspec@repotag.org'
-   @user_with_same_email = @user.dup
-   @user_with_same_email.email = @user.email.upcase
-   @user_with_same_email.save
-
-   expect(@user_with_same_email).to_not be_valid
+   user_with_same_email = @user.dup
+   user_with_same_email.email = @user.email.upcase
+   user_with_same_email.save
+   expect(user_with_same_email).to_not be_valid
  end
  
  it "does not validate presence of password if it is not updating its password" do
@@ -73,9 +74,34 @@ describe User do
  
  end
 
+  context "class" do
+
+    before do
+      @user = FactoryGirl.create(:user)
+    end
+
+    it "finds users for third-party authentication" do
+      access_token = OpenStruct.new(:info => {"email" => @user.email, "name" => @user.name})
+      faux_access_token = OpenStruct.new(:info => {})
+      ['facebook', 'google_oauth2']. each do |service|
+        expect(User.send("find_for_#{service}".to_sym, access_token)).to eq @user
+        expect(User.send("find_for_#{service}".to_sym, faux_access_token)).to be_a User
+      end
+    end
+
+    it "finds users for device authentication" do
+      expect(User.find_first_by_auth_conditions({:username => @user.username})).to eq @user
+      expect(User.find_first_by_auth_conditions({:username => "nonexistent"})).to be_nil
+      expect(User.find_first_by_auth_conditions({:login => @user.username})).to eq @user
+      expect(User.find_first_by_auth_conditions({:login => @user.email})).to eq @user
+    end
+
+  end
+
   context "instance" do
     before :each do
       @user = FactoryGirl.create(:user)
+      @repo = FactoryGirl.create(:repository)
     end
     
     it "gets, sets and loses the global admin role" do
@@ -86,15 +112,39 @@ describe User do
       @user.set_admin(false)
       expect(@user).to_not be_admin
     end
+
+    it "lists its owned repositories" do
+      expect(@repo.owner.owned_repositories).to include(@repo)
+    end
+
+    [:watcher, :contributor].each do |role|
+      it "lists repositories on which it's a #{role}" do
+        repo = FactoryGirl.create(:repository)
+        expect(@user.send("#{role}_repositories".to_sym)).to_not include(repo)
+        @user.add_role(role, repo)
+        expect(@user.send("#{role}_repositories".to_sym)).to include(repo)
+      end
+    end
+
+    it "lists all its repositories" do
+      expect(@repo.owner.all_repositories).to include(@repo)
+      repo2 = FactoryGirl.create(:repository)
+      @repo.owner.add_role(:watcher, repo2)
+      expect(@repo.owner.all_repositories).to include(repo2)
+    end
+
+    it "gets its role on a resource" do
+      repo = FactoryGirl.create(:repository)
+      expect(@user.has_role?(:watcher, repo)).to be false
+      @user.add_role(:watcher, repo)
+      expect(@user.has_role?(:watcher, repo)).to be true
+    end
     
-    it "should list a user's role for a resource" do
+    it "lists a user's role for a resource" do
       repo = FactoryGirl.build_stubbed(:repository)
       owner = repo.owner
-      role = Role.new
-      role.title = :watcher
-      role.resource = repo
-      role.user = @user
-      role.save
+      expect(@user.role_for(repo)).to be_nil
+      @user.add_role(:watcher, repo)
       expect(owner.role_for(repo)).to be_nil
       expect(owner.role_for(repo, true)).to be == :owner
       expect(@user.role_for(repo)).to be == :watcher
