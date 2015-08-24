@@ -68,12 +68,27 @@ class User < ActiveRecord::Base
     result == nil ? nil : result.title.to_sym
   end
 
-  def all_repositories
-    repositories + owned_repositories
+  # Repositories that the user has any role on, other than owner
+  def collaborator_repositories(title=nil)
+    conditions = {:resource_type => "Repository", :user_id => id}
+    conditions[:title] = title unless title.nil?
+    Repository.where(:id => Role.where(conditions).select(:resource_id)).to_a
+  end
+
+  def watcher_repositories
+    collaborator_repositories(:watcher)
+  end
+
+  def contributor_repositories
+    collaborator_repositories(:contributor)
   end
 
   def owned_repositories
     Repository.where(:owner_id => self).to_a
+  end
+
+  def all_repositories
+    collaborator_repositories + owned_repositories
   end
   
   def settings
@@ -89,7 +104,7 @@ class User < ActiveRecord::Base
     setting    
   end
 
-  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+  def self.find_for_auth_provider(access_token)
     data = access_token.info
     user = User.where(:email => data["email"]).first
 
@@ -102,19 +117,8 @@ class User < ActiveRecord::Base
     user
   end
 
-  def self.find_for_facebook(access_token, signed_in_resource=nil)
-    data = access_token.info
-    user = User.where(:email => data["email"]).first
-
-    unless user
-      user = User.create(name: data["name"],
-		   email: data["email"],
-		   username: data["email"],
-		   password: Devise.friendly_token[0,20] )
-    end
-    user
-  end
-
+  singleton_class.send(:alias_method, :find_for_facebook, :find_for_auth_provider)
+  singleton_class.send(:alias_method, :find_for_google_oauth2, :find_for_auth_provider)
 
   protected
 
