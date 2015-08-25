@@ -11,7 +11,8 @@ describe User do
     end
 
     subject(:user) { FactoryGirl.create(:user) }
-    it { should validate_uniqueness_of(:email) }
+    it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_uniqueness_of(:username).case_insensitive }
 
     it 'validates presence of password when necessary' do
       allow(user).to receive(:should_validate_password?).and_return(true)

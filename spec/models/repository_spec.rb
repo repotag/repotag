@@ -9,8 +9,8 @@ describe Repository do
       it { should validate_presence_of(attribute) }
     end
 
-    subject { FactoryGirl.create(:repository) }
-    it { should validate_uniqueness_of(:name).scoped_to(:owner) }
+    subject(:repo) { FactoryGirl.create(:repository) }
+    it { should validate_uniqueness_of(:name).scoped_to(:owner_id).case_insensitive }
   end
 
   context 'instance' do
