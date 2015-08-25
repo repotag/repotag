@@ -1,22 +1,23 @@
 require 'spec_helper'
 
+class RepositoriesController < ApplicationController
+end
+
 describe "repositories/show.html.erb" do
   
   before(:each) do
     @repo = FactoryGirl.create(:repository)
     @repo.to_disk
+    assign(:user, @repo.owner)
     assign(:repository, @repo)
     assign(:general_settings, Setting.get(:general_settings))
     assign(:current_path, '')
   end
   
   describe "with commit" do
-    before(:each) do  
-      tree = RJGit::Tree.new_from_hashmap(@repo.repository, { "README.md" => "# This is a test repo with one directory and two files.", "scriptdir" => { "reverse.rb" => "ruby -e 'File.open('foo').each_line { |l| puts l.chop.reverse }'" }} )
-      @commit = RJGit::Commit.new_with_tree(@repo.repository, tree, "Test commit message", RJGit::Actor.new("test","test@repotag.org"))
-      @repo.repository.update_ref(@commit)
-    
-      assign(:commit, @commit)
+    before(:each) do
+      @repo.populate_with_test_data
+      assign(:commit, @repo.repository.commits.first)
       dir_list, file_list = get_listing(@repo.repository, "refs/heads/master", nil)
       assign(:file_list, file_list)
       assign(:directory_list, dir_list)

@@ -5,7 +5,7 @@ class Role < ActiveRecord::Base
   belongs_to :user
   belongs_to :resource, :polymorphic => true
 
-  validates :user_id, :presence => true, :uniqueness => {:scope => [:resource_type, :resource_id]}
+  validates :user, :presence => true, :uniqueness => {:scope => [:resource_type, :resource_id]}
   validates_presence_of :resource_type, :unless => Proc.new {self.resource_id.nil?}
   validates_presence_of :resource_id, :unless => Proc.new {self.resource_type.nil?}
 

@@ -28,21 +28,21 @@
 		  <ul class="dropdown-menu">
 			<li class="active"><a href="#"><%= current_branch %></a></li>
 			<% (@repository.repository.branches - [current_branch]).each do |branch| %>
-			<li><%= link_to branch, :controller => "repositories", :action => "show", :id => @repository.id, :path => @current_path, :branch => branch, :file => params[:file] %></li>
+			<li><%= link_to branch, [@repository.owner, @repository], :controller => "repositories", :action => "show", :path => @current_path, :branch => branch, :file => params[:file] %></li>
 			<% end %>
 		  </ul>
 		</div>
 	</div>
 	<div class="col-xs-9">
 		<ul class="breadcrumb">
-			<li><%= link_to @repository.name, :controller => "repositories", :action => "show", :id => @repository.id, :branch => params[:branch] %></li>
+			<li><%= link_to @repository.name, [@repository.owner, @repository], :controller => "repositories", :action => "show", :branch => params[:branch] %></li>
 			<% unless @current_path == '' then
 			total_path = [];
 			paths = @current_path.split('/')
 			last = paths.pop
 			  paths.each do |path|
 			    total_path << path %>
-			      <li><%= link_to path, :controller => "repositories", :action => "show", :id => @repository.id, :path => total_path.join("/"), :branch => params[:branch] %></li>
+			      <li><%= link_to path, [@repository.owner, @repository], :controller => "repositories", :action => "show", :path => total_path.join("/"), :branch => params[:branch] %></li>
 			  <% end %>
 			<li class="active"><%= last %></li>
 			<% end %>
