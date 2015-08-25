@@ -12,7 +12,7 @@ class Repository < ActiveRecord::Base
 
   attr_accessible :name, :public, :description
 
-  validates :name, :presence => true, :uniqueness => {:scope => :owner}, :format => {:with => /\A[\w]+\z/ , :message => "contains illegal characters"}
+  validates :name, :presence => true, :uniqueness => {:scope => :owner, :case_sensitive => false}, :format => {:with => /\A[\w]+\z/ , :message => "contains illegal characters"}
   validates_presence_of :owner
 
   def filesystem_path
