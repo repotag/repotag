@@ -52,7 +52,7 @@
 + Configure the Devise gem to include OAUTH2 and OpenID authentication methods.
 + Add an administrator page to the interface in which different authentication schemes can be enabled (Google, Facebook, AD, LDAP).
 - Add LDAP authorization
-- Use CanCanCan?
++ Use CanCanCan
 
 [EMAIL]
 + Set up an email mechanism (preferably using an existing gem or Rails built-in mailers).

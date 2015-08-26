@@ -14,7 +14,7 @@ gem 'jruby-openssl', :require => false
 gem 'json'
 gem 'rjgit'
 
-gem 'cancan'
+gem 'cancancan'
 gem 'devise'
 
 gem 'gollum-rjgit_adapter'
