@@ -62,8 +62,8 @@ Spork.prefork do
 
     config.include Capybara::DSL # Manually mix in Capybara so we can use its methods outside the 'requests'/'features' dirs.
 
-    #config.include Devise::TestHelpers
     config.include Devise::TestHelpers, :type => :view
+    config.include Devise::TestHelpers, :type => :controller, :file_path => %r(spec/controllers) # Use :file_path because including these tests in feature specs causes conflicts/errors
     
     #config.include Rails.application.routes.url_helpers
     
@@ -84,7 +84,23 @@ Spork.prefork do
       end
     end
   end
-  
+
+  shared_examples_for "a controller action" do |options|
+    options ||= {}
+    expectations = {
+      :response => :ok,
+      :content_type => 'text/html',
+      :layout => :application,
+      :redirect => nil,
+      :template => nil
+    }.merge options
+    it { expect(controller.response.content_type).to eq expectations[:content_type] } unless expectations[:content_type].nil?
+    it { is_expected.to respond_with expectations[:response] } unless expectations[:response].nil?
+    it { is_expected.to render_with_layout expectations[:layout] } unless expectations[:layout].nil?
+    it { is_expected.to redirect_to expectations[:redirect] } unless expectations[:redirect].nil?
+    it { is_expected.to render_template expectations[:template] } unless expectations[:template].nil?
+  end
+
   def valid_attributes_for_model(klass)
     case klass.to_s
     when 'User'
@@ -108,7 +124,6 @@ Spork.prefork do
     elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
       page.driver.browser.basic_authorize(name, password)
     else
-
       browser_login(name, password)
     end
   end

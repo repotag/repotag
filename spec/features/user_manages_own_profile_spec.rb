@@ -3,8 +3,8 @@ require 'spec_helper'
 feature "User manages own profile" do
   before(:each) do
     @user = FactoryGirl.create(:user)
-    http_auth(@user.username,'koekje123')
-    visit "/#{@user.id}"
+    http_auth(@user.username, @user.password)
+    visit user_path(@user)
     click_link 'Edit'
   end
   
