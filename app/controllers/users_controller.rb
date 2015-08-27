@@ -15,18 +15,16 @@ class UsersController < ApplicationController
   end
   
   def update_settings
-    Rails.logger.debug params
     updated_key = params[:name].to_sym
-    Rails.logger.debug updated_key
+    @user = params[:id] ? User.friendly.find(params[:id]) : current_user
+    @user_settings = @user.settings
 
     valid_keys = [:notifications_as_watcher, :notifications_as_collaborator]
     if valid_keys.include?(updated_key)
-      @user = params[:id] ? User.friendly.find(params[:id]) : current_user
-      @user_settings = @user.settings
       @user_settings[updated_key] = params[:value]
       @user_settings.save
-      render '/users/settings'
     end
+    render '/users/settings'
   end
   
   def update
