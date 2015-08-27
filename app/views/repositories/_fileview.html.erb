@@ -1,6 +1,10 @@
 <%= stylesheet_link_tag "rouge-github" %>
-<h1><b><%= current_path %></b></h1>
 
-<%= rendered_text.html_safe %>
+<div class="panel panel-default">
+  <div class="panel-heading"><b><%= current_path %></b></div>
+  <div class="panel-body">
+    <%= rendered_text.html_safe %>
+  </div>
+</div>
 
 <%= link_to 'Back', [repository.owner, repository] %>

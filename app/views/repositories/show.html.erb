@@ -65,10 +65,14 @@
 </div><br>
 
 <% if @readme_html %>
-	<div class="row" id="readme">
-		<div class="col-xs-11"></div>
-		<div class="col-xs-11" style="border: 1px solid grey">
-			<%= raw(@readme_html) %>
+  <div class="row" id="readme">
+	<div class="col-xs-11">
+	  <div class="panel panel-default">
+        <div class="panel-heading">README</div>
+	    <div class="panel-body">
+		  <%= raw(@readme_html) %>
 		</div>
+	  </div>
 	</div>
+  </div>
 <% end %>
