@@ -32,7 +32,9 @@
 			  <ul class="dropdown-menu">
 				  <li><a href="<%="/#{current_user.friendly_id}" %>"> <i class="fa fa-tachometer"></i> Personal dashboard</a><li>
 				  <li><a href="<%="/#{current_user.friendly_id}/settings" %>"> <i class="fa fa-cog"></i> Personal settings</a><li>
-				  <%= nav_link 'Logout', destroy_user_session_path, [], :method => :delete %>
+				  <%= link_to destroy_user_session_path, :method => :delete do %>
+					 <i class="fa fa-sign-out"></i> Logout
+				  <% end %>
 			  </ul>
 		    </li>
     		<% else %>
