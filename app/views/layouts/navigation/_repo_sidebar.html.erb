@@ -1,15 +1,15 @@
-<div class="sidebar-nav">
-	<div class="navbar navbar-default" role="navigation">
-		<ul class="nav navbar-nav">
-			
+<div class="sidebar-nav" style="width:4em">
+	<div class="navbar navbar-default" role="navigation" >
+		<!-- <ul class="nav navbar-nav nav-stacked">  -->
+		<ul class="nav nav-pills nav-stacked"> 
 			<% nav_items = {} %>
 			<% nav_items[:code] = "<a href='#{user_repository_path(@repository.owner, @repository)}'><i class='fa fa-code fa-2x'></i></a>" %>
-			<% nav_items[:issues] = "<a href='#'><i class='fa fa-exclamation-circle fa-2x'></i> </a>" if general_settings[:enable_issuetracker] == "1" %>
+			<% nav_items[:issues] = "<a href='#'><i class='fa fa-exclamation-circle fa-2x'></i></a>" if general_settings[:enable_issuetracker] == "1" %>
 			<% nav_items[:wiki] = "<a href='#{wiki_path(@repository.owner, @repository)}'><i class='fa fa-book fa-2x'></i></a>" if general_settings[:enable_wikis] == "1" %>
 			<% nav_items[:settings] = "<a href='#{user_repository_settings_path(@repository.owner, @repository)}'><i class='fa fa-cog fa-2x'></i></a>" %>
 			
 			<% nav_items.each do |nav_name, nav_link| %>
-				<li <%=raw("class='active'") if @active_nav_tab == nav_name %>><%= raw nav_link %></li>
+				<li role="presentation" <%=raw("class='active'") if @active_nav_tab == nav_name %>><%= raw nav_link %></li>
 			<% end %>
       </ul>
     </div>
