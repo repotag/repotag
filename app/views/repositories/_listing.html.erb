@@ -13,22 +13,22 @@
 
 			<tbody>
 				<% repositories.each do |repository| %>
-				<% if repository.valid? && can?(:read, repository) then %>
-				<tr>
-					<td><%= link_to repository.name, [repository.owner, repository] %></td>
-					<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
-					<td><%= link_to [:edit, repository.owner, repository], :class => "btn" do %>
-					 	<i class="fa fa-edit"></i>
+					<% if repository.valid? && can?(:read, repository) then %>
+					<tr>
+						<td><%= link_to repository.name, [repository.owner, repository] %></td>
+						<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
+						<td><%= link_to [:edit, repository.owner, repository], :class => "btn" do %>
+						 	<i class="fa fa-edit"></i>
+						<% end %>
+						<% if can?(:manage, repository) then %>
+						<%= link_to [repository.owner, repository], :class => "btn", :id => 'delete', :method => :delete, :data => {:confirm => "Are you sure?"} do %>
+						 	<i class="fa fa-trash"></i>
+						 <% end
+						 end %>
+						</td>
+					</tr>
 					<% end %>
-					<% if can?(:manage, repository) then %>
-					<%= link_to [repository.owner, repository], :class => "btn", :id => 'delete', :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" do %>
-					 	<i class="fa fa-trash"></i>
-					 <% end
-					 end %>
-					</td>
-				</tr>
-				<% end %>
-				<% end %>
+			  <% end %>
 		</table>
 	<br />
 <% end %>
