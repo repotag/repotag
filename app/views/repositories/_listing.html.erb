@@ -13,6 +13,7 @@
 
 			<tbody>
 				<% repositories.each do |repository| %>
+					<%= repository.name %>
 					<% if repository.valid? && can?(:read, repository) then %>
 					<tr>
 						<td><%= link_to repository.name, [repository.owner, repository] %></td>

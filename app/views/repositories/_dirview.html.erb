@@ -2,8 +2,6 @@
   <%= javascript_include_tag "repositories" %>
 <% end %>
 
-
-
 <% tags = repository.repository.tags %>
 
 <%= "Empty repository." unless @commit %>
@@ -13,44 +11,41 @@
   	<div class="panel-body">
 		<b><%= gravatar_image_tag(@commit.committer.email, :alt => @commit.committer.name, :gravatar => {:size => 20} )-%> <%= @commit.committer.name -%></b> authored <i><%= time_ago_in_words(@commit.committed_date) -%></i> ago
 		<span class="text-right pull-right" style="text-align:right">latest commit <%= @commit.id %></span>
-
-		<div class="tree-container" data-repo-id="<%= repository.id%>">
-			<table class="table table-striped table-hover" id="viewer" >
-				<thead>
-					<tr>
-						<th width="20"></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-
-				<% directory_list.each_with_index do |dir, index|
-				newpath = current_path.empty? ? dir[:path] : File.join(current_path, dir[:path])
-				%>	
-				<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
-					<td class="tree" style="text-align: right;"><i class="fa fa-folder-o"></i></td>
-					<td><%= link_to dir[:path], user_repository_path(repository.owner, repository, :path=>newpath, :branch => params[:branch]) %></td>
-					<td>?</td>
-					<td><%= tags.has_key?(dir[:id]) ? tags[dir[:id]].short_message : '-' %></td>
-				</tr>
-				<% end %>
-				<% file_list.each do |file|
-				newpath = current_path.empty? ? file[:path] : File.join(current_path, file[:path])
-				%>
-
-				<tr>
-					<td class="blob" style="text-align: right;"><i class="fa fa-file-text-o"></i></td>
-					<td><%= link_to file[:path], user_repository_path(repository.owner, repository, :path=>newpath, :file => true, :branch => params[:branch]) %></td>
-					<td>?</td>
-					<td><%= tags.has_key?(file[:id]) ? tags[file[:id]].short_message : '-' %></td>
-				</tr>
-				<% end %>
-				</tbody>
-			</table>
-		</div>
 	</div>
+	<table class="table table-striped table-hover" id="viewer" >
+		<thead>
+			<tr>
+				<th width="20"></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+
+		<% directory_list.each_with_index do |dir, index|
+		newpath = current_path.empty? ? dir[:path] : File.join(current_path, dir[:path])
+		%>	
+		<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
+			<td class="tree" style="text-align: right;"><i class="fa fa-folder-o"></i></td>
+			<td><%= link_to dir[:path], user_repository_path(repository.owner, repository, :path=>newpath, :branch => params[:branch]) %></td>
+			<td>?</td>
+			<td><%= tags.has_key?(dir[:id]) ? tags[dir[:id]].short_message : '-' %></td>
+		</tr>
+		<% end %>
+		<% file_list.each do |file|
+		newpath = current_path.empty? ? file[:path] : File.join(current_path, file[:path])
+		%>
+
+		<tr>
+			<td class="blob" style="text-align: right;"><i class="fa fa-file-text-o"></i></td>
+			<td><%= link_to file[:path], user_repository_path(repository.owner, repository, :path=>newpath, :file => true, :branch => params[:branch]) %></td>
+			<td>?</td>
+			<td><%= tags.has_key?(file[:id]) ? tags[file[:id]].short_message : '-' %></td>
+		</tr>
+		<% end %>
+		</tbody>
+	</table>
   </div>
 <% end %>
 <%= link_to 'Back', :back %>
