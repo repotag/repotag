@@ -18,3 +18,7 @@ test:
 production:
   adapter: sqlite3
   database: db/production.sqlite3
+  # Enabling the following allows something like this
+  # java -Ddb=/path/to/db -jar repotag.war
+  # database: <%= java.lang.System.getProperty('db') %>
+  
