@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 feature "Admin manages users" do
+
+  let(:user) { FactoryGirl.create(:user) }
   
-  before(:each) do
-    # Create admin user to run the tests with
-    @user = FactoryGirl.create(:user)
-    @user.set_admin(true)
-    http_auth(@user.username,'koekje123')
+  before do
+    user.set_admin(true)
+    http_auth(user.username,user.password)
   end
   
   feature "by creating a user" do

@@ -1,17 +1,5 @@
 require 'spec_helper'
 
-def login_helper
-  Proc.new {
-    @admin = FactoryGirl.create(:user)
-    @admin.set_admin(true)
-    
-    @repos = []
-    2.times { @repos << FactoryGirl.create(:repository) }
-    
-    http_auth(@admin.username, @admin.password)
-  }
-end
-
 def create_repository(name)
   visit "/admin/repositories"
   click_link 'New Repository'
@@ -20,26 +8,35 @@ def create_repository(name)
 end
 
 feature "Admin manages repositories" do
-  before :each do
-    login_helper.call
+  let(:user) { FactoryGirl.create(:user) }
+
+  before do
+    user.set_admin(true)
+    http_auth(user.username, user.password)
   end
   
   scenario "by viewing all repositories" do
-    visit "admin/repositories"
-    @repos.each do |repo|
-      expect(page).to have_text "#{repo.name}"
-    end
+    repo = FactoryGirl.create(:repository)
+    visit "/admin/repositories"
+    expect(page).to have_text "#{repo.name}"
   end
   
   scenario "by creating a repository" do
     create_repository("Turtles")
     expect(page).to have_text "Repository was successfully created."
   end
+
+  after do
+    user.set_admin(false)
+  end
 end
 
 feature "Admin manages repositories with js", :js => true do
-  before :each do
-    login_helper.call
+  let(:user) { FactoryGirl.create(:user) }
+
+  before do
+    user.set_admin(true)
+    http_auth(user.username, user.password)
   end
   
   scenario "by deleting a repository" do
@@ -51,4 +48,5 @@ feature "Admin manages repositories with js", :js => true do
     end
     expect(page).to have_text "Repository #{name} was successfully deleted."
   end
+
 end
