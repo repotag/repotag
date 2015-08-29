@@ -13,9 +13,9 @@ describe "User" do
     subject(:ability){ Ability.new(user) }
 
     context "when admin user" do
-      let(:user)  { FactoryGirl.build_stubbed(:user)} 
-      let(:other) { FactoryGirl.build_stubbed(:user) }
-      let(:repo)  { FactoryGirl.build_stubbed(:repository) }
+      let(:user)  { FactoryGirl.create(:user)} 
+      let(:other) { FactoryGirl.create(:user) }
+      let(:repo)  { FactoryGirl.create(:repository) }
 
       before do
         user.set_admin(true)
@@ -31,8 +31,8 @@ describe "User" do
     end
 
     context "on users" do
-      let(:user) {FactoryGirl.build_stubbed(:user)}
-      let(:other) {FactoryGirl.build_stubbed(:user)}
+      let(:user) {FactoryGirl.create(:user)}
+      let(:other) {FactoryGirl.create(:user)}
 
       it "can only read and edit itself" do
         expect(ability).to_not be_able_to(:read, other)
@@ -50,13 +50,11 @@ describe "User" do
 
         it "can only read public repositories" do
       	  repo = FactoryGirl.build_stubbed(:repository)
-      	  repo2 = FactoryGirl.build_stubbed(:repository)
-      	  repo2.public = true
       	  all_abilities.each do |is_not_able|
       	    expect(ability).to_not be_able_to(is_not_able, repo)
-      	    expect(ability).to_not be_able_to(is_not_able, repo2) unless is_not_able == :read
       	  end
-      	  expect(ability).to be_able_to(:read, repo2)
+          repo.public = true
+      	  expect(ability).to be_able_to(:read, repo)
         end
       end
 
