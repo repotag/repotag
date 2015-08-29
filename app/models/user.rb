@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   extend FriendlyId
+  include SettingConfigurable
 
   has_many :roles, :dependent => :destroy
   has_many :repositories, :through => :roles, :source => :resource, :source_type => 'Repository'
@@ -90,19 +91,6 @@ class User < ActiveRecord::Base
   def all_repositories
     collaborator_repositories + owned_repositories
   end
-  
-  def settings
-    setting = Setting.where(:user_id => self).first_or_create
-    if setting.name.nil?
-      setting.name = self.name.to_sym
-      setting.save
-    end
-    if setting.settings.nil?
-      setting.settings = {:notifications_as_watcher => true, :notifications_as_collaborator => true}
-      setting.save
-    end
-    setting    
-  end
 
   def self.find_for_auth_provider(access_token)
     data = access_token.info
@@ -119,6 +107,10 @@ class User < ActiveRecord::Base
 
   singleton_class.send(:alias_method, :find_for_facebook, :find_for_auth_provider)
   singleton_class.send(:alias_method, :find_for_google_oauth2, :find_for_auth_provider)
+
+  def self.default_settings
+    {:notifications_as_watcher => true, :notifications_as_collaborator => true}
+  end
 
   protected
 

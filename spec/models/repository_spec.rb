@@ -4,7 +4,7 @@ require 'json'
 describe Repository do
 
   context 'validations' do
-    it_behaves_like 'a model that has settings', :repository, [:default_branch, :enable_issuetracker, :enable_wiki]
+    it_behaves_like 'a model that has settings', Repository
     [:name, :owner].each do |attribute|
       it { should validate_presence_of(attribute) }
     end

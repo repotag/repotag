@@ -30,7 +30,7 @@ describe UsersController, type: :controller do
       end
 
       describe "cant update another user's settings" do
-        let(:setting) { :notifications_as_watcher }
+        let(:setting) { User.default_settings.keys.first }
         let(:expected) { other.settings[setting] }
         before do
           put :update_settings, :user => other, :name => setting.to_s, :value => value == "1" ? "0" : "1"
@@ -71,7 +71,7 @@ describe UsersController, type: :controller do
         end
       
         describe "#update_settings" do
-          let(:setting) { :notifications_as_watcher }
+          let(:setting) { User.default_settings.keys.first }
           let(:new_value) { user.settings[setting] == "1" ? "0" : "1" }
       
             context "with valid attributes" do

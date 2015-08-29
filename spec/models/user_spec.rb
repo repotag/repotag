@@ -4,7 +4,7 @@ require 'ostruct'
 describe User do
 
   context 'validations' do
-    it_behaves_like "a model that has settings", :user, [:notifications_as_watcher, :notifications_as_collaborator]
+    it_behaves_like "a model that has settings", User
 
     [:name, :username, :email].each do |attribute|
       it { should validate_presence_of(attribute) }

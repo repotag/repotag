@@ -19,8 +19,7 @@ class UsersController < ApplicationController
     updated_key = params[:name].to_sym
     @user_settings = @user.settings
 
-    valid_keys = [:notifications_as_watcher, :notifications_as_collaborator]
-    if valid_keys.include?(updated_key)
+    if User.default_settings.keys.include?(updated_key)
       @user_settings[updated_key] = params[:value]
       @user_settings.save
     end

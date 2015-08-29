@@ -2,6 +2,7 @@ require 'rjgit'
 
 class Repository < ActiveRecord::Base
   extend FriendlyId
+  include SettingConfigurable
 
   has_many :roles, :as => :resource, :dependent => :destroy
   has_many :users, :through => :roles, :as => :resource
@@ -81,19 +82,12 @@ class Repository < ActiveRecord::Base
       nil
     end
   end
-  
-  def settings
-    setting = Setting.where(:repository_id => self).first_or_create
-    if setting.name.nil?
-      setting.name = self.name.to_sym
-      setting.save
-    end
-    if setting.settings.nil?
-      setting.settings = {:default_branch => 'refs/heads/master', :enable_wiki => ApplicationController.helpers.general_setting(:enable_wikis), 
-                          :enable_issuetracker => ApplicationController.helpers.general_setting(:enable_issuetracker)}
-      setting.save
-    end
-    setting    
+
+  def self.default_settings
+    {:default_branch => 'refs/heads/master',
+     :enable_wiki => ApplicationController.helpers.general_setting(:enable_wikis), 
+     :enable_issuetracker => ApplicationController.helpers.general_setting(:enable_issuetracker)
+    }
   end
 
   def to_json
