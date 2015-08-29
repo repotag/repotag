@@ -1,17 +1,46 @@
 require 'cancan/matchers'
 require 'spec_helper'
 
-all_abilities = [:read, :edit, :manage, :destroy]
+all_abilities = [:read, :edit, :update, :manage, :destroy]
 
-role_abilities = {
+repo_abilities = {
 	:watcher => [:read],
-	:contributor => [:read, :edit],
-	:admin => [:manage],
+	:contributor => [:read, :edit, :update]
 }
 
 describe "User" do
   describe "abilities" do
     subject(:ability){ Ability.new(user) }
+
+    context "when admin user" do
+      let(:user)  { FactoryGirl.build_stubbed(:user)} 
+      let(:other) { FactoryGirl.build_stubbed(:user) }
+      let(:repo)  { FactoryGirl.build_stubbed(:repository) }
+
+      before do
+        user.set_admin(true)
+      end
+
+      it "can manage all resources" do
+        [other, repo].each {|resource| expect(ability).to be_able_to(:manage, resource)}
+      end
+
+      after do
+        user.set_admin(false)
+      end
+    end
+
+    context "on users" do
+      let(:user) {FactoryGirl.build_stubbed(:user)}
+      let(:other) {FactoryGirl.build_stubbed(:user)}
+
+      it "can only read and edit itself" do
+        expect(ability).to_not be_able_to(:read, other)
+        expect(ability).to_not be_able_to(:edit, other)
+        expect(ability).to be_able_to(:read, user)
+        expect(ability).to be_able_to(:edit, user)        
+      end
+    end
 
     context "on repositories" do
 
@@ -31,14 +60,11 @@ describe "User" do
         end
       end
 
-      role_abilities.each do |role, abilities|
+      repo_abilities.each do |role, abilities|
   	    context "when is a #{role}" do
 
   	      let(:user){ FactoryGirl.create("#{role}_role".to_sym).user }
-  	      let(:repo){ 
-            user.respond_to?("#{role}_repositories".to_sym) ?
-              user.send("#{role}_repositories".to_sym).first : FactoryGirl.build_stubbed(:repository)
-          }
+  	      let(:repo){ user.send("#{role}_repositories".to_sym).first }
 
   	      abilities.each do |is_able|
   	        it{ should be_able_to(is_able, repo) }

@@ -101,6 +101,12 @@ Spork.prefork do
     it { is_expected.to render_template expectations[:template] } unless expectations[:template].nil?
   end
 
+  shared_examples_for "an unauthorized controller action" do |compare_value|
+    it_behaves_like "a controller action", {:template => nil, :layout => nil, :response => 302, :redirect => '/'}
+    it { expect(flash[:alert]).to match /not authorized/ }
+    it { expect(value).to eq expected } unless compare_value == false
+  end
+
   def valid_attributes_for_model(klass)
     case klass.to_s
     when 'User'

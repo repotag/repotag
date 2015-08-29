@@ -2,18 +2,48 @@ require 'spec_helper'
 
 describe UsersController, type: :controller do
     let(:user) { FactoryGirl.create(:user) }
-    
-    describe "authorization" do
-      it "ensures current user is authorized" do
-        skip
-      end
+
+    before do
+      sign_in user
     end
     
-    context "with authorized user" do
+    context "an unauthorized user" do
 
-      before do
-        sign_in user
+      let(:other) { FactoryGirl.create(:user) }
+
+      describe "can't update another user" do
+        let(:expected) { other.name }
+        before do
+          put :update, :id => other.to_param, :user => { :name => 'cantupdate' }
+          other.reload
+        end
+        it_behaves_like "an unauthorized controller action" do
+          let(:value) { other.name }
+        end
       end
+
+      describe "can't view another user's settings" do
+        before do
+          get :settings, :user => other
+        end
+        it_behaves_like "an unauthorized controller action", false # No edit action, so pass false
+      end
+
+      describe "cant update another user's settings" do
+        let(:setting) { :notifications_as_watcher }
+        let(:expected) { other.settings[setting] }
+        before do
+          put :update_settings, :user => other, :name => setting.to_s, :value => value == "1" ? "0" : "1"
+          other.reload
+        end
+        it_behaves_like "an unauthorized controller action" do
+          let(:value) { other.settings[setting] }
+        end
+      end
+
+    end
+    
+    context "an authorized user" do
        
       describe "PUT" do
         describe "#update" do
@@ -62,7 +92,7 @@ describe UsersController, type: :controller do
               it_behaves_like "a controller action", {:template => :settings}
             end
         end
-      end
+     end
       
       describe "GET" do
          

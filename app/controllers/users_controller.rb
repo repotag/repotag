@@ -1,22 +1,22 @@
 class UsersController < ApplicationController
-
-  def edit
-    @user = params[:id] ? User.friendly.find(params[:id]) : current_user
-  end
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:show, :settings, :update_settings]
+  skip_load_resource :only => [:settings, :update_settings]
 
   def show
-    @user = params[:id] ? User.friendly.find(params[:id]) : current_user
     @user_settings = @user.settings
   end
 
   def settings
-    @user = params[:id] ? User.friendly.find(params[:id]) : current_user
+    @user = params[:user] ? User.friendly.find(params[:user]) : current_user
+    authorize! :read, @user
     @user_settings = @user.settings
   end
   
   def update_settings
+    @user = params[:user] ? User.friendly.find(params[:user]) : current_user
+    authorize! :update, @user
     updated_key = params[:name].to_sym
-    @user = params[:id] ? User.friendly.find(params[:id]) : current_user
     @user_settings = @user.settings
 
     valid_keys = [:notifications_as_watcher, :notifications_as_collaborator]
@@ -28,7 +28,6 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = params[:id] ? User.friendly.find(params[:id]) : current_user
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to @user, :notice => 'Profile was successfully updated.' }
