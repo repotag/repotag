@@ -1,25 +1,16 @@
-<h2>User settings</h2>
-<div class='settings-table'>
-	<table class="table table-striped table-border table-hover" style="width: auto;">
-	  <thead>
-	  	<tr>
-	    	<th align='left'>Key</th>
-	    	<th align='left'>Value</th>
-	 	</tr>
-	  </thead>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><b>Settings</b></div>
+	<table class="table">
 	  <tbody>
-		<%= form_for(@user_settings, :url => '/user/update') do |form| %>
-			<%= form.fields_for :user_settings do |field| %>
-				<tr>
-					<td><%= field.label 'Receive notifications for repositories you are watching:' %></td>
-					<td><a href="#" data-xeditable="true" id="notifications_as_watcher"><%= @user_settings[:notifications_as_watcher] == "0" ? 'false' : 'true' %></a></td>
-				</tr>
-				<tr>
-					<td><%= field.label 'Receive notifications for repositories you are collaborating on:' %></td>
-					<td><a href="#" data-xeditable="true" id="notifications_as_collaborator"><%= @user_settings[:notifications_as_collaborator] == "0" ? 'false' : 'true' %></a></td>
-				</tr>
-			<% end %>
-		<% end %>
-		</tbody>
+		<tr>
+			<td><%= label_tag 'Receive notifications for repositories you are watching' %></td>
+			<td><a href="#" data-xeditable="true" id="notifications_as_watcher"><%= @user_settings[:notifications_as_watcher] == "0" ? 'false' : 'true' %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Receive notifications for repositories you are collaborating on' %></td>
+			<td><a href="#" data-xeditable="true" id="notifications_as_collaborator"><%= @user_settings[:notifications_as_collaborator] == "0" ? 'false' : 'true' %></a></td>
+		</tr>
+	  </tbody>
 	</table>
 </div>

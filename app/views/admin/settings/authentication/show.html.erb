@@ -1,54 +1,45 @@
 <%= stylesheet_link_tag 'bootstrap3-editable/bootstrap-editable' %>
 
-<div class='settings-table'>
-	<table class="table table-striped table-border table-hover" style="width: auto;">
-	  <thead>
-	  <tr>
-	    <th align='left'>Key</th>
-	    <th align='left'>Value</th>
-  	  </tr>
-      </thead>
+<div class="panel panel-default">
+  <div class="panel-heading"><b>Authentication settings</b></div>
+	<table class="table">
 	  <tbody>
-	<%= form_for([:admin, @authentication_settings], :url => '/admin/settings/authentication') do |form| %>
-		<%= form.fields_for :authentication_settings do |field| %>
-			<tr>
-				<td><%= field.label 'Enable Google Authentication:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_google_enabled"><%= @authentication_settings[:google_oauth2][:google_oauth2_enabled] == "0" ? 'false' : 'true' %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Google App ID:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_google_app_id"><%= @authentication_settings[:google_oauth2][:google_oauth2_app_id] %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Google App Secret:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_google_app_secret"><%= @authentication_settings[:google_oauth2][:google_oauth2_app_secret] %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Enable Facebook Authentication:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_facebook_enabled"><%= @authentication_settings[:facebook][:facebook_enabled] == "0" ? 'false' : 'true' %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Facebook ID:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_facebook_app_id"><%= @authentication_settings[:facebook][:facebook_app_id] %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Facebook Secret:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_facebook_app_secret"><%= @authentication_settings[:facebook][:facebook_app_secret] %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Enable Github Authentication:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_github_enabled"><%= @authentication_settings[:github][:github_enabled] == "0" ? 'false' : 'true' %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Github ID:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_github_app_id"><%= @authentication_settings[:github][:github_app_id] %></a></td>
-			</tr>
-			<tr>
-				<td><%= field.label 'Github Secret:' %></td>
-				<td><a href="#" data-xeditable="true" id="auth_github_app_secret"><%= @authentication_settings[:github][:github_app_secret] %></a></td>
-			</tr>
-		</tbody>
-		</table>
-		<% end %>
-	<% end %>
+		<tr>
+			<td><%= label_tag 'Enable Google Authentication' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_google_enabled"><%= @authentication_settings[:google_oauth2][:google_oauth2_enabled] == "0" ? 'false' : 'true' %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Google App ID' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_google_app_id"><%= @authentication_settings[:google_oauth2][:google_oauth2_app_id] %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Google App Secret' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_google_app_secret"><%= @authentication_settings[:google_oauth2][:google_oauth2_app_secret] %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Enable Facebook Authentication' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_facebook_enabled"><%= @authentication_settings[:facebook][:facebook_enabled] == "0" ? 'false' : 'true' %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Facebook ID' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_facebook_app_id"><%= @authentication_settings[:facebook][:facebook_app_id] %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Facebook Secret' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_facebook_app_secret"><%= @authentication_settings[:facebook][:facebook_app_secret] %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Enable Github Authentication' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_github_enabled"><%= @authentication_settings[:github][:github_enabled] == "0" ? 'false' : 'true' %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Github ID' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_github_app_id"><%= @authentication_settings[:github][:github_app_id] %></a></td>
+		</tr>
+		<tr>
+			<td><%= label_tag 'Github Secret' %></td>
+			<td><a href="#" data-xeditable="true" id="auth_github_app_secret"><%= @authentication_settings[:github][:github_app_secret] %></a></td>
+		</tr>
+	  </tbody>
+	</table>
 </div>

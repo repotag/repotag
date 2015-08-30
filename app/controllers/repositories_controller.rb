@@ -129,7 +129,6 @@ class RepositoriesController < ApplicationController
   end
   
   def get_readme_content(readme_filename, repository)
-    Rails.logger.debug "trying to get content"
     repository.blob(readme_filename).data
   end
 
@@ -182,7 +181,7 @@ class RepositoriesController < ApplicationController
     @repository.destroy
 
     respond_to do |format|
-      format.html { redirect_to repositories_url }
+      format.html { redirect_to repositories_url, notice: "Repository was successfully deleted." }
       format.json { head :no_content }
     end
   end
@@ -220,7 +219,7 @@ class RepositoriesController < ApplicationController
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
-    
+    @general_settings = Setting.get(:general_settings)
     render "repositories/settings"
   end
   

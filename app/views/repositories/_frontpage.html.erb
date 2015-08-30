@@ -1,3 +1,6 @@
 <h1>Welcome to Repotag!</h1>
 
-Please sign up or login first.
+<p>
+You are currently not logged in. Please <%= link_to 'login', new_user_session_path %> first, or simply browse one of the following public repositories. Enjoy!
+</p>
+<%= render 'listing', {:repositories => repositories } %>

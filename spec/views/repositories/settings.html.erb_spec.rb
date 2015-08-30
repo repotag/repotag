@@ -11,7 +11,7 @@ describe 'repositories/settings.html.erb' do
   
   it "should list settings that are specific to a repository" do
     render :template => 'repositories/settings.html.erb'
-    expect(rendered).to have_text "Settings specific to Repository #{@repo.name}"
+    expect(rendered).to have_text "Settings for #{@repo.name}"
   end
   
   describe "without contributors" do

@@ -1,50 +1,39 @@
 <%= stylesheet_link_tag 'bootstrap3-editable/bootstrap-editable' %>
 
-<div class='settings-table'>
-	<table class="table table-striped table-border table-hover" style="width: auto;">
-	  <thead>
-	  <tr>
-	    <th align='left'>Key</th>
-	    <th align='left'>Value</th>
-  	  </tr>
-      </thead>
+<div class="panel panel-default">
+  <div class="panel-heading"><b>Authentication settings</b></div>
+  <table class="table" id="smtp-settings-table">
 	  <tbody>
-	<%= form_for([:admin, @smtp_settings], :url => '/admin/email/smtp') do |form| %>
-		<%= form.fields_for :smtp_settings do |field| %>
 			<tr>
-				<td><%= field.label 'Server:' %></td>
+				<td><%= label_tag 'Server' %></td>
 				<td><a href="#" id="smtp_address"><%= @smtp_settings[:address] %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Port:' %></td>
+				<td><%= label_tag 'Port' %></td>
 				<td><a href="#" id="smtp_port"><%= @smtp_settings[:port] %></a></td>
 			<tr>
-			<td> <%= field.label 'Domain:' %></td>
+			<td> <%= label_tag 'Domain' %></td>
 			<td><a href="#" id="smtp_domain"><%= @smtp_settings[:domain] %></a></td>
 			<tr>
-				<td><%= field.label 'Username:' %></td>
+				<td><%= label_tag 'Username' %></td>
 				<td><a href="#" id="smtp_user_name"><%= @smtp_settings[:user_name] %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Password:' %></td>
+				<td><%= label_tag 'Password' %></td>
 				<td><a href="#" id="smtp_password"><i>hidden</i></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Authentication:' %></td>
+				<td><%= label_tag 'Authentication' %></td>
 				<td><a href="#" id="smtp_authentication"><%= @smtp_settings[:authentication] %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'StartTLS:' %></td>
+				<td><%= label_tag 'StartTLS' %></td>
 				<td><a href="#" id="smtp_starttls"><%= @smtp_settings[:enable_starttls_auto] == 0 ? "false" : "true" %></a></td>
 			</tr>
 		</tbody>
-		</table>
-		<% end %>
-	<% end %>
-	</div>
-	</div>
-	<%= button_to "Send Test Mail", {:action => 'send_test_mail', :controller => '/admin/settings'}, :class => "btn btn-primary btn-large"%>
-
+  </table>
+  </div>
 </div>
 
+<%= button_to "Send Test Mail", {:action => 'send_test_mail', :controller => '/admin/settings'}, :class => "btn btn-primary btn-large"%>
 

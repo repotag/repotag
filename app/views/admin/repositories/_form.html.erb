@@ -1,4 +1,4 @@
-<%= form_for(repository) do |f| %>
+<%= form_for [repository.owner, repository] do |f| %>
   <div class="field">
     <%= f.label :public %><br />
     <%= f.check_box(:public) %>
@@ -8,6 +8,6 @@
     <%= f.text_field(:name) %>
   </div>
   <div class="actions">
-    <%= f.submit "Save Repository", :class => "btn btn-primary btn-large" %>
+    <%= f.submit "Save Repository", :class => "btn btn-primary" %>
   </div>
 <% end %>

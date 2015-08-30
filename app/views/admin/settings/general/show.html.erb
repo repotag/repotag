@@ -1,52 +1,44 @@
 <%= stylesheet_link_tag 'bootstrap3-editable/bootstrap-editable' %>
 
-<div class='settings-table'>
-	<table class="table table-striped table-border table-hover" style="width: auto;">
-	  <thead>
-	  <tr>
-	    <th align='left'>Key</th>
-	    <th align='left'>Value</th>
-  	  </tr>
-      </thead>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><b>General settings</b></div>
+	<table class="table">
 	  <tbody>
-	<%= form_for([:admin, @general_settings], :url => '/admin/settings/general') do |form| %>
-		<%= form.fields_for :general_settings do |field| %>
 			<tr>
-				<td><%= field.label 'Repository Root:' %></td>
+				<td><%= label_tag 'Repository Root' %></td>
 				<td><a href="#" data-xeditable="true" id="general_repo_root"><%= @general_settings[:repo_root] %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Server Domain:' %></td>
+				<td><%= label_tag 'Server Domain' %></td>
 				<td><a href="#" data-xeditable="true" id="general_server_domain"><%= @general_settings[:server_domain] %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Server Port (default: 80):' %></td>
+				<td><%= label_tag 'Server Port (default: 80)' %></td>
 				<td><a href="#" data-xeditable="true" id="general_server_port"><%= @general_settings[:server_port] %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Default branch:' %></td>
+				<td><%= label_tag 'Default branch' %></td>
 				<td><a href="#" data-xeditable="true" id="general_default_branch"><%= @general_settings[:default_branch] %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Allow Anonymous Access:' %></td>
+				<td><%= label_tag 'Allow Anonymous Access' %></td>
 				<td><a href="#" data-xeditable="true" id="general_anonymous_access"><%= @general_settings[:anonymous_access] == "0" ? 'false' : 'true' %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Enable public profiles:' %></td>
+				<td><%= label_tag 'Enable public profiles' %></td>
 				<td><a href="#" data-xeditable="true" id="general_public_profiles"><%= @general_settings[:public_profiles] == "0" ? 'false' : 'true' %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Enable wikis globally:' %></td>
+				<td><%= label_tag 'Enable wikis globally' %></td>
 				<td><a href="#" data-xeditable="true" id="general_enable_wikis"><%= @general_settings[:enable_wikis] == "0" ? 'false' : 'true' %></a></td>
 			</tr>
 			<tr>
-				<td><%= field.label 'Enable issue tracker globally:' %></td>
+				<td><%= label_tag 'Enable issue tracker globally' %></td>
 				<td><a href="#" data-xeditable="true" id="general_enable_issuetracker"><%= @general_settings[:enable_issuetracker] == "0" ? 'false' : 'true' %></a></td>
 			</tr>
 		</tbody>
-		</table>
-		<% end %>
-	<% end %>
+	</table>
 </div>
 
 
