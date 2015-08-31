@@ -1,5 +1,6 @@
 require 'spork'
 require 'simplecov'
+
 SimpleCov.start 'rails' do
   add_filter 'app/views'
 end
@@ -17,6 +18,7 @@ Spork.prefork do
   require 'capybara/rspec'
   require 'capybara/rails'
   require 'factory_girl_rails'
+  require 'shoulda-matchers'
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
@@ -73,38 +75,7 @@ Spork.prefork do
     config.infer_base_class_for_anonymous_controllers = false
   end
 
-  shared_examples_for "a model that has settings" do |model|
-    it "#{model.default_settings.keys}" do
-      setting = FactoryGirl.create(model.name.downcase.to_sym).settings
-      expect(setting).to be_a Setting
-      expect(setting.settings).to be_a_kind_of Hash
-      model.default_settings.each do |key, value|
-        expect(setting.settings[key]).to eq value
-      end
-    end
-  end
-
-  shared_examples_for "a controller action" do |options|
-    options ||= {}
-    expectations = {
-      :response => :ok,
-      :content_type => 'text/html',
-      :layout => :application,
-      :redirect => nil,
-      :template => nil
-    }.merge options
-    it { expect(controller.response.content_type).to eq expectations[:content_type] } unless expectations[:content_type].nil?
-    it { is_expected.to respond_with expectations[:response] } unless expectations[:response].nil?
-    it { is_expected.to render_with_layout expectations[:layout] } unless expectations[:layout].nil?
-    it { is_expected.to redirect_to expectations[:redirect] } unless expectations[:redirect].nil?
-    it { is_expected.to render_template expectations[:template] } unless expectations[:template].nil?
-  end
-
-  shared_examples_for "an unauthorized controller action" do |compare_value|
-    it_behaves_like "a controller action", {:template => nil, :layout => nil, :response => 302, :redirect => '/'}
-    it { expect(flash[:alert]).to match /not authorized/ }
-    it { expect(value).to eq expected } unless compare_value == false
-  end
+  require "#{::Rails.root}/spec/shared_examples.rb"
 
   def valid_attributes_for_model(klass)
     case klass.to_s

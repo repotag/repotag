@@ -53,9 +53,9 @@ Repotag::Application.routes.draw do
   resources :users, :only => [], :path => '' do
     resources :repositories, :controller => 'repositories', :path => '' do
       get 'get_children', on: :member
-      get 'settings', :controller => 'repositories', :action => :show_repository_settings
+      get 'settings', :controller => 'repositories', :action => :settings
       get 'select_users', :controller => 'repositories', :action => :potential_users
-      put 'settings', :controller => 'repositories', :action => :update_repository_settings
+      put 'settings', :controller => 'repositories', :action => :update_settings
       put 'add_collaborator'
       put 'remove_collaborator'
     end

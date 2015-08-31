@@ -60,7 +60,7 @@ gem 'jquery-rails'
 group :test, :development do
   gem 'webrick', '~> 1.3.1'
   gem "rspec-rails", "~> 3.0"
-  gem 'shoulda-matchers'
+  gem "shoulda-matchers", require: false
   gem "factory_girl_rails"
   gem "rspec-activemodel-mocks"
   gem "rspec-collection_matchers"

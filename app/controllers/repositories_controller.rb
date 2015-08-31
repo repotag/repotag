@@ -1,13 +1,18 @@
 class RepositoriesController < ApplicationController
+  before_filter :find_user_repository, :except => [:index, :new, :create]
   load_and_authorize_resource
-  skip_authorize_resource :only => [:new, :create]
+  skip_authorize_resource :only => [:settings, :update_settings, :add_collaborator, :remove_collaborator, :potential_users]
+  skip_load_resource :only => [:index, :create]
 
-  def find_user_repository(user_name, repository_name)
-    Repository.where(:owner_id => User.friendly.find(user_name)).friendly.find(repository_name)
+  def find_user_repository
+    if params[:repository_id] then
+      repo = params[:repository_id]
+    else
+      repo = params[:id]
+    end
+    @repository = Repository.where(:owner_id => User.friendly.find(params[:user_id])).friendly.find(repo)
   end
 
-  # GET /repositories
-  # GET /repositories.json
   def index
     if current_user
       @repositories = current_user.all_repositories
@@ -21,11 +26,7 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  # GET /repositories/1
-  # GET /repositories/1.json
   def show
-    @repository = find_user_repository(params[:user_id], params[:id])
-        
     if @repository.invalid? then
       flash[:alert] = "Repository #{@repository.name} is invalid."
       redirect_to :action => :index
@@ -85,9 +86,8 @@ class RepositoriesController < ApplicationController
   end
 
   def get_children
-    repository = find_user_repository(params[:user_id], params[:id])
     path = params[:path].empty? ? nil : params[:path]
-    repo = repository.repository
+    repo = @repository.repository
     branch = params[:branch] || "refs/heads/master"
     begin
       tree = repo.tree(path, branch)
@@ -114,35 +114,6 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  def prepare_fileview(repository, branch)
-    blob = repository.blob(params[:path], branch)
-    raise if blob == nil
-    formatter = Rouge::Formatters::HTML.new(:css_class => 'highlight', :line_numbers => true)
-    lexer = Rouge::Lexer.guess({:mimetype => blob.mime_type, :filename => blob.name, :source => blob.data})
-    lexer = Rouge::Lexers::PlainText.new unless lexer
-    formatter.format(lexer.lex(blob.data))
-  end
-
-  def get_readme_filename(file_list)
-    filenames = file_list.map{|file| file[:path] }
-    filenames.keep_if{|name| name =~ /^readme\..*$/i }.first
-  end
-  
-  def get_readme_content(readme_filename, repository)
-    repository.blob(readme_filename).data
-  end
-
-  # GET /repositories/new
-  # GET /repositories/new.json
-  def new
-  end
-
-  # GET /repositories/1/edit
-  def edit
-  end
-
-  # POST /repositories
-  # POST /repositories.json
   def create
     @repository = Repository.new(params[:repository])
     @repository.owner = current_user
@@ -160,8 +131,6 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  # PUT /repositories/1
-  # PUT /repositories/1.json
   def update
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
@@ -175,8 +144,6 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  # DELETE /repositories/1
-  # DELETE /repositories/1.json
   def destroy
     @repository.destroy
 
@@ -186,8 +153,8 @@ class RepositoriesController < ApplicationController
     end
   end
   
-  def show_repository_settings
-    @repository = find_user_repository(params[:user_id], params[:repository_id])
+  def settings
+    authorize! :read, @repository
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
@@ -200,15 +167,15 @@ class RepositoriesController < ApplicationController
   end
 
   def potential_users
-    @repository = find_user_repository(params[:user_id], params[:repository_id])
+    authorize! :update, @repository
     potential_contributors = User.where.not(id: @repository.contributing_users + @repository.collaborating_users + [@repository.owner]).where(:public => true).select(:username).to_a.map {|x| {:name => x[:username]}}
     respond_to do |format|
       format.json { render :json => potential_contributors }
     end
   end
   
-  def update_repository_settings
-    @repository = find_user_repository(params[:user_id], params[:repository_id])
+  def update_settings
+    authorize! :update, @repository
     updated_key = params[:name].to_sym
     valid_keys = [:enable_wiki, :enable_issuetracker, :default_branch]
     if valid_keys.include?(updated_key)
@@ -224,9 +191,9 @@ class RepositoriesController < ApplicationController
   end
   
   def add_collaborator
+    authorize! :update, @repository
     role = params[:role]
     @user = User.find_by_username(params[:username])
-    @repository = find_user_repository(params[:user_id], params[:repository_id])
     
     respond_to do |format|
     if @user.has_role?(params[:role], @repository)
@@ -248,9 +215,10 @@ class RepositoriesController < ApplicationController
   end
   
   def remove_collaborator
+    authorize! :update, @repository
     role = params[:role]
     collaborator = User.find(params[:collaborator_id])
-    @repository = find_user_repository(params[:user_id], params[:repository_id])
+
     collaborator.delete_role(role, @repository)
     
     @collaborators = @repository.collaborating_users
@@ -260,9 +228,29 @@ class RepositoriesController < ApplicationController
     
     render "repositories/settings"
   end
+
+  private
+
+  def prepare_fileview(repository, branch)
+    blob = repository.blob(params[:path], branch)
+    raise if blob == nil
+    formatter = Rouge::Formatters::HTML.new(:css_class => 'highlight', :line_numbers => true)
+    lexer = Rouge::Lexer.guess({:mimetype => blob.mime_type, :filename => blob.name, :source => blob.data})
+    lexer = Rouge::Lexers::PlainText.new unless lexer
+    formatter.format(lexer.lex(blob.data))
+  end
   
   def send_confirmation_email(repository)
     HookMailer.repository_created(repository.owner, repository).deliver_now
   end
+
+  def get_readme_filename(file_list)
+    filenames = file_list.map{|file| file[:path] }
+    filenames.keep_if{|name| name =~ /^readme\..*$/i }.first
+  end
   
+  def get_readme_content(readme_filename, repository)
+    repository.blob(readme_filename).data
+  end
+
 end

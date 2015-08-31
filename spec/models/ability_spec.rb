@@ -1,7 +1,7 @@
 require 'cancan/matchers'
 require 'spec_helper'
 
-all_abilities = [:read, :edit, :update, :manage, :destroy]
+all_repo_abilities = [:read, :edit, :update, :manage, :destroy]
 
 repo_abilities = {
 	:watcher => [:read],
@@ -44,13 +44,22 @@ describe "User" do
 
     context "on repositories" do
 
+      context "when not persisted" do
+        let(:user) { User.new }
+        it { expect(ability).to_not be_able_to(:create, Repository) }
+      end
+
       context "when has no role" do
 
         let(:user){ FactoryGirl.create(:user) }
 
+        it "can create repositories" do
+          expect(ability).to be_able_to(:create, Repository)
+        end
+
         it "can only read public repositories" do
       	  repo = FactoryGirl.build_stubbed(:repository)
-      	  all_abilities.each do |is_not_able|
+      	  all_repo_abilities.each do |is_not_able|
       	    expect(ability).to_not be_able_to(is_not_able, repo)
       	  end
           repo.public = true
@@ -68,7 +77,7 @@ describe "User" do
   	        it{ should be_able_to(is_able, repo) }
   	      end
   	      unless abilities.include?(:manage) # If the user can :manage then it can do everything
-  	        (all_abilities - abilities).each do |is_not_able|
+  	        (all_repo_abilities - abilities).each do |is_not_able|
   	      	  it{ should_not be_able_to(is_not_able, repo)}
   	        end
   	      end
