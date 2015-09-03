@@ -61,6 +61,53 @@ class Precious::App
   end
 end
 
+
+class Precious::Views::Layout
+  
+  def render_repotag_view(partial, repository=nil)
+    request = Rack::Request.new(@env)
+    view = ActionView::Base.new(ActionController::Base.view_paths, {})
+    view.class_eval do
+      include Rails.application.routes.url_helpers      
+      attr_reader :request
+
+      def request=(request)
+        @request=request
+      end
+      
+      def repository=(repository)
+        @repository = repository
+      end
+      
+      def current_user
+        @request.env['warden'].user
+      end
+      
+      def user_signed_in?
+        !!@request.env['warden'].user
+      end
+      
+      include ApplicationHelper
+    end
+    
+    view.request = request
+    view.repository = repository if repository
+    return view.render(partial: partial, locals: {:repository => repository, :general_settings => Setting.get(:general_settings)})
+  end
+  
+  def repotag_navbar
+    render_repotag_view('layouts/navigation/navbar')
+  end
+  
+  def repotag_sidebar
+    request = Rack::Request.new(@env)
+    owner = User.where(username: request.env['action_dispatch.request.path_parameters'][:user])
+    repository = Repository.where(owner: owner, name: request.env['action_dispatch.request.path_parameters'][:repository]).first
+    render_repotag_view('layouts/navigation/repo_sidebar', repository)
+  end
+  
+end
+
 class GollumAuthProxy < RepotagAuthProxy
   def initialize(root, markup, wiki_options = {})
     @markup = markup
@@ -88,7 +135,7 @@ class GollumAuthProxy < RepotagAuthProxy
     options = {
       :gollum_path => ::File.join(@repo_root, repository.filesystem_name),
       :default_markup => @markup,
-      :wiki_options => @wiki_options.merge({:allow_editing => priviliges == :edit})
+      :wiki_options => @wiki_options.merge({:template_dir => Rails.root.join('app', 'views', 'layouts', 'wiki', 'templates'), :allow_editing => priviliges == :edit})
     }
     status, headers, body = MapGollum.new(base_path, options).call(@env)
     [status, headers, body]
