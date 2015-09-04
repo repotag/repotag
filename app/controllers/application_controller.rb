@@ -5,6 +5,15 @@ class ApplicationController < ActionController::Base
 
   layout 'application'
 
+  rescue_from(Errno::ECONNREFUSED) do |e|
+    if current_user.admin?
+      redirect_to '/admin/email/smtp', notice: "Sending email failed (connection refused). Please check that your smtp settings are correct."
+    else
+      redirect_to :back, notice: "There was an issue sending mail (connection refused). Please contact your sysadmin."
+    end
+    
+  end
+
   # Set flashes for saving errors
   def flash_save_errors(type, errors)
     msg = ""
@@ -18,7 +27,6 @@ class ApplicationController < ActionController::Base
   end
 
   def has_role?(current_user, role)
-    #return !!current_user.roles.find_by_title(role.to_s.camelize)
     return !!current_user.roles.find_by_title(role.to_sym)
   end
 
