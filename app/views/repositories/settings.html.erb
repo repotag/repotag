@@ -3,6 +3,7 @@
 
 <% content_for :page_javascript do %>
   <%= javascript_include_tag "selectuser" %>
+  <%= javascript_include_tag "greeter" %>
 <% end %>
 
 <div class"row">
@@ -10,13 +11,14 @@
 		<div class="panel panel-default">
 		  <div class="panel-heading"><b>Settings for <%= @repository.name %></b></div>
 		  <div class="panel-body">
-		  	<%= form_for [@repository.owner, @repository], remote: true do |form| %>
+		  	<%= form_for [@repository.owner, @repository], url: user_repository_rename_path(@repository.owner, @repository) do |form| %>
 	          <%= form.text_field :name, :class => 'text_field' %>
+			  <%= form.hidden_field :slug %>
 			  <%= form.submit "Rename", :class => "btn btn-primary btn-large" %>
 			<% end %>
 			
 			
-			<p>Public repository <%= check_box_tag('public') %></p>
+			<p>Public repository <%= check_box_tag('public', nil, nil, :id => 'public-toggle') %></p>
 		</div>
 	</div>
 </div>

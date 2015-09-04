@@ -11,7 +11,7 @@ class Repository < ActiveRecord::Base
 
   friendly_id :name, :use => :scoped, :scope => :owner
 
-  attr_accessible :name, :public, :description
+  attr_accessible :name, :slug, :public, :description
 
   validates :name, :presence => true, :uniqueness => {:scope => :owner, :case_sensitive => false}, :format => {:with => /\A[\w]+\z/ , :message => "contains illegal characters"}
   validates_presence_of :owner
