@@ -1,6 +1,7 @@
 GENERAL_DEFAULTS = {
   :repo_root => '/tmp/repos', 
   :server_domain => 'localhost',
+  :server_port => '80',
   :anonymous_access => false, 
   :public_profiles => false, 
   :default_branch => 'refs/heads/master'
