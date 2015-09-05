@@ -59,6 +59,7 @@ Repotag::Application.routes.draw do
       put 'add_collaborator'
       put 'remove_collaborator'
       patch 'rename'
+      put 'toggle_public'
     end
   end
 

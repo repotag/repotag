@@ -3,7 +3,7 @@
 
 <% content_for :page_javascript do %>
   <%= javascript_include_tag "selectuser" %>
-  <%= javascript_include_tag "greeter" %>
+  <%= javascript_include_tag "repositories" %>
 <% end %>
 
 <div class"row">
@@ -18,7 +18,7 @@
 			<% end %>
 			
 			
-			<p>Public repository <%= check_box_tag('public', nil, nil, :id => 'public-toggle') %></p>
+			<p>Public repository <%= check_box_tag('public', nil, @repository.public, :id => 'public-toggle') %></p>
 		</div>
 	</div>
 </div>

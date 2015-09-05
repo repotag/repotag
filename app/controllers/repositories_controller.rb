@@ -168,6 +168,13 @@ class RepositoriesController < ApplicationController
     end
   end
   
+  def toggle_public
+    @repository.public = ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public])
+    @repository.save
+    # flash['notice'] = "Repository was made #{ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public]) ? 'public' : 'private'}"
+    render :nothing => true
+  end
+  
   def settings
     authorize! :read, @repository
     @collaborators = @repository.collaborating_users
