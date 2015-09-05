@@ -12,5 +12,6 @@
  *= require bootswatch/loader
  *= require bootswatch/bootswatch
  *= require bootstrap3-editable/bootstrap-editable
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require fontawesome
 */

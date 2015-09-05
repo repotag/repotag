@@ -147,6 +147,11 @@ GEM
     highline (1.6.21)
     i18n (0.7.0)
     jdbc-sqlite3 (3.8.7)
+    jquery-datatables-rails (3.3.0)
+      actionpack (>= 3.1)
+      jquery-rails
+      railties (>= 3.1)
+      sass-rails
     jquery-rails (4.0.3)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
@@ -294,6 +299,12 @@ GEM
     sanitize (2.1.0)
       nokogiri (>= 1.4.4)
     sass (3.4.13)
+    sass-rails (5.0.4)
+      railties (>= 4.0.0, < 5.0)
+      sass (~> 3.1)
+      sprockets (>= 2.8, < 4.0)
+      sprockets-rails (>= 2.0, < 4.0)
+      tilt (>= 1.1, < 3)
     selenium-webdriver (2.45.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
@@ -383,6 +394,7 @@ DEPENDENCIES
   gollum-rjgit_adapter
   grack!
   gravatar_image_tag
+  jquery-datatables-rails (~> 3.3.0)
   jquery-rails
   jruby-openssl
   json
