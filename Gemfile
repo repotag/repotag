@@ -24,6 +24,8 @@ gem 'gollum', '4.0.0'
 gem 'grack', :git => 'git://github.com/schacon/grack.git'
 gem 'rjgit_grack', '>= 0.2.0'
 
+gem 'tarchiver'
+
 gem 'twitter-bootswatch-rails'
 gem 'twitter-bootswatch-rails-fontawesome'
 gem 'bootstrap-x-editable-rails'

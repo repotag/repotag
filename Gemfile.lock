@@ -334,6 +334,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     stringex (2.5.2)
+    tarchiver (0.0.1)
     terminal-table (1.4.5)
     therubyrhino (2.0.4)
       therubyrhino_jar (>= 1.7.3)
@@ -417,6 +418,7 @@ DEPENDENCIES
   simplecov
   spork!
   spork-rails
+  tarchiver
   therubyrhino
   twitter-bootswatch-rails
   twitter-bootswatch-rails-fontawesome
