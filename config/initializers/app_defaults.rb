@@ -1,5 +1,6 @@
 GENERAL_DEFAULTS = {
-  :repo_root => '/tmp/repos', 
+  :repo_root => '/tmp/repos',
+  :archive_root => '/tmp/repos/archive',
   :server_domain => 'localhost',
   :server_port => '80',
   :anonymous_access => false, 
@@ -18,7 +19,7 @@ end
 
 SMTP_DEFAULTS = {
   :address => 'localhost', 
-  :port => 1025
+  :port => 25
 }
 
 def set_smtp_defaults

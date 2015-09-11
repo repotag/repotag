@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150822144738) do
+ActiveRecord::Schema.define(version: 20150911160806) do
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 20150822144738) do
     t.integer  "owner_id"
     t.string   "slug",        limit: 255
     t.string   "description", limit: 255
+    t.boolean  "archived",                default: false
+    t.datetime "archived_at"
   end
 
   add_index "repositories", ["slug"], name: "index_repositories_on_slug"

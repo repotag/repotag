@@ -9,7 +9,10 @@ Repotag::Application.routes.draw do
   	get '/' => 'users#index'
   	resources :users
     get '/users/:id/set_admin', :controller => 'admin/users', :action => :set_admin
-    resources :repositories
+    resources :repositories do
+      put 'archive'
+      put 'unarchive'
+    end
 
     get '/settings/general', :controller => 'settings', :action => :show_general_settings
     put '/settings/general', :controller => 'settings', :action => :update_general_settings

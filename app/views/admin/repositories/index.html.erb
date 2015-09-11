@@ -6,6 +6,7 @@
 		<th>Name</th>
 		<th>Owner</th>
 		<th>Valid?</th>
+		<th>Archived?</th>
 		<th>Last accessed</th>
 		<th>Actions</th>
 		</tr>
@@ -17,10 +18,20 @@
 				<td><%= link_to repository.name, admin_repository_path(repository.id) %></td>
 				<td><%= gravatar_image_tag(repository.owner.email, :alt => repository.owner.name, :gravatar => {:size => 20} ) %>  <%= repository.owner.name%></td>
 				<td><i class="fa <%= repository.repository.valid? ? 'fa-check' : 'fa-times' %>"</i></td>
+				<td><i class="fa <%= repository.archived? ? 'fa-check' : 'fa-times' %>"</i></td>
 				<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 				<td><div>
 				<%= link_to edit_admin_repository_path(repository.id), :class => "btn btn-default" do %>
 				 	<i class="fa fa-edit"></i>
+				<% end %>
+				<% if repository.archived? %>
+					<%= link_to admin_repository_unarchive_path(repository.id), :method => :put, :class => "btn btn-success" do %>
+				 		<i class="fa fa fa-refresh"></i>
+					<% end %>
+				<% else %>
+					<%= link_to admin_repository_archive_path(repository.id), :method => :put, :class => "btn btn-warning" do %>
+				 		<i class="fa fa-archive"></i>
+				<% end %>
 				<% end %>
 				<%= link_to admin_repository_path(repository.id), :class => "btn btn-danger", :method => :delete, :data => {:confirm => "Are you sure?"} do %>
 				 	<i class="fa fa-trash-o"></i>

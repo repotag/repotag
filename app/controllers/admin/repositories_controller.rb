@@ -59,10 +59,43 @@ class Admin::RepositoriesController < Admin::AdminController
       if @repository.update_attributes(params[:repository])
         format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully updated.' }
         format.json { head :no_content }
+        format.js { flash[:notice] = 'Repository was updated.'}
       else
         flash_save_errors "repository", @repository.errors
         format.html { render action: "edit" }
         format.json { render json: @repository.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def archive
+    @repository = Repository.find(params[:repository_id])
+    if @repository.repository.valid?
+      respond_to do |format|
+        if Tarchiver::Archiver.archive(@repository.repository.path, Setting.get(:general_settings)[:archive_root], {delete_input_on_success: true})
+          @repository.archived = true
+          @repository.archived_at = DateTime.current
+          @repository.save
+          format.html { redirect_to action: 'index', notice: 'Repository was archived.'}
+        else
+          format.html {redirect_to action: 'index', notice: 'Repository could not not be archived.'}
+        end
+    end
+    
+      
+    end #render 'index', notice: 'Repository was archived.'
+  end
+  
+  def unarchive
+    @repository = Repository.find(params[:repository_id])
+    archive = File.join(Setting.get(:general_settings)[:archive_root], "#{@repository.filesystem_name}.tgz")
+    respond_to do |format|
+      if Archiver.unarchive(archive, Setting.get(:general_settings)[:repo_root], {delete_input_on_success: true})
+        @repository.archived = false
+        @repository.save
+        format.html { redirect_to action: 'index', notice: 'Repository was restored.'}
+      else
+        format.html { redirect_to action: 'index', notice: 'Repository could not be restored.'}
       end
     end
   end

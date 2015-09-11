@@ -66,6 +66,14 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/general'
 		title: 'Enter root directory' )
+
+	$('#general_archive_root').editable(
+		name: 'archive_root'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enter archive root directory' )
+
 		
 	$('#general_server_domain').editable(
 		name: 'server_domain'
