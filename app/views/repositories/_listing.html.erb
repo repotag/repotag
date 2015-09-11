@@ -17,7 +17,7 @@
 					<% if repository.valid? && can?(:read, repository) then %>
 					<tr>
 						<td><%= link_to repository.name, [repository.owner, repository] %></td>
-						<td><%= role_description(repository).map {|x| x.to_s.capitalize}.join("; ") %></td>
+						<td><%= raw role_description(repository).map {|r| label_tag("#{r}", r.to_s.capitalize, class: 'label', style: "color: white; background-color:lightgrey")}.join(" ") %></td>
 					</tr>
 					<% end %>
 			  <% end %>
