@@ -88,9 +88,6 @@ class Precious::Views::Layout
       end
       
       include ApplicationHelper
-      include ActionView::Helpers::CsrfHelper
-      # include ActionController::RequestForgeryProtection
-      # include ActiveSupport::Configurable
     end
     
     view.request = request
@@ -110,10 +107,10 @@ class Precious::Views::Layout
   end
   
   def authenticity_token
-    
-    crsf_token = @env['warden'].request.session[:_csrf_token]
-    "<meta name='crsf-token' content='#{crsf_token}'>"
-    # warden.user.user.key
+    if warden = @env['warden'] then
+      crsf_token = warden.request.session[:_csrf_token]
+      "<meta name='csrf-token' content='#{crsf_token}'>"
+    end
   end
   
 end
@@ -134,7 +131,7 @@ class GollumAuthProxy < RepotagAuthProxy
     user = authenticated?
     priviliges = authorized?(repository, user)
     if user.blank? then
-      return not_authenticated if !priviliges
+      return redirect_to_login if !priviliges
     elsif !priviliges then
       return access_denied
     elsif priviliges == :write
@@ -148,6 +145,10 @@ class GollumAuthProxy < RepotagAuthProxy
     }
     status, headers, body = MapGollum.new(base_path, options).call(@env)
     [status, headers, body]
+  end
+
+  def redirect_to_login
+    [301, {"Location" => Rails.application.routes.url_helpers.new_user_session_path, "Content-Type" => "text/html"}, []]
   end
 
   def authorized?(repository, user)
