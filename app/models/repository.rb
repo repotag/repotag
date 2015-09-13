@@ -34,9 +34,14 @@ class Repository < ActiveRecord::Base
 
   def wiki
     create = !::File.exists?(self.wiki_path)
-    RJGit::Repository.new(self.wiki_path, :create => create, :is_bare => true)
+    RJGit::Repo.new(self.wiki_path, :create => create, :is_bare => true)
   end
 
+  def wiki_enabled?
+    return false if ApplicationController.helpers.general_setting(:enable_wikis) == '0'
+    self.settings[:enable_wiki] == "1"
+  end
+  
   def repository
     RJGit::Repo.new(self.filesystem_path)
   end
