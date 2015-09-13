@@ -17,11 +17,24 @@ class Repository < ActiveRecord::Base
   validates_presence_of :owner
 
   def filesystem_path
-    File.join(ApplicationController.helpers.general_setting(:repo_root), filesystem_name)
+    ::File.join(ApplicationController.helpers.general_setting(:repo_root), filesystem_name)
   end
 
   def filesystem_name
     "#{self.id}.git"
+  end
+
+  def wiki_name
+    "#{self.id}-wiki.git"
+  end
+
+  def wiki_path
+    ::File.join(ApplicationController.helpers.general_setting(:wiki_root), wiki_name)
+  end
+
+  def wiki
+    create = !::File.exists?(self.wiki_path)
+    RJGit::Repository.new(self.wiki_path, :create => create, :is_bare => true)
   end
 
   def repository
@@ -29,7 +42,7 @@ class Repository < ActiveRecord::Base
   end
 
   def to_disk
-    return self.repository if File.exists?(self.filesystem_path)
+    return self.repository if ::File.exists?(self.filesystem_path)
     return RJGit::Repo.new(self.filesystem_path, :create => true, :is_bare => true)
   end
 
@@ -51,10 +64,11 @@ class Repository < ActiveRecord::Base
     collaborating_users(:watcher)
   end
   
-  def initialize_readme
-    repo = self.to_disk
-    tree = RJGit::Tree.new_from_hashmap(repo, { "README.md" => "# README for #{self.name}"})
-    commit = RJGit::Commit.new_with_tree(repo, tree, "Test commit message", RJGit::Actor.new(self.owner.name, self.owner.email))
+  def initialize_readme(wiki=false)
+    repo = wiki ? self.wiki : self.to_disk
+    text = wiki ? "# Welcome to the #{self.name} wiki!\nSome gollum instructions" : "# README for #{self.name}"
+    tree = RJGit::Tree.new_from_hashmap(repo, { "README.md" => text})
+    commit = RJGit::Commit.new_with_tree(repo, tree, "Initialize readme (from Repotag)", RJGit::Actor.new(self.owner.name, self.owner.email))
     repo.update_ref(commit)
   end
   

@@ -120,7 +120,7 @@ class GollumAuthProxy < RepotagAuthProxy
     base_path = request.fullpath.to_s
     return not_found if base_path == ""
     repository = find_repository(base_path)
-    return not_found if repository.nil? || repository.settings[:enable_wiki] == false
+    return not_found if repository.nil? || !repository.settings[:enable_wiki] || !repository.wiki
     user = authenticated?
     priviliges = authorized?(repository, user)
     if user.blank? then
