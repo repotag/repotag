@@ -176,7 +176,7 @@ class RepositoriesController < ApplicationController
   end
   
   def settings
-    authorize! :read, @repository
+    authorize! :manage, @repository
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
