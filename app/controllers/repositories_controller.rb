@@ -10,7 +10,8 @@ class RepositoriesController < ApplicationController
     else
       repo = params[:id]
     end
-    @repository = Repository.where(:owner_id => User.friendly.find(params[:user_id])).friendly.find(repo)
+    repositories = Repository.where(:owner_id => User.friendly.find(params[:user_id]))
+    @repository = repositories.friendly.find(repo) unless repositories.empty?
   end
 
   def index
