@@ -74,6 +74,12 @@ $(document).ready ->
 		url: '/admin/settings/general'
 		title: 'Enter archive root directory' )
 
+	$('#general_wiki_root').editable(
+		name: 'wiki_root'
+		type: 'text'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Enter wiki root directory' )
 		
 	$('#general_server_domain').editable(
 		name: 'server_domain'

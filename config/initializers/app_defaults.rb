@@ -1,6 +1,7 @@
 GENERAL_DEFAULTS = {
   :repo_root => '/tmp/repos',
   :archive_root => '/tmp/repos/archive',
+  :wiki_root => '/tmp/repos/wikis',
   :server_domain => 'localhost',
   :server_port => '80',
   :anonymous_access => false, 
