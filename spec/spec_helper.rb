@@ -65,7 +65,7 @@ Spork.prefork do
     config.include Capybara::DSL # Manually mix in Capybara so we can use its methods outside the 'requests'/'features' dirs.
 
     config.include Devise::TestHelpers, :type => :view
-    config.include Devise::TestHelpers, :type => :controller, :file_path => %r(spec/controllers) # Use :file_path because including these tests in feature specs causes conflicts/errors
+    config.include Devise::TestHelpers, :type => :controller, :file_path => %r(spec/controllers|spec/features/wiki_spec) # Use :file_path because including these tests in feature specs causes conflicts/errors
     
     #config.include Rails.application.routes.url_helpers
     
