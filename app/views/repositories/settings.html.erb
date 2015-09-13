@@ -29,10 +29,12 @@
 		  <div class="panel-heading"><b>Features</b></div>
 		  <table class="table">
 			<tbody>
-				<tr>
-					<td><%= label_tag "Enable wiki" %></td>
-					<td><a href="#" id="enable_wiki"><%= @repository_settings[:enable_wiki] == "0" ? 'false' : 'true' %></a></td>
-				</tr>
+				<% if @general_settings[:enable_wikis] == "1" %>
+					<tr>
+						<td><%= label_tag "Enable wiki" %></td>
+						<td><a href="#" id="enable_wiki"><%= @repository_settings[:enable_wiki] == "0" ? 'false' : 'true' %></a></td>
+					</tr>
+				<% end %>
 				<tr>
 					<td><%= label_tag "Enable issue tracker" %></td>
 					<td><a href="#" id="enable_issuetracker"><%= @repository_settings[:enable_issuetracker] == "0" ? 'false' : 'true' %></a></td>
