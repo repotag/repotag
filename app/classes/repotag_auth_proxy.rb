@@ -43,7 +43,7 @@ class RepotagAuthProxy
   end
 
   def authorized?(repository, user)
-    activity = @env['PATH_INFO'] =~ /(.*?)\/git-receive-pack$/ ? :edit : :read
+    activity = @env['PATH_INFO'] =~ /(.*?)\/git-receive-pack$/ ? :write : :read
     return true if repository.public? && activity == :read
     return false if !Ability.new(user).can?(activity, repository)
     return true
