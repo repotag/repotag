@@ -100,7 +100,8 @@ class Repository < ActiveRecord::Base
   def self.default_settings
     {:default_branch => 'refs/heads/master',
      :enable_wiki => ApplicationController.helpers.general_setting(:enable_wikis), 
-     :enable_issuetracker => ApplicationController.helpers.general_setting(:enable_issuetracker)
+     :enable_issuetracker => ApplicationController.helpers.general_setting(:enable_issuetracker),
+     :wiki => {}
     }
   end
 
