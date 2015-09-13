@@ -28,8 +28,6 @@ Repotag::Application.routes.draw do
 
   project_root = Setting.get(:general_settings)[:repo_root] || GENERAL_DEFAULTS[:repo_root]
 
-  r = RepotagAuthProxy.new(true)
-
   grack_auth_proxy = RepotagAuthProxy.new(Grack::App.new({
       :project_root => project_root,
       :adapter => Grack::RJGitAdapter,
@@ -37,7 +35,7 @@ Repotag::Application.routes.draw do
       :receive_pack => true,
   }))
 
-  gollum_auth_proxy = GollumAuthProxy.new(project_root, :markdown, {:universal_toc => false, :live_preview => false})
+  gollum_auth_proxy = GollumAuthProxy.new(:markdown, {:universal_toc => false, :live_preview => false})
 
   authenticated :user do
     mount grack_auth_proxy, at: 'git', as: 'git'

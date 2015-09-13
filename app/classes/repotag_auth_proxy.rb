@@ -109,10 +109,9 @@ class Precious::Views::Layout
 end
 
 class GollumAuthProxy < RepotagAuthProxy
-  def initialize(root, markup, wiki_options = {})
+  def initialize(markup, wiki_options = {})
     @markup = markup
     @wiki_options = wiki_options
-    @repo_root = root
   end
 
   def call(env)
@@ -121,21 +120,21 @@ class GollumAuthProxy < RepotagAuthProxy
     base_path = request.fullpath.to_s
     return not_found if base_path == ""
     repository = find_repository(base_path)
-    return not_found if repository.nil?
+    return not_found if repository.nil? || repository.settings[:enable_wiki] == false
     user = authenticated?
     priviliges = authorized?(repository, user)
     if user.blank? then
       return not_authenticated if !priviliges
     elsif !priviliges then
       return access_denied
-    elsif priviliges == :edit
+    elsif priviliges == :write
       @env['authorName'] = user.name
       @env['authorEmail'] = user.email
     end
     options = {
-      :gollum_path => ::File.join(@repo_root, repository.filesystem_name),
+      :gollum_path => repository.wiki_path,
       :default_markup => @markup,
-      :wiki_options => @wiki_options.merge({:template_dir => Rails.root.join('app', 'views', 'layouts', 'wiki', 'templates'), :allow_editing => priviliges == :edit})
+      :wiki_options => @wiki_options.merge({:template_dir => Rails.root.join('app', 'views', 'layouts', 'wiki', 'templates'), :allow_editing => priviliges == :write})
     }
     status, headers, body = MapGollum.new(base_path, options).call(@env)
     [status, headers, body]
@@ -143,7 +142,8 @@ class GollumAuthProxy < RepotagAuthProxy
 
   def authorized?(repository, user)
     ability = Ability.new(user)
-    return :edit if ability.can?(:edit, repository)
+    return :write if repository.settings[:wiki][:public_editable]
+    return :write if ability.can?(:write, repository)
     return :read if ability.can?(:read, repository)
     false
   end
