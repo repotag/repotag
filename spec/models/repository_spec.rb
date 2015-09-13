@@ -47,7 +47,7 @@ describe Repository do
       @repository.initialize_readme
       expect(@repository.repository.commits).to_not be_empty
       commit = @repository.repository.commits.first
-      expect(commit.message).to eq 'Test commit message'
+      expect(commit.message).to eq 'Initialize readme (from Repotag)'
       expect(commit.actor.name).to eq @repository.owner.name
       expect(commit.actor.email).to eq @repository.owner.email
     end

@@ -5,7 +5,7 @@ all_repo_abilities = [:read, :edit, :update, :manage, :destroy]
 
 repo_abilities = {
 	:watcher => [:read],
-	:contributor => [:read, :edit, :update]
+	:contributor => [:read, :write]
 }
 
 describe "User" do

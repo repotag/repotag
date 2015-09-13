@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 def create_repository(name)
-  visit "/admin/repositories"
+  visit "/repositories"
   click_link 'New Repository'
   fill_in "Name", with: name
   click_button 'Save Repository'

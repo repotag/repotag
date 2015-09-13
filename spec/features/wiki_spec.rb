@@ -10,7 +10,7 @@ describe 'gollum wikis' do
   context 'with a valid repository path' do
 
     after do
-      allow(repo).to receive(:wiki_enabled?).and_return_original
+      allow(repo).to receive(:wiki_enabled?).and_call_original
     end
 
     describe 'wiki enabled' do
@@ -63,7 +63,7 @@ describe 'gollum wikis' do
         allow(repo).to receive(:settings).with(:wiki).and_return({:public_editable => true})
         expect(GollumAuthProxy).to_not receive(:authorized?).with(repo, nil).and_return(:write)
         get_wiki_page(owner, repo)
-        allow(repo).to receive(:settings).with(:wiki).and_return_original
+        allow(repo).to receive(:settings).with(:wiki).and_call_original
       end
     end
 

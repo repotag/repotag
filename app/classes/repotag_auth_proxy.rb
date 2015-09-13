@@ -88,6 +88,9 @@ class Precious::Views::Layout
       end
       
       include ApplicationHelper
+      include ActionView::Helpers::CsrfHelper
+      # include ActionController::RequestForgeryProtection
+      # include ActiveSupport::Configurable
     end
     
     view.request = request
@@ -104,6 +107,13 @@ class Precious::Views::Layout
     owner = User.where(username: request.env['action_dispatch.request.path_parameters'][:user])
     repository = Repository.where(owner: owner, name: request.env['action_dispatch.request.path_parameters'][:repository]).first
     render_repotag_view('layouts/navigation/repo_sidebar', repository)
+  end
+  
+  def authenticity_token
+    
+    crsf_token = @env['warden'].request.session[:_csrf_token]
+    "<meta name='crsf-token' content='#{crsf_token}'>"
+    # warden.user.user.key
   end
   
 end
