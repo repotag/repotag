@@ -92,7 +92,7 @@ class Precious::Views::Layout
     
     view.request = request
     view.repository = repository if repository
-    return view.render(partial: partial, locals: {:repository => repository, :general_settings => Setting.get(:general_settings)})
+    return view.render(partial: partial, locals: {:repository => repository, :active_nav_tab => :wiki, :general_settings => Setting.get(:general_settings)})
   end
   
   def repotag_navbar

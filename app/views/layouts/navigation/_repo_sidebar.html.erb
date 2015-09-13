@@ -7,9 +7,9 @@
 			<% nav_items[:issues] = "<a href='#'><i class='fa fa-exclamation-circle fa-2x'></i></a>" if general_settings[:enable_issuetracker] == "1" %>
 			<% nav_items[:wiki] = "<a href='#{wiki_path(@repository.owner, @repository)}'><i class='fa fa-book fa-2x'></i></a>" if general_settings[:enable_wikis] == "1" %>
 			<% nav_items[:settings] = "<a href='#{user_repository_settings_path(@repository.owner, @repository)}'><i class='fa fa-cog fa-2x'></i></a>" %>
-			
+			<%= %>
 			<% nav_items.each do |nav_name, nav_link| %>
-				<li role="presentation" <%=raw("class='active'") if @active_nav_tab == nav_name %>><%= raw nav_link %></li>
+				<li role="presentation" <%=raw("class='active'") if active_nav_tab == nav_name %>><%= raw nav_link %></li>
 			<% end %>
       </ul>
     </div>
