@@ -42,7 +42,7 @@ describe "User" do
       end
     end
 
-    context "on repositories" do
+    context "on repositories and wikis" do
 
       context "when not persisted" do
         let(:user) { User.new }
@@ -57,13 +57,22 @@ describe "User" do
           expect(ability).to be_able_to(:create, Repository)
         end
 
-        it "can only read public repositories" do
+        it "can only read public repositories and wikis" do
       	  repo = FactoryGirl.build_stubbed(:repository)
       	  all_repo_abilities.each do |is_not_able|
       	    expect(ability).to_not be_able_to(is_not_able, repo)
       	  end
           repo.public = true
       	  expect(ability).to be_able_to(:read, repo)
+          expect(ability).to be_able_to(:read, Wiki.new(repo))
+        end
+
+        it "can edit publically editable wiki" do
+          repo = FactoryGirl.build_stubbed(:repository)
+          wiki = Wiki.new(repo)
+          expect(ability).to_not be_able_to(:write, wiki)
+          repo.settings[:wiki][:public_editable] = true
+          expect(ability).to_not be_able_to(:write, wiki)
         end
       end
 
@@ -75,6 +84,7 @@ describe "User" do
 
   	      abilities.each do |is_able|
   	        it{ should be_able_to(is_able, repo) }
+            it{ should be_able_to(is_able, Wiki.new(repo)) }
   	      end
   	      unless abilities.include?(:manage) # If the user can :manage then it can do everything
   	        (all_repo_abilities - abilities).each do |is_not_able|

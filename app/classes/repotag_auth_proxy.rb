@@ -1,24 +1,46 @@
 require 'gollum/app'
 
+
+# Dummy class for use with CanCanCan authorization. See models/ability.rb
+class Wiki
+  attr_reader :repository
+  def initialize(repository)
+    @repository = repository
+  end
+end
+
 class RepotagAuthProxy
-  def initialize(app)
-    @app = app
+  def initialize(settings)
+    @settings = settings
   end
 
   def call(env)
     @env = env
-    base_path = @env['PATH_INFO'].match(/^\/[\w]+\/[\w]+/).to_s
+    base_path, wiki = @env['PATH_INFO'].match(/^(\/\w+\/\w+)(-wiki)?/).captures
     return not_found if base_path == ""
+    activity = @env['PATH_INFO'] =~ /(.*?)\/git-receive-pack$/ ? :write : :read
     repository = find_repository(base_path)
     return not_found if repository.nil?
+      if wiki
+        return not_found unless repository.wiki_enabled? && repository.wiki
+        resource = Wiki.new(repository)
+        @settings[:project_root] = ApplicationController.helpers.general_setting(:wiki_root)
+        path = repository.wiki_name
+      else
+        resource = repository
+        @settings[:project_root] = ApplicationController.helpers.general_setting(:repo_root)
+        path = repository.filesystem_name
+      end
+
     user = authenticated?
     if user.blank? then
-      return not_authenticated if !authorized?(repository, user)
-    elsif !authorized?(repository, user) then
+      return not_authenticated if !authorized?(resource, user, activity)
+    elsif !authorized?(resource, user, activity) then
       return access_denied
     end
-    @env['PATH_INFO'] = "/#{repository.filesystem_name}#{@env['PATH_INFO'][base_path.length..@env['PATH_INFO'].length]}"
-    status, headers, body = @app.call(@env)
+    
+    @env['PATH_INFO'] = "/#{path}#{@env['PATH_INFO'][base_path.length..@env['PATH_INFO'].length]}"
+    status, headers, body = Grack::App.new(@settings).call(@env)
     [status, headers, body]
   end
 
@@ -42,11 +64,8 @@ class RepotagAuthProxy
     Repository.from_request_path(path)
   end
 
-  def authorized?(repository, user)
-    activity = @env['PATH_INFO'] =~ /(.*?)\/git-receive-pack$/ ? :write : :read
-    return true if repository.public? && activity == :read
-    return false if !Ability.new(user).can?(activity, repository)
-    return true
+  def authorized?(resource, user, activity)
+    Ability.new(user).can?(activity, resource)
   end
 end
 
@@ -153,9 +172,9 @@ class GollumAuthProxy < RepotagAuthProxy
 
   def authorized?(repository, user)
     ability = Ability.new(user)
-    return :write if repository.settings[:wiki][:public_editable]
-    return :write if ability.can?(:write, repository)
-    return :read if ability.can?(:read, repository)
+    wiki = Wiki.new(repository)
+    return :write if ability.can?(:write, wiki)
+    return :read if ability.can?(:read, wiki)
     false
   end
 

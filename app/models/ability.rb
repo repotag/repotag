@@ -25,6 +25,15 @@ class Ability
           user == u
         end
 
+        # Wikis
+        can :read, Wiki do |wiki|
+          wiki.repository.settings[:wiki][:public_editable] || can?(:read, wiki.repository)
+        end
+        can :write, Wiki do |wiki|
+          wiki.repository.settings[:wiki][:public_editable] || can?(:write, wiki.repository)
+        end
+
+
       end # user.admin?
   end
 
