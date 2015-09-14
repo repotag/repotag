@@ -47,6 +47,7 @@ shared_examples_for "it controls settings" do |model|
       allow(Ability).to receive(:new) { ability }
       allow(ability).to receive(:can?).with(:read, instance) { true }
       allow(ability).to receive(:can?).with(:update, instance) { true }
+      allow(ability).to receive(:can?).with(:manage, instance) { true }
     end
 
     describe "view settings" do

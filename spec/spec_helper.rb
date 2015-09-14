@@ -38,7 +38,7 @@ Spork.prefork do
       DatabaseCleaner.start
     end
     
-    config.include RSpec::Rails::RequestExampleGroup, type: :feature
+    config.include RSpec::Rails::RequestExampleGroup, :file_path => %r(spec/features|spec/misc)
     
     config.after(:each) do
       DatabaseCleaner.clean
@@ -95,14 +95,18 @@ Spork.prefork do
   end
 
   def http_auth(name, password)
-    if page.driver.respond_to?(:basic_auth)
-      page.driver.basic_auth(name, password)
-    elsif page.driver.respond_to?(:basic_authorize)
-      page.driver.basic_authorize(name, password)
-    elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
-      page.driver.browser.basic_authorize(name, password)
+    if page.driver.respond_to?(:authorize)
+        page.driver.browser.authorize(name, password)
     else
-      browser_login(name, password)
+      if page.driver.respond_to?(:basic_auth)
+        page.driver.basic_auth(name, password)
+      elsif page.driver.respond_to?(:basic_authorize)
+        page.driver.basic_authorize(name, password)
+      elsif page.driver.respond_to?(:browser) && page.driver.browser.respond_to?(:basic_authorize)
+        page.driver.browser.basic_authorize(name, password)
+      else
+        browser_login(name, password)
+      end
     end
   end
 

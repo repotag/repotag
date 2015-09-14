@@ -71,9 +71,12 @@ describe Repository do
       expect(repository.wiki_name).to eq "#{repository.id}-wiki.git"
       expect(repository.wiki_path).to eq ::File.join('/tmp/repos/wikis', repository.wiki_name)
       expect(repository.wiki).to be_a_kind_of(RJGit::Repo)
+      allow(ApplicationController.helpers).to receive(:general_setting) { false }
       allow(ApplicationController.helpers).to receive(:general_setting).with(:enable_wikis) { false }
       expect(repository.wiki_enabled?).to eq false
+      allow(ApplicationController.helpers).to receive(:general_setting) { true }
       allow(ApplicationController.helpers).to receive(:general_setting).with(:enable_wikis) { true }
+      allow(repository).to receive(:settings) { {:enable_wiki => "1"} }
       expect(repository.wiki_enabled?).to eq true
       allow(ApplicationController.helpers).to receive(:general_setting).and_call_original
     end

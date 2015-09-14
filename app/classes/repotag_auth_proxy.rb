@@ -16,9 +16,9 @@ class RepotagAuthProxy
 
   def call(env)
     @env = env
-    base_path, wiki = @env['PATH_INFO'].match(/^(\/\w+\/\w+)(-wiki)?/).captures
-    return not_found if base_path == ""
-    activity = @env['PATH_INFO'] =~ /(.*?)\/git-receive-pack$/ ? :write : :read
+    base_path, wiki, req = @env['PATH_INFO'].match(/^(\/\w+\/\w+)(-wiki)?(\z|\/.*)/).captures
+    return not_found if base_path.empty?
+    activity = req =~ /(.*?)\/git-receive-pack$/ ? :write : :read
     repository = find_repository(base_path)
     return not_found if repository.nil?
       if wiki
@@ -39,7 +39,7 @@ class RepotagAuthProxy
       return access_denied
     end
     
-    @env['PATH_INFO'] = "/#{path}#{@env['PATH_INFO'][base_path.length..@env['PATH_INFO'].length]}"
+    @env['PATH_INFO'] = "/#{path}#{req}"
     status, headers, body = Grack::App.new(@settings).call(@env)
     [status, headers, body]
   end

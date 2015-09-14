@@ -84,6 +84,7 @@ feature 'gollum wikis' do
 
           feature "user can logout from the wiki" do
             scenario "by clicking link in navbar" do
+              expect(current_path).to_not eq new_user_session_path
               click_link user.name
               all(".fa-sign-out").last.click
               expect(current_path).to eq new_user_session_path
