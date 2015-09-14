@@ -14,16 +14,13 @@ describe Repository do
   end
 
   context 'instance' do
+    let(:repository) { FactoryGirl.create(:repository) }
   
-    before(:each) do
-      @repository = FactoryGirl.create(:repository)
-    end
-
     ['all', 'contributing', 'watching', 'collaborating'].each do |role|
       it "returns its #{role} users" do
         role = "#{role}_users".to_sym
-        expect(@repository).to respond_to(role)
-        expect(@repository.send(role)).to be_a_kind_of(Array)
+        expect(repository).to respond_to(role)
+        expect(repository.send(role)).to be_a_kind_of(Array)
       end
     end
     
@@ -34,7 +31,7 @@ describe Repository do
     it 'can have many Labels'
     
     it 'corresponds to a RJGit repository' do
-      expect(@repository.repository).to be_a_kind_of(RJGit::Repo)
+      expect(repository.repository).to be_a_kind_of(RJGit::Repo)
     end
 
     it 'initializes a repository on disk when nonexistent' do
@@ -44,30 +41,41 @@ describe Repository do
     end
 
     it 'initializes a readme' do
-      @repository.initialize_readme
-      expect(@repository.repository.commits).to_not be_empty
-      commit = @repository.repository.commits.first
+      repository.initialize_readme
+      expect(repository.repository.commits).to_not be_empty
+      commit = repository.repository.commits.first
       expect(commit.message).to eq 'Initialize readme (from Repotag)'
-      expect(commit.actor.name).to eq @repository.owner.name
-      expect(commit.actor.email).to eq @repository.owner.email
+      expect(commit.actor.name).to eq repository.owner.name
+      expect(commit.actor.email).to eq repository.owner.email
     end
 
     it 'initializes test data' do
-      @repository.populate_with_test_data
-      expect(@repository.repository.commits).to_not be_empty
-      commit = @repository.repository.commits.first
+      repository.populate_with_test_data
+      expect(repository.repository.commits).to_not be_empty
+      commit = repository.repository.commits.first
       expect(commit.message).to eq 'Test commit message'
       expect(commit.actor.name).to eq 'test'
       expect(commit.actor.email).to eq 'test@repotag.org'
     end
 
     it '.filesystem_path returns a unique path where it stores its repository' do
-      expect(@repository).to respond_to(:filesystem_path)
-      expect(@repository.filesystem_path).to match /#{@repository.id}.git$/
+      expect(repository).to respond_to(:filesystem_path)
+      expect(repository.filesystem_path).to match /#{repository.id}.git$/
     end
 
     it 'converts itself to json' do
-      expect(JSON.parse(@repository.to_json)).to_not be_nil
+      expect(JSON.parse(repository.to_json)).to_not be_nil
+    end
+
+    it 'has a wiki' do
+      expect(repository.wiki_name).to eq "#{repository.id}-wiki.git"
+      expect(repository.wiki_path).to eq ::File.join('/tmp/repos/wikis', repository.wiki_name)
+      expect(repository.wiki).to be_a_kind_of(RJGit::Repo)
+      allow(ApplicationController.helpers).to receive(:general_setting).with(:enable_wikis) { false }
+      expect(repository.wiki_enabled?).to eq false
+      allow(ApplicationController.helpers).to receive(:general_setting).with(:enable_wikis) { true }
+      expect(repository.wiki_enabled?).to eq true
+      allow(ApplicationController.helpers).to receive(:general_setting).and_call_original
     end
 
   end

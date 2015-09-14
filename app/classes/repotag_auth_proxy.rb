@@ -131,7 +131,7 @@ class GollumAuthProxy < RepotagAuthProxy
     user = authenticated?
     priviliges = authorized?(repository, user)
     if user.blank? then
-      return redirect_to_login if !priviliges
+      return access_denied if !priviliges
     elsif !priviliges then
       return access_denied
     elsif priviliges == :write
@@ -147,7 +147,7 @@ class GollumAuthProxy < RepotagAuthProxy
     [status, headers, body]
   end
 
-  def redirect_to_login
+  def access_denied
     [301, {"Location" => Rails.application.routes.url_helpers.new_user_session_path, "Content-Type" => "text/html"}, []]
   end
 
