@@ -28,8 +28,9 @@ Repotag::Application.routes.draw do
 
   grack_auth_proxy = RepotagAuthProxy.new({
       :adapter => Grack::RJGitAdapter,
-      :upload_pack => true,
-      :receive_pack => true,
+      :allow_push => true,
+      :allow_pull => true,
+      :git_adapter_factory => ->{ Grack::RJGitAdapter.new }
   })
 
   gollum_auth_proxy = GollumAuthProxy.new(:markdown, {:universal_toc => false, :live_preview => false})

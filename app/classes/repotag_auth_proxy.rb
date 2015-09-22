@@ -24,11 +24,11 @@ class RepotagAuthProxy
       if wiki
         return not_found unless repository.wiki_enabled? && repository.wiki
         resource = Wiki.new(repository)
-        @settings[:project_root] = ApplicationController.helpers.general_setting(:wiki_root)
+        @settings[:root] = ApplicationController.helpers.general_setting(:wiki_root)
         path = repository.wiki_name
       else
         resource = repository
-        @settings[:project_root] = ApplicationController.helpers.general_setting(:repo_root)
+        @settings[:root] = ApplicationController.helpers.general_setting(:repo_root)
         path = repository.filesystem_name
       end
 
