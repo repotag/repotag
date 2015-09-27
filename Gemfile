@@ -26,7 +26,7 @@ gem 'rjgit_grack', '>= 0.3.0'
 
 gem 'tarchiver'
 
-gem 'twitter-bootswatch-rails'
+gem 'twitter-bootswatch-rails', '~> 3.3'
 gem 'twitter-bootswatch-rails-fontawesome'
 gem 'bootstrap-x-editable-rails'
 gem 'twitter-typeahead-rails'
