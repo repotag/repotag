@@ -84,6 +84,10 @@ class Repository < ActiveRecord::Base
     repo.update_ref(commit)
   end
 
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
+  end
+
   # Returns an array of users for a specific repository with an optionally specified role.
   def self.users(repository, role_title = nil)
     query = {:repositories => {:id => repository}, :roles => {:resource_type => 'Repository'}}

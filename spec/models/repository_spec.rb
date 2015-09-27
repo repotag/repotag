@@ -35,9 +35,17 @@ describe Repository do
     end
 
     it 'initializes a repository on disk when nonexistent' do
-      repo = FactoryGirl.create(:repository)
-      FileUtils.rm_rf(repo.filesystem_path)
-      expect(repo.to_disk).to be_a_kind_of(RJGit::Repo)
+      FileUtils.rm_rf(repository.filesystem_path)
+      expect(repository.to_disk).to be_a_kind_of(RJGit::Repo)
+    end
+
+    it 'updates its friendly_id slug on name change' do
+      name = repository.name
+      newname = "#{name}_changed"
+      expect(repository.slug).to eq name
+      repository.name = newname
+      repository.save
+      expect(repository.slug).to eq newname
     end
 
     it 'initializes a readme' do
