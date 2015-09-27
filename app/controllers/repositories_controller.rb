@@ -154,6 +154,7 @@ class RepositoriesController < ApplicationController
   end
   
   def toggle_public
+    authorize! :update, @repository
     @repository.public = ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public])
     @repository.save
     # flash['notice'] = "Repository was made #{ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public]) ? 'public' : 'private'}"
@@ -161,7 +162,7 @@ class RepositoriesController < ApplicationController
   end
   
   def settings
-    authorize! :manage, @repository
+    authorize! :update, @repository
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
     @repository_settings = @repository.settings
