@@ -153,21 +153,6 @@ class RepositoriesController < ApplicationController
     end
   end
   
-  def rename
-    @repository.name = params[:repository][:name]
-    @repository.slug = params[:repository][:name]
-
-    respond_to do |format|
-      if @repository.save
-        format.html { redirect_to user_repository_settings_path(@repository.owner, @repository), notice: "Repository was successfully renamed." }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to user_repository_settings_path(@repository.owner, @repository), notice: "Repository could not be renamed for the following reason: #{@repository.errors}" }
-        format.json { render json: @repository.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-  
   def toggle_public
     @repository.public = ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public])
     @repository.save

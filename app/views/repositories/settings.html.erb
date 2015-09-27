@@ -11,10 +11,9 @@
 		<div class="panel panel-default">
 		  <div class="panel-heading"><b>Settings for <%= @repository.name %></b></div>
 		  <div class="panel-body">
-		  	<%= form_for [@repository.owner, @repository], url: user_repository_rename_path(@repository.owner, @repository) do |form| %>
+		  	<%= form_for [@repository.owner, @repository], url: user_repository_path(@repository.owner, @repository), action: :update do |form| %>
 	          <%= form.text_field :name, :class => 'text_field' %>
-			  <%= form.hidden_field :slug %>
-			  <%= form.submit "Rename", :class => "btn btn-primary btn-large" %>
+			  <%= form.submit "Update", :class => "btn btn-primary btn-large" %>
 			<% end %>
 			
 			
