@@ -431,7 +431,7 @@ DEPENDENCIES
   spork-rails
   tarchiver
   therubyrhino
-  twitter-bootswatch-rails
+  twitter-bootswatch-rails (~> 3.3)
   twitter-bootswatch-rails-fontawesome
   twitter-typeahead-rails
   uglifier (>= 1.0.3)
