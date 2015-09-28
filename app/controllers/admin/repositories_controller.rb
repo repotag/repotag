@@ -1,5 +1,6 @@
 class Admin::RepositoriesController < Admin::AdminController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:index, :new, :create]
+
   # GET /repositories
   # GET /repositories.json
   def index
@@ -14,7 +15,7 @@ class Admin::RepositoriesController < Admin::AdminController
   # GET /repositories/1
   # GET /repositories/1.json
   def show
-      redirect_to [@repository.owner, @repository]
+    redirect_to [@repository.owner, @repository]
   end
 
   # GET /repositories/new
@@ -26,11 +27,6 @@ class Admin::RepositoriesController < Admin::AdminController
       format.html # new.html.erb
       format.json { render json: @repository }
     end
-  end
-
-  # GET /repositories/1/edit
-  def edit
-    @repository = Repository.find(params[:id])
   end
 
   # POST /repositories
@@ -53,8 +49,6 @@ class Admin::RepositoriesController < Admin::AdminController
   # PUT /repositories/1
   # PUT /repositories/1.json
   def update
-    @repository = Repository.find(params[:id])
-
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
         format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully updated.' }
@@ -81,10 +75,12 @@ class Admin::RepositoriesController < Admin::AdminController
         else
           format.html {redirect_to action: 'index', notice: 'Repository could not not be archived.'}
         end
+      end
+    else
+      respond_to do |format|
+        format.html {redirect_to action: 'index', notice: "Repository #{@repository.name} not valid."}
+      end
     end
-    
-      
-    end #render 'index', notice: 'Repository was archived.'
   end
   
   def unarchive
@@ -106,7 +102,6 @@ class Admin::RepositoriesController < Admin::AdminController
   # DELETE /repositories/1
   # DELETE /repositories/1.json
   def destroy
-    @repository = Repository.find(params[:id])
     @repository.destroy
 
     respond_to do |format|

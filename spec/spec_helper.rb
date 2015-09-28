@@ -94,6 +94,10 @@ Spork.prefork do
     end
   end
 
+  def admin_expectations(options = {})
+    ({:layout => :admin}).merge(options)
+  end
+
   def http_auth(name, password)
     if page.driver.respond_to?(:authorize)
         page.driver.browser.authorize(name, password)
