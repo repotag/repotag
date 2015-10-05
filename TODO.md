@@ -58,11 +58,11 @@
 - [ ] Design an invitation mechanism with which to add users (identified by email address) to repositories and let these users know about the invitation by email.
 
 # CONFIG
-- [ ] Set up configuration options in database
+- [x] Set up configuration options in database
 
 # WIKI
-- [ ] Mount gollum as Rack application
-- [ ] Have one optional wiki per repository
+- [x] Mount gollum as Rack application
+- [x] Have one optional wiki per repository
 
 # BUG TRACKER
 - [ ] Implement bug tracker
