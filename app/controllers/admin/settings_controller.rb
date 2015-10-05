@@ -1,6 +1,4 @@
 class Admin::SettingsController < Admin::AdminController
-  load_and_authorize_resource
-
   # General Settings
 
   def show_general_settings
@@ -14,9 +12,7 @@ class Admin::SettingsController < Admin::AdminController
   end
 
   def update_general_settings
-    Rails.logger.debug params
     updated_key = params[:name].to_sym
-    Rails.logger.debug updated_key
 
     valid_keys = [:repo_root, :archive_root, :wiki_root, :server_domain, :server_port, :anonymous_access, :public_profiles, :enable_wikis, :enable_issuetracker, :default_branch]
     if valid_keys.include?(updated_key)
