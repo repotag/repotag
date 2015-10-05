@@ -25,23 +25,22 @@
   <div class="input">
     <%= f.password_field :password, :class => 'password_field' %>
   </div>
-</div>
-<div class="control-group">
    <%= f.label :password_confirmation, t("activerecord.attributes.user.password_confirmation", :default => "Password Confirmation"), :class => 'control-label' %>
   <div class="input">
     <%= f.password_field :password_confirmation, :class => 'password_field' %>
   </div>
 </div>
 
-<% for role in Repotag::Application.config.global_role_titles %>
   <div class ="control-group">
    <%= f.label "Global Roles" , :class => 'control-label' %>
-      <div class="controls">
-        <%= check_box_tag 'global_roles[]', role, user.has_role?(role) %>
-		<%= role.to_s %>
-      </div>
+   <div class="controls">
+    <% for role in Repotag::Application.config.global_role_titles %>
+      <%= label_tag 'global_roles[]', role %>
+      <%= check_box_tag 'global_roles[]', role, user.has_role?(role) %>
+	    <%= role.to_s %>
+    <% end %>
+    </div>
   </div>
-<% end %>
 
 
 <div class="form-actions">

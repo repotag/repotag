@@ -30,12 +30,31 @@ feature "Admin manages users" do
       update_user_email("bob@repotag.org", "bobbyt@repotag.org")
       expect(page).to have_text "User was successfully updated"
     end
+
+    scenario "by setting global admin role" do
+      email = "bob@repotag.org"
+      create_user("Tester Bob", email)
+      user = User.where(email: email).first
+      expect(user).to_not be_admin
+      set_admin_checkbox(user, true)
+      expect(user).to be_admin
+      set_admin_checkbox(user, false)
+      expect(user).to be_admin
+    end
     
     scenario "with invalid fields" do
       create_user("Tester Bob", "bob@repotag.org")
       update_user_email("bob@repotag.org", "")
       expect(page).to have_text "Email can't be blank"
     end
+  end
+
+  def set_admin_checkbox(user, value)
+    visit edit_admin_user_path(user)
+    box = find(:checkbox, "admin")
+    expect(box.checked?).to eq (value == true ? nil : "checked" )
+    box.set(value)
+    click_button 'Save'
   end
   
   def create_user(name, email)

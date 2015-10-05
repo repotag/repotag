@@ -27,6 +27,7 @@ class Admin::UsersController < Admin::AdminController
 
   def create
     @user = User.new(params[:user])
+    set_user_roles(@user, params["global_roles"])
 
     respond_to do |format|
       if @user.save
@@ -45,6 +46,7 @@ class Admin::UsersController < Admin::AdminController
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
+    set_user_roles(@user, params["global_roles"])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -66,4 +68,15 @@ class Admin::UsersController < Admin::AdminController
       format.json { head :ok }
     end
   end
+
+  private
+
+  def set_user_roles(user, roles)
+    unless roles.nil?
+      roles.each do |role|
+        user.add_role(role)
+      end
+    end
+  end
+
 end
