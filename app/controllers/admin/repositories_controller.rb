@@ -29,23 +29,6 @@ class Admin::RepositoriesController < Admin::AdminController
     end
   end
 
-  # POST /repositories
-  # POST /repositories.json
-  def create
-    @repository = Repository.new(params[:repository])
-
-    respond_to do |format|
-      if @repository.save
-        format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully created.' }
-        format.json { render json: @repository, status: :created, location: @repository }
-      else
-        flash_save_errors "repository", @repository.errors
-        format.html { render action: "new" }
-        format.json { render json: @repository.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # PUT /repositories/1
   # PUT /repositories/1.json
   def update

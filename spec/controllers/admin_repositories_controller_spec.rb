@@ -15,7 +15,7 @@ describe Admin::RepositoriesController, type: :controller do
     describe "GET" do
       describe "#index" do
         before do
-          get :index, :id => repo.id
+          get :index
         end
         it_behaves_like "a controller action", admin_expectations({:template => :index})
       end
@@ -29,7 +29,7 @@ describe Admin::RepositoriesController, type: :controller do
 
       describe "#new" do
         before do
-          get :new, :id => repo.id
+          get :new
         end
         it_behaves_like "a controller action", admin_expectations({:template => :new})
       end
