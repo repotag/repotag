@@ -8,7 +8,6 @@ Repotag::Application.routes.draw do
   namespace :admin do
   	get '/' => 'users#index'
   	resources :users
-    get '/users/:id/set_admin', :controller => 'admin/users', :action => :set_admin
     resources :repositories, :except => :create do
       put 'archive'
       put 'unarchive'
