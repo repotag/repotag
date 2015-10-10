@@ -26,6 +26,7 @@
 - [x] Repo needs a description/tagline.
 - [ ] Add a button to show the last commit message (off by default).
 - [ ] Add the possibility to view a diff of two arbitrary revisions of a file (on file level, maybe using dropdowns). 
+- [ ] Implement proze diffs for non-code files (server-side library: [daisydiff](https://code.google.com/p/daisydiff/))
 - [x] Fix the File Browser not to show arbitrary files such as /etc/passwd.
 - [x] Add a dropdown menu to the Filebrowser which available branches to browse.
 
