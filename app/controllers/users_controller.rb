@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   skip_authorize_resource :only => [:settings, :update_settings]
 
   include Params::UserParams
-  include Params::SettingParams
+  include UpdateSettings
 
   def show
     @user_settings = @user.settings
@@ -17,12 +17,7 @@ class UsersController < ApplicationController
   
   def update_settings
     authorize! :update, @user
-    @user_settings = @user.settings
-
-    if User.default_settings.keys.include?(@updated_key)
-      @user_settings[@updated_key] = @value
-      @user_settings.save
-    end
+    @user_settings = save_settings(@user)
     render '/users/settings'
   end
   

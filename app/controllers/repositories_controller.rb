@@ -5,7 +5,7 @@ class RepositoriesController < ApplicationController
   skip_load_resource :only => [:index, :create]
 
   include Params::RepoParams
-  include Params::SettingParams
+  include UpdateSettings
 
   def index
     if current_user
@@ -151,7 +151,6 @@ class RepositoriesController < ApplicationController
     authorize! :update, @repository
     @repository.public = ActiveRecord::Type::Boolean.new.type_cast_from_user(repo_params[:public])
     @repository.save
-    # flash['notice'] = "Repository was made #{ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public]) ? 'public' : 'private'}"
     render :nothing => true
   end
   
@@ -178,15 +177,9 @@ class RepositoriesController < ApplicationController
   
   def update_settings
     authorize! :update, @repository
-    valid_keys = [:enable_wiki, :enable_issuetracker, :default_branch]
-    if valid_keys.include?(@updated_key)
-      settings = @repository.settings
-      settings[@updated_key] = @value
-      settings.save
-    end
+    @repository_settings = save_settings(@repository)
     @collaborators = @repository.collaborating_users
     @contributors = @repository.contributing_users
-    @repository_settings = @repository.settings
     @general_settings = Setting.get(:general_settings)
     render "repositories/settings"
   end

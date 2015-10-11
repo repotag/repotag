@@ -20,12 +20,14 @@ module Params
     private
 
     def setting_params
-      settings = {:name => params.require(:name), :value => params.require(:value)}
+      settings = {:name => params.require(:name), :value => params[:value]}
       @value = case settings[:value]
         when true
           "1"
         when false
           "0"
+        when "", []
+          nil
         else
           settings[:value]
         end
