@@ -1,6 +1,8 @@
 class Admin::UsersController < Admin::AdminController
   load_and_authorize_resource :except => [:index, :new, :create]
 
+  include Params::UserParams
+
   def index
     @users = User.all
 
@@ -26,7 +28,7 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
     set_user_roles(@user, params["global_roles"])
 
     respond_to do |format|
@@ -42,14 +44,15 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def update
-    if params[:user][:password].blank?
-      params[:user].delete(:password)
-      params[:user].delete(:password_confirmation)
+    update_params = user_params.dup
+    if update_params[:password].blank?
+      update_params.delete(:password)
+      update_params.delete(:password_confirmation)
     end
     set_user_roles(@user, params["global_roles"])
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(update_params)
         format.html { redirect_to admin_users_path, :notice => 'User was successfully updated.' }
         format.json { head :ok }
       else

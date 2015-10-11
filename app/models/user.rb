@@ -6,14 +6,9 @@ class User < ActiveRecord::Base
   has_many :repositories, :through => :roles, :source => :resource, :source_type => 'Repository'
   friendly_id :username
 
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
 
   attr_accessor :login, :updating_password
-  # Setup accessible attributes for your model
-  attr_accessible :login, :username, :name, :email, :password, :password_confirmation, :remember_me, :encrypted_password, :provider, :uid, :public
 
   validates_uniqueness_of :username, :case_sensitive => false
   validates_presence_of :username, :format => {:with => /\A[\w]+\z/ , :message => "contains illegal characters"}

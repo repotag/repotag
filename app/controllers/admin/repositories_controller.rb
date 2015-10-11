@@ -1,6 +1,8 @@
 class Admin::RepositoriesController < Admin::AdminController
   load_and_authorize_resource :except => [:index, :new, :create]
 
+  include Params::RepoParams
+
   # GET /repositories
   # GET /repositories.json
   def index
@@ -33,7 +35,7 @@ class Admin::RepositoriesController < Admin::AdminController
   # PUT /repositories/1.json
   def update
     respond_to do |format|
-      if @repository.update_attributes(params[:repository])
+      if @repository.update_attributes(repo_params)
         format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully updated.' }
         format.json { head :no_content }
         format.js { flash[:notice] = 'Repository was updated.'}

@@ -46,7 +46,7 @@ describe Admin::RepositoriesController, type: :controller do
     describe 'POST' do
       describe '#update' do
         before do
-          post :update, :id => repo.id
+          post :update, :id => repo.id, :repository => {:name => 'blaaa'}
         end
         it_behaves_like 'a controller action', {:template => nil, :response => 302, :redirect => /\/.+\/.+/, :layout => nil}
       end

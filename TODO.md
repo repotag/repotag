@@ -42,7 +42,7 @@
 # VALIDATIONS & SANITIZATION
 - [x] Repository name is unique for owner
 - [ ] datadir config option has default characters
-- [ ] remove `attr_accessible` from models, remove `attr_accessible` gem, and replace with Strong Parameters. See http://www.sitepoint.com/rails-4-quick-look-strong-parameters/
+- [x] remove `attr_accessible` from models, remove `attr_accessible` gem, and replace with Strong Parameters. See [here](http://www.sitepoint.com/rails-4-quick-look-strong-parameters/)
 
 # SYNCHRONIZATION
 - [ ] Work out a way to update the 'updated-at' field of a repository in ActiveRecord each time a commit is made through the git servlet.
