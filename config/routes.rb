@@ -36,8 +36,8 @@ Repotag::Application.routes.draw do
 
   authenticated :user do
     mount grack_auth_proxy, at: 'git', as: 'git'
-    get '/:user/settings', controller: 'users', action: 'settings'
-    put '/:user/update_settings', controller: 'users', action: 'update_settings'
+    get '/:id/settings', controller: 'users', action: 'settings'
+    put '/:id/update_settings', controller: 'users', action: 'update_settings'
   end
   mount grack_auth_proxy, at: 'git'
   mount gollum_auth_proxy, at: ':user/:repository/wiki'

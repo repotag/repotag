@@ -3,8 +3,6 @@ shared_examples_for "it controls settings" do |model|
   let(:user) { FactoryGirl.create(:user) }
   let(:route_options) { # Where to route to
     case model
-    when :user
-      {:user => instance}
     when :repository
       {:user_id => instance.owner.to_param, :repository_id => instance.to_param}
     else

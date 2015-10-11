@@ -1,7 +1,5 @@
 class Setting < ActiveRecord::Base
   serialize :settings
-  attr_accessible :settings, :name
-
   validates_presence_of :name
 
   def self.get(name)

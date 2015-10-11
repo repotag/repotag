@@ -4,14 +4,8 @@ class RepositoriesController < ApplicationController
   skip_authorize_resource :only => [:settings, :update_settings, :add_collaborator, :remove_collaborator, :potential_users]
   skip_load_resource :only => [:index, :create]
 
-  def find_user_repository
-    if params[:repository_id] then
-      repo = params[:repository_id]
-    else
-      repo = params[:id]
-    end
-    @repository = Repository.where(:owner_id => User.friendly.find(params[:user_id])).friendly.find(repo)
-  end
+  include Params::RepoParams
+  include Params::SettingParams
 
   def index
     if current_user
@@ -115,7 +109,7 @@ class RepositoriesController < ApplicationController
   end
 
   def create
-    @repository = Repository.new(params[:repository])
+    @repository = Repository.new(repo_params)
     @repository.owner = current_user
     respond_to do |format|
       if @repository.save && @repository.to_disk
@@ -133,7 +127,7 @@ class RepositoriesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @repository.update_attributes(params[:repository])
+      if @repository.update_attributes(repo_params)
         format.html { redirect_to [@repository.owner, @repository], notice: 'Repository was successfully updated.' }
         format.json { head :no_content }
       else
@@ -155,7 +149,7 @@ class RepositoriesController < ApplicationController
   
   def toggle_public
     authorize! :update, @repository
-    @repository.public = ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public])
+    @repository.public = ActiveRecord::Type::Boolean.new.type_cast_from_user(repo_params[:public])
     @repository.save
     # flash['notice'] = "Repository was made #{ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:repository][:public]) ? 'public' : 'private'}"
     render :nothing => true
@@ -184,11 +178,10 @@ class RepositoriesController < ApplicationController
   
   def update_settings
     authorize! :update, @repository
-    updated_key = params[:name].to_sym
     valid_keys = [:enable_wiki, :enable_issuetracker, :default_branch]
-    if valid_keys.include?(updated_key)
+    if valid_keys.include?(@updated_key)
       settings = @repository.settings
-      settings[updated_key] = params[:value]
+      settings[@updated_key] = @value
       settings.save
     end
     @collaborators = @repository.collaborating_users
@@ -201,18 +194,18 @@ class RepositoriesController < ApplicationController
   def add_collaborator
     authorize! :update, @repository
     role = params[:role]
-    @user = User.find_by_username(params[:username])
+    user = User.friendly.find(params[:username])
     
     respond_to do |format|
-    if @user.has_role?(params[:role], @repository)
+    if user.has_role?(params[:role], @repository)
       # User has role already. Ignore (should not really happen)
       format.json {render json: {} }
     else
       # Try adding the role
-      @user.add_role(role, @repository)
-      if @user.has_role?(params[:role], @repository)
+      user.add_role(role, @repository)
+      if user.has_role?(params[:role], @repository)
         # Return user to be added to the table
-        format.json {render json: {:user => @user, delete_url: user_repository_remove_collaborator_path(@repository.owner, @repository, :collaborator_id => @user.id, :role => :contributor) }}
+        format.json {render json: {:user => user, delete_url: user_repository_remove_collaborator_path(@repository.owner, @repository, :collaborator_id => user.id, :role => :contributor) }}
       else
         # Failure to add role
         format.json {render json: {} }
@@ -238,6 +231,15 @@ class RepositoriesController < ApplicationController
   end
 
   private
+
+  def find_user_repository
+    if params[:repository_id] then
+      repo = params[:repository_id]
+    else
+      repo = params[:id]
+    end
+    @repository = Repository.where(:owner_id => User.friendly.find(params[:user_id])).friendly.find(repo)
+  end
 
   def prepare_fileview(repository, branch)
     blob = repository.blob(params[:path], branch)

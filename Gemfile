@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2'
 gem 'friendly_id', '~> 5.1.0'
-# Temporary Rails 4 fix. See e.g. http://www.sitepoint.com/rails-4-quick-look-strong-parameters/
-gem 'protected_attributes'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
