@@ -49,7 +49,7 @@ describe 'grack' do
       allow_any_instance_of(Repository).to receive(:wiki_enabled?) { true }
     end
     after do
-      remove_temp_repo(clone_path)
+      remove_temp_path(clone_path)
     end
     it 'clones the repo' do
       clone = clone_repo(user, repo, clone_path)

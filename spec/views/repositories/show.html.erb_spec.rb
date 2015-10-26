@@ -64,7 +64,7 @@ describe "repositories/show.html.erb" do
   end
   
   after(:each) do
-    remove_temp_repo(@repo.repository.path)
+    remove_temp_path(@repo.repository.path)
   end
   
 end

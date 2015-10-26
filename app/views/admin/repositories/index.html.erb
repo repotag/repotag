@@ -6,6 +6,7 @@
 		<th>Name</th>
 		<th>Owner</th>
 		<th>Valid?</th>
+		<th>Has Wiki?</th>
 		<th>Archived?</th>
 		<th>Last accessed</th>
 		<th>Actions</th>
@@ -18,6 +19,7 @@
 				<td><%= link_to repository.name, admin_repository_path(repository.id) %></td>
 				<td><%= gravatar_image_tag(repository.owner.email, :alt => repository.owner.name, :gravatar => {:size => 20} ) %>  <%= repository.owner.name%></td>
 				<td><i class="fa <%= repository.repository.valid? ? 'fa-check' : 'fa-times' %>"</i></td>
+				<td><i class="fa <%= repository.has_wiki? ? 'fa-check' : 'fa-times' %>"</i></td>
 				<td><i class="fa <%= repository.archived? ? 'fa-check' : 'fa-times' %>"</i></td>
 				<td><%= repository.repository.head.nil? ? "Never" : repository.repository.head.committed_date %></td>
 				<td><div>

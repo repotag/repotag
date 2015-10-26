@@ -121,7 +121,7 @@ Spork.prefork do
     click_button 'Sign in'
   end
   
-  def remove_temp_repo(path)
+  def remove_temp_path(path)
     if File.exists?(path)
       FileUtils.rm_rf(path)
     else

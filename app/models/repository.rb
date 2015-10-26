@@ -40,6 +40,52 @@ class Repository < ActiveRecord::Base
     self.settings[:enable_wiki] == "1"
   end
   
+  def has_wiki?
+    ::File.exist?(self.wiki_path)
+  end
+  
+  
+  def archive(archive_dir = Setting.get(:general_settings)[:archive_root])
+    archive_path = archive_repo(archive_dir)
+    has_wiki = self.has_wiki?
+    wiki_archive_path = has_wiki ? archive_wiki(archive_dir) : nil
+    if archive_path
+      self.archived = true 
+      self.archived_at = DateTime.current
+      self.save
+    end
+    return archive_path, wiki_archive_path
+  end
+  
+  def unarchive(archive_dir = Setting.get(:general_settings)[:archive_root])
+    repo_path = unarchive_repo(archive_dir)
+    wiki_path = unarchive_wiki(archive_dir)
+    if repo_path
+      self.archived = false
+      self.archived_at = nil
+      self.save
+    end
+    return repo_path, wiki_path
+  end
+  
+  def archive_repo(archive_dir)
+    Tarchiver::Archiver.archive(self.filesystem_path, archive_dir, {verbose: false, raise_errors: true, delete_input_on_success: true})
+  end
+  
+  def unarchive_repo(archive_dir = Setting.get(:general_settings)[:archive_root] )
+    archive = ::File.join(archive_dir, "#{self.filesystem_name}.tgz")
+    Tarchiver::Archiver.unarchive(archive, Setting.get(:general_settings)[:repo_root], {verbose: false, raise_errors: true, delete_input_on_success: true}) #&&
+  end
+  
+  def archive_wiki(archive_dir)
+    Tarchiver::Archiver.archive(self.wiki_path, archive_dir, {verbose: true, raise_errors: true, delete_input_on_success: true})
+  end
+  
+  def unarchive_wiki(archive_dir)
+    wiki_archive = ::File.join(archive_dir, "#{self.wiki_name}.tgz")
+    Tarchiver::Archiver.unarchive(wiki_archive, Setting.get(:general_settings)[:wiki_root], {delete_input_on_success: true})
+  end
+  
   def repository
     RJGit::Repo.new(self.filesystem_path)
   end

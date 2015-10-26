@@ -26,6 +26,42 @@ feature "Admin manages repositories" do
     expect(page).to have_text "Repository was successfully created."
   end
 
+  scenario "by archiving a repository with wiki" do
+    skip
+    repo = FactoryGirl.create(:repository_with_wiki)
+    repo.to_disk
+    visit "/admin/repositories"
+    all(".fa-archive").last.click
+    expect(page).to have_css('i.fa-refresh')
+  end
+  
+  scenario "by archiving a repository without wiki" do
+    skip
+    repo = FactoryGirl.create(:repository)
+    repo.to_disk
+    visit "/admin/repositories"
+    all(".fa-archive").last.click
+    expect(page).to have_css('i.fa-refresh')
+  end
+  
+  scenario "by unarchiving a repository with wiki" do
+    skip
+    repo = FactoryGirl.create(:repository_with_wiki)
+    repo.to_disk
+    visit "/admin/repositories"
+    all(".fa-refresh").last.click
+    expect(page).to have_css('i.fa-archive')
+  end
+
+  scenario "by unarchiving a repository without wiki" do
+    skip
+    repo = FactoryGirl.create(:repository)
+    repo.to_disk
+    visit "/admin/repositories"
+    all(".fa-refresh").last.click
+    expect(page).to have_css('i.fa-archive')
+  end
+  
   after do
     user.set_admin(false)
   end

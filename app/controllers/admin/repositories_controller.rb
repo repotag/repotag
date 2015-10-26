@@ -51,11 +51,7 @@ class Admin::RepositoriesController < Admin::AdminController
     @repository = Repository.find(params[:repository_id])
     if @repository.repository.valid?
       respond_to do |format|
-        if Tarchiver::Archiver.archive(@repository.repository.path, Setting.get(:general_settings)[:archive_root], {delete_input_on_success: true}) && 
-            Tarchiver::Archiver.archive(@repository.wiki_path, Setting.get(:general_settings)[:archive_root], {delete_input_on_success: true})
-          @repository.archived = true
-          @repository.archived_at = DateTime.current
-          @repository.save
+        if @repository.archive
           format.html { redirect_to action: 'index', notice: 'Repository was archived.'}
         else
           format.html {redirect_to action: 'index', notice: 'Repository could not not be archived.'}
@@ -70,13 +66,9 @@ class Admin::RepositoriesController < Admin::AdminController
   
   def unarchive
     @repository = Repository.find(params[:repository_id])
-    archive = File.join(Setting.get(:general_settings)[:archive_root], "#{@repository.filesystem_name}.tgz")
-    wiki_archive = File.join(Setting.get(:general_settings)[:archive_root], "#{@repository.wiki_name}.tgz")
+    
     respond_to do |format|
-      if Tarchiver::Archiver.unarchive(archive, Setting.get(:general_settings)[:repo_root], {delete_input_on_success: true}) &&
-          Tarchiver::Archiver.unarchive(wiki_archive, Setting.get(:general_settings)[:wiki_root], {delete_input_on_success: true})
-        @repository.archived = false
-        @repository.save
+      if @repository.unarchive
         format.html { redirect_to action: 'index', notice: 'Repository was restored.'}
       else
         format.html { redirect_to action: 'index', notice: 'Repository could not be restored.'}

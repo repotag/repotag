@@ -10,6 +10,13 @@ FactoryGirl.define do
   factory :repository do
     sequence(:name) {|n| "repo#{n}"}
     association :owner, :factory => :user
+    
+    factory :repository_with_wiki do
+        after(:create) do |repo|
+          $stderr.puts "building wiki... ID: #{repo.id}"
+          repo.wiki
+        end
+      end
   end
   
   factory :role do

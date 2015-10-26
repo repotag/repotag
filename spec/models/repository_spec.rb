@@ -15,6 +15,8 @@ describe Repository do
 
   context 'instance' do
     let(:repository) { FactoryGirl.create(:repository) }
+    let(:repository_with_wiki) { FactoryGirl.create(:repository_with_wiki)}
+    let(:archive_path) { Dir.mktmpdir }
   
     ['all', 'contributing', 'watching', 'collaborating'].each do |role|
       it "returns its #{role} users" do
@@ -24,12 +26,30 @@ describe Repository do
       end
     end
     
-    it 'can have many Issues'
+    it 'can be archived' do
+      repository_with_wiki.to_disk
+      $stderr.puts "has wiki? #{repository_with_wiki.has_wiki?} & #{repository_with_wiki.wiki_path}"
+      expect(repository_with_wiki.archived?).to be false
+      archive, wiki_archive = repository_with_wiki.archive(archive_path)
+      expect(repository_with_wiki.archived?).to be true
+      remove_temp_path(archive)
+      remove_temp_path(wiki_archive)
+    end
     
-    it 'can have many Milestones'
-    
-    it 'can have many Labels'
-    
+    it 'can be unarchived' do
+      repository_with_wiki.to_disk
+      expect(repository_with_wiki.archived?).to be false
+      archive, wiki_archive = repository_with_wiki.archive(archive_path)
+      expect(repository_with_wiki.archived?).to be true
+      gs = Setting.get(:general_settings)
+      gs[:repo_root] = archive_path
+      gs[:wiki_root] = archive_path
+      gs.save
+      repository_with_wiki.unarchive(archive_path)
+      expect(repository_with_wiki.archived?).to be false
+      expect(repository_with_wiki.has_wiki?).to be true
+    end
+        
     it 'corresponds to a RJGit repository' do
       expect(repository.repository).to be_a_kind_of(RJGit::Repo)
     end
