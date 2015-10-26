@@ -1,5 +1,9 @@
 <% if repositories.empty? %>
-	<h3>You don't have any repositories yet. Click below to create your first!</h3>
+	<% if current_user %>
+		<h3>You don't have any repositories yet. Click below to create your first!</h3>
+	<% else %>
+		<h3>No public repositories available at this time.</h3>
+	<% end %>
 <% else %>
 	<div class="panel panel-default">
 	  <div class="panel-heading"><b>My repositories</b></div>
