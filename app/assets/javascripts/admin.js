@@ -1,7 +1,3 @@
 // Admin
-// Bootswatch
-//= require jquery
-//= require jquery_ujs
-//= require admin/loader
-//= require admin/bootswatch
-//= require twitter/typeahead
+//= require admin/admin-repo-table
+//= require admin/admin-user-table

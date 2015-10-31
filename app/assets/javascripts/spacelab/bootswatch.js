@@ -1,3 +1,0 @@
-// Spacelab
-// Bootswatch
-// bootswatch.js
