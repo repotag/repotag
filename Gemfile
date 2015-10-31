@@ -12,7 +12,7 @@ gem 'jruby-openssl', :require => false
 gem 'json'
 gem 'rjgit', '~> 4.0'
 
-gem 'cancancan'
+gem 'cancancan', '1.10'
 gem 'devise'
 
 gem 'gollum-rjgit_adapter', :git => 'https://github.com/repotag/gollum-lib_rjgit_adapter'
