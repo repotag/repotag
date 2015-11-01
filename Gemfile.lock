@@ -13,13 +13,6 @@ GIT
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
 
-GIT
-  remote: https://github.com/repotag/gollum-lib_rjgit_adapter
-  revision: 58bd32e38ef4b129b7efc2ca43122a81ee97e06e
-  specs:
-    gollum-rjgit_adapter (0.3.1-java)
-      rjgit (~> 4.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -140,6 +133,8 @@ GEM
       rouge (~> 1.7.4)
       sanitize (~> 2.1.0)
       stringex (~> 2.5.1)
+    gollum-rjgit_adapter (0.3.2-java)
+      rjgit (~> 4.0)
     grack (0.1.0.pre2)
       rack
     gravatar_image_tag (1.2.0)
@@ -401,7 +396,7 @@ DEPENDENCIES
   github-markup
   gollum (= 4.0.1)
   gollum-lib (= 4.0.3)
-  gollum-rjgit_adapter!
+  gollum-rjgit_adapter (~> 0.3.2)
   grack (>= 0.1.0.pre2)
   gravatar_image_tag
   jquery-datatables-rails (~> 3.3.0)
@@ -435,3 +430,6 @@ DEPENDENCIES
   warbler
   webrick (~> 1.3.1)
   zeroclipboard-rails
+
+BUNDLED WITH
+   1.10.6

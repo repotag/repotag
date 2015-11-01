@@ -15,7 +15,7 @@ gem 'rjgit', '~> 4.0'
 gem 'cancancan', '1.10'
 gem 'devise'
 
-gem 'gollum-rjgit_adapter', :git => 'https://github.com/repotag/gollum-lib_rjgit_adapter'
+gem 'gollum-rjgit_adapter', '~> 0.3.2'
 gem 'gollum-lib', '4.0.3'
 gem 'gollum', '4.0.1'
 
