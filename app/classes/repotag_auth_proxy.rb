@@ -15,6 +15,10 @@ class RepotagAuthProxy
   end
 
   def call(env)
+    dup._call(env)
+  end
+
+  def _call(env)
     @env = env
     base_path, wiki, req = @env['PATH_INFO'].match(/^(\/\w+\/\w+)(-wiki)?(\z|\/.*)/).captures
     return not_found if base_path.empty?
@@ -81,9 +85,8 @@ class Precious::App
 end
 
 
-class Precious::Views::Layout
-  
-  def render_repotag_view(partial, repository=nil)
+class Precious::Views::Layout  
+  def render_repotag_view(partial, repository=nil, layout = nil)
     request = Rack::Request.new(@env)
     view = ActionView::Base.new(ActionController::Base.view_paths, {})
     view.class_eval do
@@ -111,11 +114,11 @@ class Precious::Views::Layout
     
     view.request = request
     view.repository = repository if repository
-    return view.render(partial: partial, locals: {:repository => repository, :active_nav_tab => :wiki, :general_settings => Setting.get(:general_settings)})
+    return view.render(partial: partial, layout: layout, locals: {:repository => repository, :active_nav_tab => :wiki, :general_settings => Setting.get(:general_settings)})
   end
   
   def repotag_navbar
-    render_repotag_view('layouts/navigation/navbar')
+    render_repotag_view('layouts/navigation/navbar', nil, 'layouts/wiki/wiki')
   end
   
   def repotag_sidebar
@@ -140,7 +143,7 @@ class GollumAuthProxy < RepotagAuthProxy
     @wiki_options = wiki_options
   end
 
-  def call(env)
+  def _call(env)
     @env = env
     request = Rack::Request.new(@env)
     base_path = request.fullpath.to_s
@@ -162,7 +165,7 @@ class GollumAuthProxy < RepotagAuthProxy
       :default_markup => @markup,
       :wiki_options => @wiki_options.merge({:template_dir => Rails.root.join('app', 'views', 'layouts', 'wiki', 'templates'), :allow_editing => priviliges == :write})
     }
-    status, headers, body = MapGollum.new(base_path, options).call(@env)
+    status, headers, body = MapGollum.new(options).call(@env)
     [status, headers, body]
   end
 
@@ -177,23 +180,28 @@ class GollumAuthProxy < RepotagAuthProxy
     return :read if ability.can?(:read, wiki)
     false
   end
+end
 
-  class MapGollum
-    # See https://github.com/gollum/gollum/wiki/Using-Gollum-with-Rack#the---base-path-option
-    
-    def initialize(base_path, options)
-      @mg = Rack::Builder.new do
-        map "/" do
-          options.each do |option, value|
-            Precious::App.set(option, value)
-          end
-          run Precious::App
+class MapGollum
+  # See https://github.com/gollum_path/gollum/wiki/Using-Gollum-with-Rack#the---base-path-option
+  
+  def initialize(options)
+    app_klass = Class.new(Precious::App)
+    @mg = Rack::Builder.new do
+      map "/" do
+        options.each do |option, value|
+          app_klass.set(option, value)
         end
+        run app_klass
       end
     end
+  end
 
-    def call(env)
-      @mg.call(env)
-    end
+  def call (env)
+    dup._call(env)
+  end
+
+  def call(env)
+    @mg.call(env)
   end
 end
