@@ -26,6 +26,16 @@ describe RepositoriesController, type: :controller do
       sign_in owner
     end
 
+    describe "DELETE" do
+      describe "#destroy" do
+        it {
+          delete :destroy, :user_id => owner.to_param, :id => repo.to_param
+          is_expected.to redirect_to '/repositories'
+          expect(flash[:notice]).to match /successfully/
+        }
+      end
+    end
+
     describe "GET" do
       describe "#index" do
         before do
@@ -49,16 +59,56 @@ describe RepositoriesController, type: :controller do
       end
     
       describe "#show" do
+        describe 'with invalid repo' do
+          before do
+            allow_any_instance_of(RJGit::Repo).to receive(:valid?).and_return(false)
+            get :show, :user_id => owner.to_param, :id => repo.to_param
+          end
+          it_behaves_like "a controller action", {:template => nil, :response => 302, :layout => nil}
+          it {
+            expect(flash[:alert]).to match /does not seem to have a valid git repository./
+          }
+          after do
+            allow_any_instance_of(RJGit::Repo).to receive(:valid?).and_call_original
+          end
+        end
+
+        describe 'with valid repo' do
+          before { repo.initialize_readme }
+
+          describe 'with file' do
+            before do
+              get :show, :user_id => owner.to_param, :id => repo.to_param, :file => true, :path => 'README.md'
+            end
+            it_behaves_like "a controller action", {:template => :show}
+            it {
+              expect(assigns(:rendered_text)).to_not be_nil
+            }
+          end
+
+          describe 'without file' do
+            before do
+              get :show, :user_id => owner.to_param, :id => repo.to_param
+            end
+            it_behaves_like "a controller action", {:template => :show}
+            it {
+              expect(assigns(:rendered_text)).to be_nil
+            }
+          end
+        end
+      end
+
+      describe '#get_children' do
         before do
-          allow_any_instance_of(RJGit::Repo).to receive(:valid?).and_return(true)
-          allow(repo).to receive(:invalid?).and_return(false)
-          get :show, :user_id => owner.to_param, :id => repo.to_param
+          get :get_children, :user_id => owner.to_param, :id => repo.to_param, :format => :json, :path => '.'
         end
-        it_behaves_like "a controller action", {:template => :show}
-        after do
-          allow(repo).to receive(:invalid?).and_call_original
-          allow_any_instance_of(RJGit::Repo).to receive(:valid?).and_call_original
-        end
+        it_behaves_like "a controller action", {:template => nil, :content_type => 'application/json', :layout => nil}
+        it {
+          json = JSON.parse(response.body)
+          ['dirs', 'files'].each do |key|
+            expect(json).to have_key key
+          end
+        }
       end
 
       describe "#select_users" do
