@@ -120,6 +120,13 @@ Spork.prefork do
     fill_in 'Password', with: password
     click_button 'Sign in'
   end
+
+  def fill_editable(link, text)
+    click_link(link)
+    find(:css, 'input.form-control').set text
+    find(:css, 'button.editable-submit').click
+    sleep 1 # Without this sleep the test is completed before the AJAX request is processed and the database is updated
+  end
   
   def remove_temp_path(path)
     if File.exists?(path)
