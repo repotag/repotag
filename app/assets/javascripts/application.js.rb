@@ -10,15 +10,15 @@
 # // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 # // GO AFTER THE REQUIRES BELOW.
 # //
-#= require opal
-#= require opal_ujs
-#= require jquery
-#= require jquery_ujs
-#= require zeroclipboard
-#= require opal-jquery
-#= require bootswatch/loader
-#= require bootswatch/bootswatch
-#= require twitter/typeahead
-#= require twitter/typeahead/bloodhound
-#= require bootstrap3-editable/bootstrap-editable
-#= require xeditable
+require 'opal'
+require 'opal_ujs'
+require 'opal-jquery'
+require 'jquery'
+require 'jquery_ujs'
+require 'zeroclipboard'
+require 'bootswatch/loader'
+require 'bootswatch/bootswatch'
+require 'twitter/typeahead'
+require 'twitter/typeahead/bloodhound'
+require 'bootstrap3-editable/bootstrap-editable'
+require 'xeditable'
