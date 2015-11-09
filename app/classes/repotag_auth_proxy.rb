@@ -201,7 +201,7 @@ class MapGollum
     dup._call(env)
   end
 
-  def call(env)
+  def _call(env)
     @mg.call(env)
   end
 end
