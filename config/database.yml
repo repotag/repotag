@@ -4,6 +4,7 @@
 # Configure Using Gemfile
 # gem 'activerecord-jdbcsqlite3-adapter'
 #
+
 development:
   adapter: sqlite3
   database: db/development.sqlite3
@@ -16,8 +17,18 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: <%= REPOTAG_CONFIG[:database][:adapter] %>
+  encoding: <%= REPOTAG_CONFIG[:database][:encoding] %>
+  database: <%= REPOTAG_CONFIG[:database][:database] %>
+  username: <%= REPOTAG_CONFIG[:database][:username] %>
+  password: <%= REPOTAG_CONFIG[:database][:password] %>
+  host: <%= REPOTAG_CONFIG[:database][:host] %>
+  port: <%= REPOTAG_CONFIG[:database][:port] %>
+  
+# production:
+  # adapter: sqlite3
+  # database: db/production.sqlite3
+  
   # Enabling the following allows something like this
   # java -Ddb=/path/to/db -jar repotag.war
   # database: <%= java.lang.System.getProperty('db') %>
