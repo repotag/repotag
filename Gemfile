@@ -6,6 +6,8 @@ gem 'friendly_id', '~> 5.1.0'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem 'sprockets', :git => 'https://github.com/dometto/sprockets', :branch => 'fix_dir_entries'
+
 gem 'activerecord-jdbcsqlite3-adapter'
 
 gem 'jruby-openssl', :require => false
