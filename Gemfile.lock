@@ -15,10 +15,10 @@ GIT
 
 GIT
   remote: https://github.com/dometto/sprockets
-  revision: d34ad1ba4b8820849eb86deddc7ef871c13ff7dd
-  branch: fix_dir_entries
+  revision: da0d25b8116cb2f2ba31d8381ded365dd05a2c5f
+  branch: fix_direntries_3x
   specs:
-    sprockets (3.3.5)
+    sprockets (3.4.0)
       rack (> 1, < 3)
 
 GEM
