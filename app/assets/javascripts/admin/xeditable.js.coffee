@@ -94,6 +94,18 @@ $(document).ready ->
 		pk: 1
 		url: '/admin/settings/general'
 		title: 'Enter server port' )
+		
+	$('#general_ssl_enabled').editable(
+		name: 'ssl_enabled'
+		type: 'select'
+		pk: 1
+		url: '/admin/settings/general'
+		title: 'Use SSL'
+		value: 'true'
+		source: [ 
+			{ value: 0, text: 'false' }
+			{ value: 1, text: 'true' } ]
+	)
 
 	$('#general_default_branch').editable(
 		name: 'default_branch'

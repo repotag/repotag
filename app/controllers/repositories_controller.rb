@@ -37,7 +37,8 @@ class RepositoriesController < ApplicationController
     end
 
     @general_settings = Setting.get(:general_settings)
-    @clone_url = URI::HTTP.build(:host => @general_settings[:server_domain], :port => @general_settings[:server_port].to_i, :path => "/git/#{@repository.owner.username}/#{@repository.name}")
+    uri_class = @general_settings['ssl_enabled'] ? URI::HTTPS : URI::HTTP
+    @clone_url = uri_class.build(:host => @general_settings[:server_domain], :port => @general_settings[:server_port].to_i, :path => "/git/#{@repository.owner.username}/#{@repository.name}")
     @active_nav_tab = :code
 
     @commit = RJGit::Commit.find_head(repository)

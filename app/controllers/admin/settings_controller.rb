@@ -12,7 +12,7 @@ class Admin::SettingsController < Admin::AdminController
   end
 
   def update_general_settings
-    valid_keys = [:repo_root, :archive_root, :wiki_root, :server_domain, :server_port, :anonymous_access, :public_profiles, :enable_wikis, :enable_issuetracker, :default_branch]
+    valid_keys = [:repo_root, :archive_root, :wiki_root, :server_domain, :server_port, :ssl_enabled, :anonymous_access, :public_profiles, :enable_wikis, :enable_issuetracker, :default_branch]
     @general_settings = save_settings(nil, valid_keys, :general_settings)
     render '/admin/settings/general/show'
   end
