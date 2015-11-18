@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<td><%= label_tag 'StartTLS' %></td>
-				<td><a href="#" id="smtp_starttls"><%= @smtp_settings[:enable_starttls_auto] == 0 ? "false" : "true" %></a></td>
+				<td><a href="#" id="smtp_starttls"><%= @smtp_settings[:enable_starttls_auto] == "0" ? "false" : "true" %></a></td>
 			</tr>
 		</tbody>
   </table>

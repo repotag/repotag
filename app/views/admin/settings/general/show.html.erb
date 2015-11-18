@@ -24,7 +24,7 @@
 			</tr>
 			<tr>
 				<td><%= label_tag 'SSL Enabled?' %></td>
-				<td><a href="#" data-xeditable="true" id="general_ssl_enabled"><%= @general_settings[:ssl_enabled] %></a></td>
+				<td><a href="#" data-xeditable="true" id="general_ssl_enabled"><%= @general_settings[:ssl_enabled] == "0" ? 'false' : 'true' %></a></td>
 			</tr>
 			<tr>
 				<td><%= label_tag 'Default branch' %></td>
