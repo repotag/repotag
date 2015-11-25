@@ -19,7 +19,7 @@ $(document).ready ->
 		title: 'Enter port number' )
 		
 	$('#smtp_domain').editable(
-		name: 'port'
+		name: 'domain'
 		type: 'text'
 		pk: 1
 		url: '/admin/email/smtp'
