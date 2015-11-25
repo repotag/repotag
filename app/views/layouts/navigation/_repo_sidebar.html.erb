@@ -4,8 +4,8 @@
 		<ul class="nav nav-pills nav-stacked"> 
 			<% nav_items = {} %>
 			<% nav_items[:code] = "<a href='#{user_repository_path(@repository.owner, @repository)}'><i class='fa fa-code fa-2x'></i></a>" %>
-			<% nav_items[:issues] = "<a href='#'><i class='fa fa-exclamation-circle fa-2x'></i></a>" if general_settings[:enable_issuetracker] == "1" %>
-			<% nav_items[:wiki] = "<a href='#{wiki_path(@repository.owner, @repository)}'><i class='fa fa-book fa-2x'></i></a>" if general_settings[:enable_wikis] == "1" %>
+			<% nav_items[:issues] = "<a href='#'><i class='fa fa-exclamation-circle fa-2x'></i></a>" if general_settings[:enable_issuetracker] %>
+			<% nav_items[:wiki] = "<a href='#{wiki_path(@repository.owner, @repository)}'><i class='fa fa-book fa-2x'></i></a>" if general_settings[:enable_wikis] %>
 			<% nav_items[:settings] = user_signed_in? && current_user == @repository.owner ? "<a href='#{user_repository_settings_path(@repository.owner, @repository)}'><i class='fa fa-cog fa-2x'></i></a>" : nil %>
 			<%= %>
 			<% nav_items.each do |nav_name, nav_link| %>
