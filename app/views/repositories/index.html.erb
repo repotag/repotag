@@ -1,6 +1,6 @@
 <% if current_user %>
-<%= render 'listing', {:repositories => @repositories } %>
+<%= render 'listing', {repositories: @repositories } %>
 <% else %>
-<%= render 'frontpage', {:repositories => @repositories } %>
+<%= render 'frontpage', {repositories: @repositories } %>
 <% end %>
 

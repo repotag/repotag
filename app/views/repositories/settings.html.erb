@@ -67,7 +67,7 @@
 					<tr>
 						<td><%= contributor.username %></td>
 						<td><%= contributor.name %></td>
-						<td><%= link_to "Remove", user_repository_remove_collaborator_path(@repository.owner, @repository, :collaborator_id => contributor.id, :role => :contributor), { :method => :put, :class => "btn btn-primary btn-large" } %></td>
+						<td><%= link_to "Remove", user_repository_remove_collaborator_path(@repository.owner, @repository, collaborator_id: contributor.id, role: :contributor), { method => :put, :class => "btn btn-primary btn-large" } %></td>
 					</tr>
 				<% end %>
 			<% end %>
