@@ -37,7 +37,7 @@ class Repository < ActiveRecord::Base
 
   def wiki_enabled?
     return false if ApplicationController.helpers.general_setting(:enable_wikis) == '0'
-    self.settings[:enable_wiki] == "1"
+    self.settings[:enable_wiki]
   end
   
   def has_wiki?

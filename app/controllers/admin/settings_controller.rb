@@ -34,7 +34,6 @@ class Admin::SettingsController < Admin::AdminController
     @authentication_settings = save_settings(nil, valid_keys, :authentication_settings) do |settings|
       settings[provider.to_sym][@updated_key] = @value
     end
-    Rails.logger.debug @authentication_settings.errors.inspect
     render '/admin/settings/authentication/show'
   end
 

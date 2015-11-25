@@ -22,6 +22,16 @@ module Params
     def setting_params
       settings = {:name => params.require(:name), :value => params[:value]}
       @value = settings[:value].to_s
+      @value = case settings[:value]
+      when "1"
+        true
+      when "0"
+        false
+      when "", []
+        nil
+      else
+        settings[:value]
+      end
       @updated_key = settings[:name].to_sym
     end
   end

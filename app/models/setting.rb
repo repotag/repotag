@@ -13,7 +13,7 @@ class Setting < ActiveRecord::Base
 
   alias_method :a_r_reader, :[]
   def [](key)
-    return settings[key] if settings[key]
+    return settings[key] if settings.keys.include?(key)
     self.send(:a_r_reader, key)
   end
 

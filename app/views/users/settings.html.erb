@@ -5,11 +5,11 @@
 	  <tbody>
 		<tr>
 			<td><%= label_tag 'Receive notifications for repositories you are watching' %></td>
-			<td><a href="#" data-xeditable="true" id="notifications_as_watcher"><%= @user_settings[:notifications_as_watcher] == "0" ? 'false' : 'true' %></a></td>
+			<td><a href="#" data-xeditable="true" id="notifications_as_watcher"><%= @user_settings[:notifications_as_watcher] %></a></td>
 		</tr>
 		<tr>
 			<td><%= label_tag 'Receive notifications for repositories you are collaborating on' %></td>
-			<td><a href="#" data-xeditable="true" id="notifications_as_collaborator"><%= @user_settings[:notifications_as_collaborator] == "0" ? 'false' : 'true' %></a></td>
+			<td><a href="#" data-xeditable="true" id="notifications_as_collaborator"><%= @user_settings[:notifications_as_collaborator] %></a></td>
 		</tr>
 	  </tbody>
 	</table>
