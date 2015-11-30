@@ -27,11 +27,13 @@ module RepositoriesHelper
   # RJGit helpers
   def get_listing(repository, branch, tree)
     directory_list, file_list = [], []
-    ls_options = { :recursive => false, :print => false, :branch => branch }
+    ls_options = { :recursive => false, :print => false, :ref => branch }
     lstree = RJGit::Porcelain.ls_tree(repository, tree, ls_options)
-
     if lstree
       lstree.each do |entry|
+        last_commit = repository.git.log(entry[:fullpath], branch, options = {max_count: 1}).first
+        entry[:last_commit_message] = last_commit.message
+        entry[:last_modified] = last_commit.committed_date
         file_list << entry if entry[:type] == 'blob'
         directory_list << entry if entry[:type] == 'tree'
       end

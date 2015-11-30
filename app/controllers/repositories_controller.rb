@@ -81,6 +81,7 @@ class RepositoriesController < ApplicationController
   end
 
   def get_children
+    Rails.logger.debug "IS GET_CHILDREN EVER CALLED?"
     path = params[:path].empty? ? nil : params[:path]
     repo = @repository.repository
     branch = params[:branch] || "refs/heads/master"
@@ -95,6 +96,7 @@ class RepositoriesController < ApplicationController
 
     if lstree
       lstree.each do |entry|
+        
         if entry[:type] == 'blob'
           entry[:image] = view_context.image_for_file(entry[:path])
           entry[:fullpath] = File.join(path, entry[:path])

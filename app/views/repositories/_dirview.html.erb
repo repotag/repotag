@@ -21,8 +21,8 @@
 		<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
 			<td class="tree" style="text-align: right;"><i class="fa fa-folder-o"></i></td>
 			<td><%= link_to dir[:path], user_repository_path(repository.owner, repository, path: newpath, branch: params[:branch]) %></td>
-			<td>?</td>
-			<td><%= tags.has_key?(dir[:id]) ? tags[dir[:id]].short_message : '-' %></td>
+			<td><%= dir[:last_commit_message] %></td>
+			<td><%= time_ago_in_words(dir[:last_modified]) %> ago</td>
 		</tr>
 		<% end %>
 		<% file_list.each do |file|
@@ -32,8 +32,9 @@
 		<tr>
 			<td class="blob" style="text-align: right;"><i class="fa fa-file-text-o"></i></td>
 			<td><%= link_to file[:path], user_repository_path(repository.owner, repository, path: newpath, file: true, branch: params[:branch]) %></td>
-			<td>?</td>
-			<td><%= tags.has_key?(file[:id]) ? tags[file[:id]].short_message : '-' %></td>
+			<td><%= file[:last_commit_message] %></td>
+			<td><%= time_ago_in_words(file[:last_modified]) %> ago</td>
+			
 		</tr>
 		<% end %>
 		</tbody>
