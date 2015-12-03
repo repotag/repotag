@@ -52,6 +52,10 @@ module Repotag
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    # Active Job Settings
+    
+    config.active_job.queue_adapter = :sucker_punch
+    
     # Custom config settings
 
     config.role_titles = [:watcher, :contributor]

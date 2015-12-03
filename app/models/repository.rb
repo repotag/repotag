@@ -22,6 +22,12 @@ class Repository < ActiveRecord::Base
     "#{self.id}.git"
   end
 
+  def clone_url
+    general_settings = Setting.get(:general_settings)
+    uri_class = general_settings[:ssl_enabled] ? URI::HTTPS : URI::HTTP
+    uri_class.build(:host => general_settings[:server_domain], :port => general_settings[:server_port].to_i, :path => "/git/#{owner.username}/#{name}")
+  end
+  
   def wiki_name
     "#{self.id}-wiki.git"
   end
