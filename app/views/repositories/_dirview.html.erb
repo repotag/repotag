@@ -21,7 +21,7 @@
 		<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
 			<td class="tree" style="text-align: right;"><i class="fa fa-folder-o"></i></td>
 			<td><%= link_to dir[:path], user_repository_path(repository.owner, repository, path: newpath, branch: params[:branch]) %></td>
-			<td><%= dir[:last_commit_message] %></td>
+			<td><%= link_to dir[:last_commit_message], user_repository_path(repository.owner, repository, path: @path, ref: dir[:last_commit_id]) %></td>
 			<td align='right'><%= time_ago_in_words(dir[:last_modified]) %> ago</td>
 		</tr>
 		<% end %>
@@ -32,7 +32,7 @@
 		<tr>
 			<td class="blob" style="text-align: right;"><i class="fa fa-file-text-o"></i></td>
 			<td><%= link_to file[:path], user_repository_path(repository.owner, repository, path: newpath, file: true, branch: params[:branch]) %></td>
-			<td><%= file[:last_commit_message] %></td>
+			<td><%= link_to file[:last_commit_message], user_repository_path(repository.owner, repository, path: @path, ref: file[:last_commit_id]) %></td>
 			<td align='right'><%= time_ago_in_words(file[:last_modified]) %> ago</td>
 			
 		</tr>
