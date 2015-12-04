@@ -25,13 +25,16 @@ module RepositoriesHelper
   end
 
   # RJGit helpers
-  def get_listing(repository, branch, tree)
+  def get_listing(repository, path, branch)
     directory_list, file_list = [], []
     ls_options = { :recursive => false, :print => false, :ref => branch }
-    lstree = RJGit::Porcelain.ls_tree(repository, tree, ls_options)
+    path = nil if path.empty?
+    lstree = RJGit::Porcelain.ls_tree(repository, path, branch, ls_options)
+
     if lstree
       lstree.each do |entry|
         last_commit = repository.git.log(entry[:path], branch, options = {max_count: 1}).first
+        entry[:name] = ::File.basename(entry[:path])
         entry[:last_commit_message] = last_commit.message
         entry[:last_commit_id] = last_commit.id
         entry[:last_modified] = last_commit.committed_date

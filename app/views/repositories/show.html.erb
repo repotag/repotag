@@ -47,7 +47,8 @@
 			last = paths.pop
 			  paths.each do |path|
 			    total_path << path %>
-			      <li><%= link_to path, [@repository.owner, @repository], controller: "repositories", action: "show", path: total_path.join("/"), branch: params[:branch] %></li>
+				  <li><%= link_to path, user_repository_path(@repository.owner, @repository, path: total_path.join("/"), branch: params[:branch]) %></li>
+
 			  <% end %>
 			<li class="active"><%= last %></li>
 			<% end %>

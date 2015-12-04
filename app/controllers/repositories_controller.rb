@@ -28,6 +28,7 @@ class RepositoriesController < ApplicationController
     end
 
     @current_path = params[:path].nil? ? '' : params[:path]
+    puts "current_path is #{@current_path}"
     repository = @repository.repository
 
     if !repository.valid?
@@ -59,7 +60,7 @@ class RepositoriesController < ApplicationController
         redirect_to :action => :show, :branch => branch
         return false
       end
-      @directory_list, @file_list = view_context.get_listing(repository, branch, tree)
+      @directory_list, @file_list = view_context.get_listing(repository, @current_path, branch)
       
       unless params[:file] || params[:path]
         # get the first readme file
@@ -78,36 +79,6 @@ class RepositoriesController < ApplicationController
 
   end
 
-  def get_children
-    Rails.logger.debug "IS GET_CHILDREN EVER CALLED?"
-    path = params[:path].empty? ? nil : params[:path]
-    repo = @repository.repository
-    branch = params[:branch] || "refs/heads/master"
-    begin
-      tree = repo.tree(path, branch)
-    rescue
-      raise ActionController::RoutingError.new("Oops! Could not find the object '#{path}'.")
-    end
-    @directory_list, @file_list = [], []
-    ls_options = { :recursive => false, :print => false, :branch => branch }
-    lstree = RJGit::Porcelain.ls_tree(repo, tree, ls_options)
-
-    if lstree
-      lstree.each do |entry|
-        
-        if entry[:type] == 'blob'
-          entry[:image] = view_context.image_for_file(entry[:path])
-          entry[:fullpath] = File.join(path, entry[:path])
-          @file_list << entry
-        end
-        @directory_list << entry if entry[:type] == 'tree'
-      end
-    end
-
-    respond_to do |format|
-      format.json { render json: {:dirs => @directory_list, :files => @file_list} }
-    end
-  end
 
   def create
     @repository = Repository.new(repo_params)

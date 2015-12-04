@@ -13,6 +13,14 @@ GIT
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
 
+GIT
+  remote: https://github.com/repotag/rjgit.git
+  revision: bbd854f7e3cc22e4ad753d3cae3cdd223d46bc7a
+  branch: new_ls_tree
+  specs:
+    rjgit (4.1.1.0)
+      mime-types (~> 1.15)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -280,8 +288,6 @@ GEM
     require_all (1.3.2)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rjgit (4.0.3.0)
-      mime-types (~> 1.15)
     rjgit_grack (0.3.0)
       rjgit (~> 4.0)
     rouge (1.7.7)
@@ -432,7 +438,7 @@ DEPENDENCIES
   opal-rails
   rails (~> 4.2)
   rails_best_practices
-  rjgit (~> 4.0)
+  rjgit!
   rjgit_grack (>= 0.3.0)
   rouge
   rspec-activemodel-mocks

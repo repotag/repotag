@@ -12,7 +12,7 @@ gem 'activerecord-jdbcsqlite3-adapter'
 
 gem 'jruby-openssl', :require => false
 gem 'json'
-gem 'rjgit', '~> 4.0'
+gem 'rjgit', git: 'https://github.com/repotag/rjgit.git', branch: 'new_ls_tree'  # '~> 4.0'
 
 gem 'cancancan', '1.10'
 gem 'devise'

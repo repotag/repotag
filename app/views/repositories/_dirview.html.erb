@@ -16,22 +16,22 @@
 		<tbody>
 
 		<% directory_list.each_with_index do |dir, index|
-		newpath = current_path.empty? ? dir[:path] : ::File.join(current_path, dir[:path])
+		newpath = current_path.empty? ? dir[:name] : dir[:path] 
 		%>	
 		<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
 			<td class="tree" style="text-align: right;"><i class="fa fa-folder-o"></i></td>
-			<td><%= link_to dir[:path], user_repository_path(repository.owner, repository, path: newpath, branch: params[:branch]) %></td>
+			<td><%= link_to dir[:name], user_repository_path(repository.owner, repository, path: newpath, branch: params[:branch]) %></td>
 			<td><%= link_to dir[:last_commit_message], user_repository_path(repository.owner, repository, path: @path, ref: dir[:last_commit_id]) %></td>
 			<td align='right'><%= time_ago_in_words(dir[:last_modified]) %> ago</td>
 		</tr>
 		<% end %>
 		<% file_list.each do |file|
-		newpath = current_path.empty? ? file[:path] : ::File.join(current_path, file[:path])
+		newpath = current_path.empty? ? file[:name] : file[:path] 
 		%>
 
 		<tr>
 			<td class="blob" style="text-align: right;"><i class="fa fa-file-text-o"></i></td>
-			<td><%= link_to file[:path], user_repository_path(repository.owner, repository, path: newpath, file: true, branch: params[:branch]) %></td>
+			<td><%= link_to file[:name], user_repository_path(repository.owner, repository, path: newpath, file: true, branch: params[:branch]) %></td>
 			<td><%= link_to file[:last_commit_message], user_repository_path(repository.owner, repository, path: @path, ref: file[:last_commit_id]) %></td>
 			<td align='right'><%= time_ago_in_words(file[:last_modified]) %> ago</td>
 			
