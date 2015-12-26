@@ -169,6 +169,9 @@ GEM
     highline (1.7.7)
     hike (1.2.3)
     hitimes (1.2.3-java)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jdbc-sqlite3 (3.8.10.1)
     jquery-datatables-rails (3.3.0)
@@ -427,6 +430,7 @@ DEPENDENCIES
   gollum-rjgit_adapter (~> 0.3.2)
   grack (>= 0.1.0.pre2)
   gravatar_image_tag
+  httparty
   jquery-datatables-rails (~> 3.3.0)
   jquery-rails
   jruby-openssl
