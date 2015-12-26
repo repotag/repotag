@@ -21,7 +21,7 @@
 		<tr data-path="<%= dir[:path] %>" data-folderid="<%= index %>">
 			<td class="tree" style="text-align: right;"><i class="fa fa-folder-o"></i></td>
 			<td><%= link_to dir[:name], user_repository_path(repository.owner, repository, path: newpath, branch: params[:branch]) %></td>
-			<td><%= link_to dir[:last_commit_message], user_repository_path(repository.owner, repository, path: @path, ref: dir[:last_commit_id]) %></td>
+			<td><%= link_to dir[:last_commit_message], user_repository_commit_path(repository.owner, repository, dir[:last_commit_id] ) %></td>
 			<td align='right'><%= time_ago_in_words(dir[:last_modified]) %> ago</td>
 		</tr>
 		<% end %>
@@ -32,7 +32,7 @@
 		<tr>
 			<td class="blob" style="text-align: right;"><i class="fa fa-file-text-o"></i></td>
 			<td><%= link_to file[:name], user_repository_path(repository.owner, repository, path: newpath, file: true, branch: params[:branch]) %></td>
-			<td><%= link_to file[:last_commit_message], user_repository_path(repository.owner, repository, path: @path, ref: file[:last_commit_id]) %></td>
+			<td><%= link_to file[:last_commit_message], user_repository_commit_path(repository.owner, repository, file[:last_commit_id]) %></td>
 			<td align='right'><%= time_ago_in_words(file[:last_modified]) %> ago</td>
 			
 		</tr>
@@ -41,4 +41,18 @@
 	</table>
   </div>
 <% end %>
+
+<% if @readme_html %>
+  <div class="row" id="readme">
+	<div class="col-xs-12">
+	  <div class="panel panel-default">
+        <div class="panel-heading">README</div>
+	    <div class="panel-body">
+		  <%= raw(@readme_html) %>
+		</div>
+	  </div>
+	</div>
+  </div>
+<% end %>
+
 <%= link_to 'Back', :back %>

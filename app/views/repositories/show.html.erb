@@ -60,6 +60,8 @@
 	<div class="col-xs-11">
 		<% if params[:file] %>
 		<%= render 'fileview', {repository: @repository, current_path: @current_path, rendered_text: @rendered_text} %>
+		<% elsif params[:sha] %>
+		<%= render 'commit', {commit: @commit} %>
 		<% else %>
 		<%= render 'dirview', {repository: @repository, directory_list: @directory_list, file_list: @file_list, current_path: @current_path } %>
 		<% end %>
@@ -69,17 +71,6 @@
 	</div>
 </div><br/>
 
-<% if @readme_html %>
-  <div class="row" id="readme">
-	<div class="col-xs-11">
-	  <div class="panel panel-default">
-        <div class="panel-heading">README</div>
-	    <div class="panel-body">
-		  <%= raw(@readme_html) %>
-		</div>
-	  </div>
-	</div>
-  </div>
-<% end %>
+
 
 <%= link_to 'Back to overview', repositories_path %>

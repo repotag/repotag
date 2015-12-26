@@ -79,6 +79,10 @@ class RepositoriesController < ApplicationController
 
   end
 
+  def commit
+    Rails.logger.debug "all commits: #{@repository.repository.commits}"
+    @commit = @repository.repository.find(params[:sha], :commit)
+  end
 
   def create
     @repository = Repository.new(repo_params)

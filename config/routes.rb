@@ -52,6 +52,7 @@ Repotag::Application.routes.draw do
       get 'settings', :controller => 'repositories', :action => :settings
       get 'select_users', :controller => 'repositories', :action => :potential_users
       put 'settings', :controller => 'repositories', :action => :update_settings
+      get '/commit/:sha', controller: 'repositories', action: :show, as: :commit
       put 'add_collaborator'
       put 'remove_collaborator'
       put 'toggle_public'
