@@ -15,8 +15,8 @@ GIT
 
 GIT
   remote: https://github.com/repotag/rjgit.git
-  revision: bbd854f7e3cc22e4ad753d3cae3cdd223d46bc7a
-  branch: new_ls_tree
+  revision: a1137eb0c1ef3c8752fc55bcf88b3baa6b8005b1
+  branch: master
   specs:
     rjgit (4.1.1.0)
       mime-types (~> 1.15)
