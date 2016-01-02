@@ -40,8 +40,12 @@ class RepositoriesController < ApplicationController
     @general_settings = Setting.get(:general_settings)
     @active_nav_tab = :code
 
-    @commit = RJGit::Commit.find_head(repository)
-
+    if params[:sha]
+      @commit = @repository.repository.find(params[:sha], :commit)
+    else
+      @commit = RJGit::Commit.find_head(repository)
+    end
+    
     branch = params[:branch] || "refs/heads/master"
     if params[:file]
       begin
@@ -79,10 +83,6 @@ class RepositoriesController < ApplicationController
 
   end
 
-  def commit
-    Rails.logger.debug "all commits: #{@repository.repository.commits}"
-    @commit = @repository.repository.find(params[:sha], :commit)
-  end
 
   def create
     @repository = Repository.new(repo_params)

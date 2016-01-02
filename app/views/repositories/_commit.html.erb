@@ -1,1 +1,31 @@
-View for commit <%= @commit.id %>
+<%= stylesheet_link_tag "rouge-github" %>
+
+<div class="row" id="readme_#{index}">
+	<div class="col-xs-11">
+	  <div class="panel panel-default">
+		 <div class="panel-heading" style="background-color:lightblue">
+			<b><%= @commit.message %></b>
+		 </div>
+		  <div class="panel-body">
+			<b><%= gravatar_image_tag(@commit.committer.email, :alt => @commit.committer.name, :gravatar => {:size => 20} )-%> <%= @commit.committer.name -%></b> authored <i><%= time_ago_in_words(@commit.committed_date) -%></i> ago
+		  </div>
+	  </div>
+	</div>
+</div>
+
+
+<% @commit.diffs.each_with_index do |diff, index| %>
+  <div class="row" id="readme_#{index}">
+	<div class="col-xs-11">
+  	  <div class="panel panel-default">
+		 <div class="panel-heading">
+			<%= diff.split("\n").first %>
+		 </div>
+	
+	    <div class="panel-body">
+		  <%= format_diff(diff).html_safe %>
+	    </div>
+	  </div>
+	</div>
+  <div>
+<% end %>

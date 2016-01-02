@@ -19,6 +19,12 @@ module RepositoriesHelper
     return types
   end
 
+  def format_diff(diff_string)
+    formatter = Rouge::Formatters::HTML.new(:css_class => 'highlight', :line_numbers => true)
+    lexer = Rouge::Lexers::Diff.new
+    formatter.format(lexer.lex(diff_string))
+  end
+
   # returns an array of repositories that have not been updated in X days
   def dormant_repos(days)
     Repository.where("updated_at < ?", (Time.now - days.day))
