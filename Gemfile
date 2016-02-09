@@ -24,7 +24,7 @@ gem 'gollum', '4.0.1'
 gem 'grack', '>= 0.1.0.pre2'
 gem 'rjgit_grack', '>= 0.3.0'
 
-gem 'sucker_punch', '~> 1.0' # git: 'https://github.com/brandonhilkert/sucker_punch', branch: 'concurrent' 
+gem 'sucker_punch', '~> 2.0' 
 
 gem 'tarchiver'
 gem 'httparty'
