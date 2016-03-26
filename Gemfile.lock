@@ -157,7 +157,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jdbc-sqlite3 (3.8.10.1)
-    jquery-datatables-rails (3.3.0)
+    jquery-datatables-rails (3.4.0)
       actionpack (>= 3.1)
       jquery-rails
       railties (>= 3.1)
@@ -412,7 +412,7 @@ DEPENDENCIES
   grack (>= 0.1.0.pre2)
   gravatar_image_tag
   httparty
-  jquery-datatables-rails (~> 3.3.0)
+  jquery-datatables-rails (~> 3.4.0)
   jquery-rails
   jruby-openssl
   json

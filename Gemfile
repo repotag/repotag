@@ -46,7 +46,7 @@ gem 'therubyrhino'
 gem 'uglifier', '>= 1.0.3'
 
 gem 'jquery-rails'
-gem 'jquery-datatables-rails', '~> 3.3.0'
+gem 'jquery-datatables-rails', '~> 3.4.0'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
